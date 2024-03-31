@@ -61,15 +61,23 @@
         const firstPageId = pageIds[0];
         const extract = pages[firstPageId].extract;
 
-        if (!extract) {
+        if (!extract || extract === "") {
           document.getElementById("fruitInfo").innerText = "No information found.";
           document.getElementById("fruitImage").src = "";
         } else {
           document.getElementById("fruitInfo").innerText = extract;
 
           // Display image if available
-          const imageURL = `https://en.wikipedia.org/wiki/Special:Redirect/file/${searchInput}.jpg`;
-          document.getElementById("fruitImage").src = imageURL;
+          const imageURL = `https://en.wikipedia.org/api/rest_v1/page/summary/${searchInput}`;
+          const imageResponse = await fetch(imageURL);
+          const imageData = await imageResponse.json();
+          const thumbnail = imageData.thumbnail;
+          
+          if (thumbnail && thumbnail.source) {
+            document.getElementById("fruitImage").src = thumbnail.source;
+          } else {
+            document.getElementById("fruitImage").src = "https://via.placeholder.com/300";
+          }
         }
       } catch (error) {
         console.error("Error fetching data:", error);
