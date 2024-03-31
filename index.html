@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Random Joke Generator</title>
+  <title>Random Quote Generator</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       text-align: center;
     }
-    #joke {
+    #quote {
       font-size: 24px;
       margin-bottom: 20px;
     }
@@ -28,25 +28,40 @@
   </style>
 </head>
 <body>
-  <h1>Random Joke Generator</h1>
-  <div id="joke"></div>
-  <button onclick="generateJoke()">Get Joke</button>
+  <h1>Random Quote Generator</h1>
+  <div id="quote"></div>
+  <button onclick="generateQuote()">Get Quote</button>
 
   <script>
-    // Array of jokes
-    const jokes = [
-      "Why don't scientists trust atoms? Because they make up everything!",
-      "Parallel lines have so much in common. It’s a shame they’ll never meet.",
-      "I told my wife she was drawing her eyebrows too high. She looked surprised.",
-      "Why don't skeletons fight each other? They don't have the guts.",
-      "Why did the scarecrow win an award? Because he was outstanding in his field!"
+    // Array of quotes
+    const quotes = [
+      "The only way to do great work is to love what you do. - Steve Jobs",
+      "In the end, it's not the years in your life that count. It's the life in your years. - Abraham Lincoln",
+      "The greatest glory in living lies not in never falling, but in rising every time we fall. - Nelson Mandela",
+      "Believe you can and you're halfway there. - Theodore Roosevelt",
+      "Life is what happens when you're busy making other plans. - John Lennon",
+      "The best time to plant a tree was 20 years ago. The second best time is now. - Chinese Proverb",
+      "You only live once, but if you do it right, once is enough. - Mae West",
+      "The future belongs to those who believe in the beauty of their dreams. - Eleanor Roosevelt",
+      "Tell me and I forget. Teach me and I remember. Involve me and I learn. - Benjamin Franklin",
+      "Strive not to be a success, but rather to be of value. - Albert Einstein",
+      "The only limit to our realization of tomorrow will be our doubts of today. - Franklin D. Roosevelt",
+      "It does not matter how slowly you go as long as you do not stop. - Confucius",
+      "Don't watch the clock; do what it does. Keep going. - Sam Levenson",
+      "The way to get started is to quit talking and begin doing. - Walt Disney",
+      "Everything you’ve ever wanted is on the other side of fear. - George Addair",
+      "Success is not final, failure is not fatal: It is the courage to continue that counts. - Winston Churchill",
+      "Your time is limited, don't waste it living someone else's life. - Steve Jobs",
+      "Life is either a daring adventure or nothing at all. - Helen Keller",
+      "The only person you are destined to become is the person you decide to be. - Ralph Waldo Emerson",
+      "You miss 100% of the shots you don't take. - Wayne Gretzky"
     ];
 
-    function generateJoke() {
+    function generateQuote() {
       // Get a random index
-      const randomIndex = Math.floor(Math.random() * jokes.length);
-      // Display the joke
-      document.getElementById("joke").innerText = jokes[randomIndex];
+      const randomIndex = Math.floor(Math.random() * quotes.length);
+      // Display the quote
+      document.getElementById("quote").innerText = quotes[randomIndex];
     }
   </script>
 </body>
