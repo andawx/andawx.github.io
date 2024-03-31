@@ -3,18 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Task Manager</title>
+  <title>Fruit Search</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       text-align: center;
     }
-    ul {
-      list-style-type: none;
-      padding: 0;
-    }
-    li {
-      margin-bottom: 10px;
+    input[type="text"] {
+      padding: 10px;
+      font-size: 18px;
+      width: 300px;
     }
     button {
       padding: 10px 20px;
@@ -28,26 +26,54 @@
     button:hover {
       background-color: #0056b3;
     }
+    #fruitInfo {
+      margin-top: 20px;
+    }
+    #fruitImage {
+      max-width: 300px;
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
-  <h1>Task Manager</h1>
-  <input type="text" id="taskInput" placeholder="Enter task...">
-  <button onclick="addTask()">Add Task</button>
-  <ul id="taskList"></ul>
+  <h1>Fruit Search</h1>
+  <input type="text" id="searchInput" placeholder="Enter a fruit...">
+  <button onclick="searchFruit()">Search</button>
+
+  <div id="fruitInfo"></div>
+  <img src="" id="fruitImage" alt="Fruit Image">
 
   <script>
-    function addTask() {
-      const taskInput = document.getElementById("taskInput");
-      const taskList = document.getElementById("taskList");
+    async function searchFruit() {
+      const searchInput = document.getElementById("searchInput").value.trim().toLowerCase();
 
-      if (taskInput.value !== "") {
-        const taskItem = document.createElement("li");
-        taskItem.textContent = taskInput.value;
-        taskList.appendChild(taskItem);
-        taskInput.value = "";
-      } else {
-        alert("Please enter a task!");
+      if (searchInput === "") {
+        alert("Please enter a fruit to search.");
+        return;
+      }
+
+      try {
+        // Fetch data from Wikipedia API
+        const response = await fetch(`https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&exintro&explaintext&redirects=1&titles=${searchInput}`);
+        const data = await response.json();
+        const pages = data.query.pages;
+        const pageIds = Object.keys(pages);
+        const firstPageId = pageIds[0];
+        const extract = pages[firstPageId].extract;
+
+        if (!extract) {
+          document.getElementById("fruitInfo").innerText = "No information found.";
+          document.getElementById("fruitImage").src = "";
+        } else {
+          document.getElementById("fruitInfo").innerText = extract;
+
+          // Display image if available
+          const imageURL = `https://en.wikipedia.org/wiki/Special:Redirect/file/${searchInput}.jpg`;
+          document.getElementById("fruitImage").src = imageURL;
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        alert("An error occurred while fetching data. Please try again later.");
       }
     }
   </script>
