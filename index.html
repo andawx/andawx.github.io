@@ -3,83 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ice Cream Creator</title>
+    <title>Random Fact Generator</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             margin-top: 50px;
         }
-        .container {
-            display: flex;
-            justify-content: center;
+        #factContainer {
             margin-top: 20px;
-        }
-        .flavor {
-            margin: 0 20px;
-        }
-        #result {
-            margin-top: 20px;
-        }
-        #iceCreamImg {
-            max-width: 200px; /* Adjust the size as needed */
-            height: auto;
         }
     </style>
 </head>
 <body>
-    <h1>Ice Cream Creator</h1>
-    <div class="container">
-        <img id="iceCreamImg" src="ice_cream_cone_image.jpg" alt="Ice Cream Cone">
-    </div>
-    <div class="container">
-        <div class="flavor">
-            <h2>Choose your flavor:</h2>
-            <button onclick="chooseFlavor('Vanilla')">Vanilla</button>
-            <button onclick="chooseFlavor('Chocolate')">Chocolate</button>
-            <button onclick="chooseFlavor('Strawberry')">Strawberry</button>
-        </div>
-        <div class="flavor">
-            <h2>Choose your topping:</h2>
-            <button onclick="chooseTopping('Sprinkles')">Sprinkles</button>
-            <button onclick="chooseTopping('Chocolate Sauce')">Chocolate Sauce</button>
-        </div>
-    </div>
-    <div id="result"></div>
-    <p id="visitorCount">Loading visitor count...</p>
+    <h1>Random Fact Generator</h1>
+    <button onclick="generateFact()">Generate Fact</button>
+    <div id="factContainer"></div>
 
     <script>
-        // Initialize visitor count to 0
-        let visitorCount = 0;
+        const facts = [
+            "The shortest war in history lasted only 38 minutes. It was between Britain and Zanzibar on August 27, 1896.",
+            "Cows have best friends and can become stressed when they are separated from them.",
+            "Honey never spoils. Archaeologists have found pots of honey in ancient Egyptian tombs that are over 3,000 years old and still perfectly edible!",
+            "The Eiffel Tower can be 15 cm taller during the summer, due to the expansion of the iron in the heat.",
+            "Octopuses have three hearts.",
+            "Bananas are berries, but strawberries aren't.",
+            "A group of flamingos is called a 'flamboyance'.",
+            "Polar bears have black skin under their white fur.",
+            "The shortest person ever recorded was 21.5 inches (54.6 cm) tall.",
+            "Some cats are allergic to humans.",
+            "The first oranges weren't orange.",
+            "Hippopotamus milk is pink.",
+            "There are more stars in the universe than grains of sand on all the beaches on Earth.",
+            "The average person spends six months of their lifetime waiting for a red light to turn green.",
+            "The surface area of Russia is larger than the surface area of Pluto.",
+            "The dot over the letter 'i' is called a tittle.",
+            "The unicorn is the national animal of Scotland.",
+            "The longest English word is 'pneumonoultramicroscopicsilicovolcanoconiosis'.",
+            "The shortest complete sentence in the English language is 'I am.'",
+            "A day on Venus is longer than a year on Venus."
+        ];
 
-        // Function to increment visitor count
-        function incrementVisitorCount() {
-            visitorCount++;
-            document.getElementById('visitorCount').innerText = `Total visitors: ${visitorCount}`;
-        }
-
-        // Call the incrementVisitorCount function when the page loads
-        window.onload = incrementVisitorCount;
-
-        let flavor = '';
-        let topping = '';
-
-        function chooseFlavor(selectedFlavor) {
-            flavor = selectedFlavor;
-            showResult();
-        }
-
-        function chooseTopping(selectedTopping) {
-            topping = selectedTopping;
-            showResult();
-        }
-
-        function showResult() {
-            if (flavor && topping) {
-                document.getElementById('result').innerHTML = `<p>You have chosen ${flavor} ice cream with ${topping} in a cornet.</p>`;
-            } else {
-                document.getElementById('result').innerHTML = '';
-            }
+        function generateFact() {
+            const randomIndex = Math.floor(Math.random() * facts.length);
+            const fact = facts[randomIndex];
+            document.getElementById('factContainer').innerText = fact;
         }
     </script>
 </body>
