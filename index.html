@@ -3,11 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dance Party</title>
+    <title>Magical Garden</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #87CEEB; /* Sky Blue */
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #4CAF50; /* Green */
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049; /* Darker Green */
+        }
+    </style>
 </head>
-<body style="background-color: black;">
-    <div style="width: 100%; height: 100vh; display: flex; justify-content: center; align-items: flex-end;">
-        <div style="width: 100px; height: 100px; background-color: red; margin-bottom: 20px;"></div>
+<body>
+    <div id="garden">
+        <button onclick="changeBackground()">Change Background</button>
     </div>
+
+    <script>
+        let clickCount = 0;
+
+        function changeBackground() {
+            clickCount++;
+            let garden = document.getElementById('garden');
+
+            if (clickCount === 1) {
+                garden.style.backgroundImage = "url('grass.jpg')";
+            } else if (clickCount === 2) {
+                garden.style.backgroundImage = "url('flowers.jpg')";
+            } else if (clickCount === 3) {
+                garden.style.backgroundImage = "url('sun.jpg')";
+                clickCount = 0; // Reset click count
+            }
+        }
+    </script>
 </body>
 </html>
