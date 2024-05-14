@@ -3,22 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Fact Generator</title>
+    <title>Random Generator</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             margin-top: 50px;
         }
-        #factContainer {
+        .generator-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-around;
+        }
+        #result {
             margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>Random Fact Generator</h1>
-    <button onclick="generateFact()">Generate Fact</button>
-    <div id="factContainer"></div>
+    <h1>Random Generator</h1>
+    <div class="generator-container">
+        <div>
+            <h2>Random Fact</h2>
+            <button onclick="generateFact()">Generate Fact</button>
+        </div>
+        <div>
+            <h2>Random Joke</h2>
+            <button onclick="generateJoke()">Generate Joke</button>
+        </div>
+        <div>
+            <h2>Random Quote</h2>
+            <button onclick="generateQuote()">Generate Quote</button>
+        </div>
+    </div>
+    <div id="result"></div>
+    <p id="visitorCount">Loading visitor count...</p>
 
     <script>
         const facts = [
@@ -44,11 +63,60 @@
             "A day on Venus is longer than a year on Venus."
         ];
 
-        function generateFact() {
-            const randomIndex = Math.floor(Math.random() * facts.length);
-            const fact = facts[randomIndex];
-            document.getElementById('factContainer').innerText = fact;
+        const jokes = [
+            "Why don't scientists trust atoms? Because they make up everything!",
+            "Parallel lines have so much in common. It's a shame they'll never meet.",
+            "I told my wife she was drawing her eyebrows too high. She looked surprised.",
+            "I'm reading a book on anti-gravity. It's impossible to put down!",
+            "Why did the scarecrow win an award? Because he was outstanding in his field!",
+            "I'm on a whiskey diet. I've lost three days already.",
+            "I told my computer I needed a break and now it won't stop sending me vacation ads.",
+            "I used to be a baker, but I couldn't make enough dough.",
+            "Why don't skeletons fight each other? They don't have the guts.",
+            "I'm reading a book about anti-gravity. It's impossible to put down!",
+            "What do you call fake spaghetti? An impasta.",
+            "Why couldn't the bicycle stand up by itself? It was two tired.",
+            "Why don't eggs tell jokes? Because they'd crack each other up.",
+            "I told my wife she should embrace her mistakes. She gave me a hug.",
+            "Why did the math book look sad? Because it had too many problems.",
+            "I used to be a banker, but I lost interest.",
+            "Why did the tomato turn red? Because it saw the salad dressing!",
+            "What's orange and sounds like a parrot? A carrot.",
+            "Why did the golfer bring two pairs of pants? In case he got a hole in one.",
+            "Why don't skeletons fight each other? They don't have the guts."
+        ];
+
+        const quotes = [
+            "The only way to do great work is to love what you do. - Steve Jobs",
+            "Success is not final, failure is not fatal: It is the courage to continue that counts. - Winston Churchill",
+            "Life is what happens when you're busy making other plans. - John Lennon",
+            "Believe you can and you're halfway there. - Theodore Roosevelt",
+            "It does not matter how slowly you go as long as you do not stop. - Confucius",
+            "The only limit to our realization of tomorrow will be our doubts of today. - Franklin D. Roosevelt",
+            "The best time to plant a tree was 20 years ago. The second best time is now. - Chinese Proverb",
+            "Your time is limited, don't waste it living someone else's life. - Steve Jobs",
+            "Strive not to be a success, but rather to be of value. - Albert Einstein",
+            "Life is 10% what happens to us and 90% how we react to it. - Charles R. Swindoll",
+            "The greatest glory in living lies not in never falling, but in rising every time we fall. - Nelson Mandela",
+            "The way to get started is to quit talking and begin doing. - Walt Disney",
+            "The mind is everything. What you think you become. - Buddha",
+            "I have not failed. I've just found 10,000 ways that won't work. - Thomas A. Edison",
+            "The future belongs to those who believe in the beauty of their dreams. - Eleanor Roosevelt",
+            "Don't watch the clock; do what it does. Keep going. - Sam Levenson",
+            "Life is a journey, not a destination. - Ralph Waldo Emerson",
+            "You are never too old to set another goal or to dream a new dream. - C.S. Lewis",
+            "The only person you are destined to become is the person you decide to be. - Ralph Waldo Emerson",
+            "In the end, it's not the years in your life that count. It's the life in your years. - Abraham Lincoln"
+        ];
+
+        let visitorCount = 0;
+
+        function incrementVisitorCount() {
+            visitorCount++;
+            document.getElementById('visitorCount').innerText = `Total visitors: ${visitorCount}`;
         }
-    </script>
-</body>
-</html>
+
+        window.onload = incrementVisitorCount;
+
+        function generateFact() {
+            const randomIndex = Math.floor(Math.random() * facts
