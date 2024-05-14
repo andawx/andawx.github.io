@@ -119,4 +119,22 @@
         window.onload = incrementVisitorCount;
 
         function generateFact() {
-            const randomIndex = Math.floor(Math.random() * facts
+            const randomIndex = Math.floor(Math.random() * facts.length);
+            const fact = facts[randomIndex];
+            document.getElementById('result').innerText = fact;
+        }
+
+        function generateJoke() {
+            const randomIndex = Math.floor(Math.random() * jokes.length);
+            const joke = jokes[randomIndex];
+            document.getElementById('result').innerText = joke;
+        }
+
+        function generateQuote() {
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            const quote = quotes[randomIndex];
+            document.getElementById('result').innerText = quote;
+        }
+    </script>
+</body>
+</html>
