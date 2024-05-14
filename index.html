@@ -3,55 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magical Garden</title>
+    <title>Ice Cream Creator</title>
     <style>
         body {
-            margin: 0;
-            padding: 0;
-            background-color: #87CEEB; /* Sky Blue */
-            background-size: cover;
-            background-repeat: no-repeat;
-            height: 100vh;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .container {
             display: flex;
             justify-content: center;
-            align-items: center;
-            font-family: Arial, sans-serif;
+            margin-top: 20px;
         }
-
-        button {
-            padding: 10px 20px;
-            font-size: 18px;
-            background-color: #4CAF50; /* Green */
-            color: white;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s;
+        .flavor {
+            margin: 0 20px;
         }
-
-        button:hover {
-            background-color: #45a049; /* Darker Green */
+        #result {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <div id="garden">
-        <button onclick="changeBackground()">Change Background</button>
+    <h1>Ice Cream Creator</h1>
+    <div class="container">
+        <div class="flavor">
+            <h2>Choose your flavor:</h2>
+            <button onclick="chooseFlavor('Vanilla')">Vanilla</button>
+            <button onclick="chooseFlavor('Chocolate')">Chocolate</button>
+            <button onclick="chooseFlavor('Strawberry')">Strawberry</button>
+        </div>
+        <div class="flavor">
+            <h2>Choose your topping:</h2>
+            <button onclick="chooseTopping('Sprinkles')">Sprinkles</button>
+            <button onclick="chooseTopping('Chocolate Sauce')">Chocolate Sauce</button>
+        </div>
     </div>
+    <div id="result"></div>
+    <p id="visitorCount">Loading visitor count...</p>
 
     <script>
-        let clickCount = 0;
+        // Initialize visitor count to 0
+        let visitorCount = 0;
 
-        function changeBackground() {
-            clickCount++;
-            let garden = document.getElementById('garden');
+        // Function to increment visitor count
+        function incrementVisitorCount() {
+            visitorCount++;
+            document.getElementById('visitorCount').innerText = `Total visitors: ${visitorCount}`;
+        }
 
-            if (clickCount === 1) {
-                garden.style.backgroundImage = "url('grass.jpg')";
-            } else if (clickCount === 2) {
-                garden.style.backgroundImage = "url('flowers.jpg')";
-            } else if (clickCount === 3) {
-                garden.style.backgroundImage = "url('sun.jpg')";
-                clickCount = 0; // Reset click count
+        // Call the incrementVisitorCount function when the page loads
+        window.onload = incrementVisitorCount;
+
+        let flavor = '';
+        let topping = '';
+
+        function chooseFlavor(selectedFlavor) {
+            flavor = selectedFlavor;
+            showResult();
+        }
+
+        function chooseTopping(selectedTopping) {
+            topping = selectedTopping;
+            showResult();
+        }
+
+        function showResult() {
+            if (flavor && topping) {
+                document.getElementById('result').innerHTML = `<p>You have chosen ${flavor} ice cream with ${topping} in a cornet.</p>`;
+            } else {
+                document.getElementById('result').innerHTML = '';
             }
         }
     </script>
