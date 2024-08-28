@@ -3,9 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Card Game</title>
+    <style>
+        /* Add your CSS here */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(5, 100px);
+            gap: 10px;
+        }
+        .card {
+            width: 100px;
+            height: 150px;
+            background-color: #eee;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+        }
+        .card:hover {
+            background-color: #ddd;
+        }
+        .trophy {
+            color: gold;
+            font-size: 36px;
+            display: none;
+        }
+        .winner {
+            display: block;
+        }
+    </style>
 </head>
 <body>
-    
+    <div class="container">
+        <!-- Cards will be generated here by JavaScript -->
+    </div>
+
+    <script>
+        // Add your JavaScript here
+        const container = document.querySelector('.container');
+        const numberOfCards = 20;
+        let winnerIndex = Math.floor(Math.random() * numberOfCards);
+
+        for (let i = 0; i < numberOfCards; i++) {
+            const card = document.createElement('div');
+            card.classList.add('card');
+            card.addEventListener('click', () => {
+                if (i === winnerIndex) {
+                    card.innerHTML = '<span class="trophy">🏆</span>';
+                    card.classList.add('winner');
+                    alert('You found the trophy! You win!');
+                } else {
+                    alert('Try again!');
+                }
+            });
+            container.appendChild(card);
+        }
+    </script>
 </body>
 </html>
