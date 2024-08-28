@@ -21,7 +21,6 @@
         .card {
             width: 100px;
             height: 150px;
-            background-color: #eee;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -30,8 +29,14 @@
             border-radius: 10px;
             transition: background-color 0.3s ease;
         }
+        .card.sage-green {
+            background-color: #9caf88; /* Sage Green */
+        }
+        .card.beige {
+            background-color: #f5f5dc; /* Beige */
+        }
         .card:hover {
-            background-color: #ddd;
+            opacity: 0.9;
         }
         .trophy {
             color: gold;
@@ -56,15 +61,24 @@
         for (let i = 0; i < numberOfCards; i++) {
             const card = document.createElement('div');
             card.classList.add('card');
+
+            // Assign 10 cards to be sage green and 10 cards to be beige
+            if (i < 10) {
+                card.classList.add('sage-green');
+            } else {
+                card.classList.add('beige');
+            }
+
             card.addEventListener('click', () => {
                 if (i === winnerIndex) {
                     card.innerHTML = '<span class="trophy">🏆</span>';
                     card.classList.add('winner');
-                    alert('You found the trophy! 🏆');
+                    alert('You found the trophy!: 🏆');
                 } else {
                     alert('👎 Try again!');
                 }
             });
+
             container.appendChild(card);
         }
     </script>
