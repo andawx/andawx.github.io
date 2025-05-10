@@ -1,85 +1,194 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Digital Journal</title>
+  <title>My Cozy Digital Journal</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
-      padding: 20px;
+      background-color: #f8f0e3; /* Soft beige background */
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
     }
-    header {
+
+    #journal-container {
+      background-color: #fff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      width: 80%;
+      max-width: 700px;
+    }
+
+    h1 {
       text-align: center;
-      margin-bottom: 20px;
+      color: #a0855b; /* Warm brown heading */
+      margin-bottom: 30px;
+      font-weight: 500;
+      letter-spacing: 0.8px;
     }
+
+    #entry-form {
+      margin-bottom: 30px;
+      display: grid;
+      gap: 15px;
+    }
+
+    label {
+      font-weight: bold;
+      color: #776e65; /* Muted brown label */
+      margin-bottom: 5px;
+    }
+
     textarea {
-      width: 100%;
-      height: 150px;
-      padding: 10px;
-      font-size: 16px;
+      padding: 15px;
+      border: 1px solid #d6d3c9; /* Light beige border */
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 1em;
+      resize: vertical;
+      line-height: 1.6;
+      box-sizing: border-box;
     }
+
+    textarea:focus {
+      outline: none;
+      border-color: #a0855b; /* Highlight on focus */
+      box-shadow: 0 2px 4px rgba(160, 133, 91, 0.2);
+    }
+
     button {
-      margin-top: 10px;
-      padding: 10px 20px;
-      font-size: 16px;
+      padding: 12px 20px;
+      background-color: #a0855b; /* Warm brown button */
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
     }
-    .entries {
+
+    button:hover {
+      background-color: #8c734d; /* Darker brown on hover */
+    }
+
+    #entries-list {
       margin-top: 30px;
     }
-    .entry {
-      background: white;
-      padding: 15px;
-      margin-bottom: 10px;
-      border-left: 5px solid #3498db;
+
+    h2 {
+      color: #a0855b; /* Warm brown subheading */
+      margin-bottom: 20px;
+      font-weight: 500;
+      border-bottom: 1px solid #d6d3c9;
+      padding-bottom: 10px;
     }
-    .timestamp {
-      font-size: 12px;
-      color: gray;
+
+    .entry {
+      border: 1px solid #e0dad7; /* Very light beige border */
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      background-color: #fffafa; /* Off-white entry background */
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .entry-date {
+      font-size: 0.9em;
+      color: #776e65; /* Muted brown date */
+      margin-bottom: 10px;
+      font-style: italic;
+    }
+
+    .entry-content {
+      white-space: pre-wrap;
+      line-height: 1.7;
+      color: #444;
+    }
+
+    #no-entries {
+      font-style: italic;
+      color: #776e65;
     }
   </style>
 </head>
 <body>
+  <div id="journal-container">
+    <h1>My Cozy Digital Journal</h1>
 
-  <header>
-    <h1>My Digital Journal</h1>
-    <p>Write your thoughts and feelings below</p>
-  </header>
-
-  <main>
-    <textarea id="journalInput" placeholder="What's on your mind today?"></textarea>
-    <br />
-    <button onclick="saveEntry()">Save Entry</button>
-
-    <div class="entries" id="entries">
-      <!-- Saved entries will appear here -->
+    <div id="entry-form">
+      <label for="new-entry">Write your thoughts:</label>
+      <textarea id="new-entry" rows="7" placeholder="Dear Journal..."></textarea>
+      <button onclick="addEntry()">Add to Journal</button>
     </div>
-  </main>
+
+    <div id="entries-list">
+      <h2>Past Entries</h2>
+      <p id="no-entries" style="display: none;">No entries yet.</p>
+    </div>
+  </div>
 
   <script>
-    const entriesDiv = document.getElementById("entries");
+    const newEntryTextarea = document.getElementById('new-entry');
+    const entriesListDiv = document.getElementById('entries-list');
+    const noEntriesMessage = document.getElementById('no-entries');
+    let entries = loadEntries();
 
-    function saveEntry() {
-      const text = document.getElementById("journalInput").value.trim();
-      if (text === "") return;
-
-      const entry = document.createElement("div");
-      entry.className = "entry";
-
-      const date = new Date();
-      const timestamp = document.createElement("div");
-      timestamp.className = "timestamp";
-      timestamp.textContent = `Entry on ${date.toLocaleString()}`;
-
-      entry.innerHTML = `<p>${text}</p>`;
-      entry.appendChild(timestamp);
-
-      entriesDiv.prepend(entry);
-      document.getElementById("journalInput").value = "";
+    function loadEntries() {
+      const storedEntries = localStorage.getItem('journalEntries');
+      return storedEntries ? JSON.parse(storedEntries) : [];
     }
-  </script>
 
+    function saveEntries() {
+      localStorage.setItem('journalEntries', JSON.stringify(entries));
+    }
+
+    function displayEntries() {
+      entriesListDiv.innerHTML = '<h2>Past Entries</h2>';
+      if (entries.length === 0) {
+        noEntriesMessage.style.display = 'block';
+      } else {
+        noEntriesMessage.style.display = 'none';
+        entries.forEach((entry) => {
+          const entryDiv = document.createElement('div');
+          entryDiv.classList.add('entry');
+          const datePara = document.createElement('p');
+          datePara.classList.add('entry-date');
+          datePara.textContent = formatDate(entry.date);
+          const contentPara = document.createElement('p');
+          contentPara.classList.add('entry-content');
+          contentPara.textContent = entry.content;
+          entryDiv.appendChild(datePara);
+          entryDiv.appendChild(contentPara);
+          entriesListDiv.appendChild(entryDiv);
+        });
+      }
+    }
+
+    function addEntry() {
+      const newEntryContent = newEntryTextarea.value.trim();
+      if (newEntryContent !== '') {
+        const now = new Date();
+        entries.unshift({ date: now.toISOString(), content: newEntryContent }); // Add new entries to the beginning
+        saveEntries();
+        newEntryTextarea.value = '';
+        displayEntries();
+      } else {
+        alert('Your journal entry cannot be empty!');
+      }
+    }
+
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit' };
+      return date.toLocaleDateString(undefined, options);
+    }
+
+    displayEntries();
+  </script>
 </body>
 </html>
