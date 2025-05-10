@@ -1,100 +1,97 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>My Awesome Ice Cream Game</title>
+<title>My Digital Journal</title>
 <style>
-  body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: #f0f0f0; margin: 0; }
-  #game-container { background-color: #fff; border: 1px solid #ccc; padding: 20px; border-radius: 8px; text-align: center; }
-  #ice-cream-area { position: relative; width: 200px; height: 300px; border: 1px dashed #aaa; margin: 20px auto; }
-  .scoop { width: 80px; height: 80px; border-radius: 50%; position: absolute; cursor: grab; }
-  .flavor-button { padding: 10px 20px; margin: 5px; cursor: pointer; border: none; border-radius: 5px; font-weight: bold; }
-  #score { margin-top: 20px; font-size: 1.2em; }
-  #message { margin-top: 10px; font-style: italic; color: #777; }
+  body { font-family: sans-serif; margin: 20px; background-color: #f4f4f4; }
+  h1 { text-align: center; color: #333; }
+  #journal-container { background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); }
+  #entry-form { margin-bottom: 20px; display: flex; flex-direction: column; }
+  label { margin-bottom: 5px; font-weight: bold; color: #555; }
+  textarea { padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit; font-size: 1em; resize: vertical; }
+  button { padding: 10px 15px; background-color: #5cb85c; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1em; }
+  button:hover { background-color: #4cae4c; }
+  #entries-list { margin-top: 20px; }
+  .entry { border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; border-radius: 4px; background-color: #f9f9f9; }
+  .entry-date { font-size: 0.8em; color: #777; margin-bottom: 5px; }
+  .entry-content { white-space: pre-wrap; /* Preserve line breaks */ }
 </style>
 </head>
 <body>
-  <div id="game-container">
-    <h1>Build Your Dream Ice Cream!</h1>
+  <div id="journal-container">
+    <h1>My Digital Journal</h1>
 
-    <div id="ice-cream-area">
-      </div>
+    <div id="entry-form">
+      <label for="new-entry">New Entry:</label>
+      <textarea id="new-entry" rows="5" placeholder="Write your thoughts here..."></textarea>
+      <button onclick="addEntry()">Add Entry</button>
+    </div>
 
-    <div>
-      <h2>Add a Scoop:</h2>
-      <button class="flavor-button" style="background-color: lightpink;" onclick="addScoop('lightpink')">Strawberry</button>
-      <button class="flavor-button" style="background-color: lightblue;" onclick="addScoop('lightblue')">Blue Raspberry</button>
-      <button class="flavor-button" style="background-color: lightyellow;" onclick="addScoop('lightyellow')">Vanilla</button>
-      <button class="flavor-button" style="background-color: lightgreen;" onclick="addScoop('lightgreen')">Mint</button>
-      </div>
-
-    <div id="score">Scoops: 0</div>
-    <div id="message">Drag and stack your scoops!</div>
+    <div id="entries-list">
+      <h2>Journal Entries</h2>
+      <p id="no-entries" style="font-style: italic; color: #777;">No entries yet.</p>
+    </div>
   </div>
 
   <script>
-    const iceCreamArea = document.getElementById('ice-cream-area');
-    const scoreDisplay = document.getElementById('score');
-    let scoopCount = 0;
-    let nextScoopPosition = 0; // To help stack scoops
+    const newEntryTextarea = document.getElementById('new-entry');
+    const entriesListDiv = document.getElementById('entries-list');
+    const noEntriesMessage = document.getElementById('no-entries');
+    let entries = loadEntries(); // Load any saved entries
 
-    function addScoop(color) {
-      const scoop = document.createElement('div');
-      scoop.classList.add('scoop');
-      scoop.style.backgroundColor = color;
-      scoop.style.left = '50%';
-      scoop.style.transform = 'translateX(-50%)';
-      scoop.style.top = `${250 - (nextScoopPosition * 60)}px`; // Stack them
-      scoop.draggable = true;
-
-      scoop.addEventListener('dragstart', (event) => {
-        event.dataTransfer.setData('text/plain', event.target.style.backgroundColor);
-      });
-
-      iceCreamArea.appendChild(scoop);
-      scoopCount++;
-      nextScoopPosition++;
-      scoreDisplay.textContent = `Scoops: ${scoopCount}`;
+    function loadEntries() {
+      const storedEntries = localStorage.getItem('journalEntries');
+      return storedEntries ? JSON.parse(storedEntries) : [];
     }
 
-    // Optional: Add drag and drop functionality to rearrange scoops
-    iceCreamArea.addEventListener('dragover', (event) => {
-      event.preventDefault();
-    });
+    function saveEntries() {
+      localStorage.setItem('journalEntries', JSON.stringify(entries));
+    }
 
-    iceCreamArea.addEventListener('drop', (event) => {
-      const color = event.dataTransfer.getData('text/plain');
-      const existingScoop = Array.from(iceCreamArea.children).find(child => child.style.backgroundColor === color && !child.isDragging);
+    function displayEntries() {
+      entriesListDiv.innerHTML = '<h2>Journal Entries</h2>';
+      if (entries.length === 0) {
+        entriesListDiv.appendChild(noEntriesMessage);
+        noEntriesMessage.style.display = 'block';
+      } else {
+        noEntriesMessage.style.display = 'none';
+        entries.forEach((entry) => {
+          const entryDiv = document.createElement('div');
+          entryDiv.classList.add('entry');
+          const datePara = document.createElement('p');
+          datePara.classList.add('entry-date');
+          datePara.textContent = formatDate(entry.date);
+          const contentPara = document.createElement('p');
+          contentPara.classList.add('entry-content');
+          contentPara.textContent = entry.content;
+          entryDiv.appendChild(datePara);
+          entryDiv.appendChild(contentPara);
+          entriesListDiv.appendChild(entryDiv);
+        });
+      }
+    }
 
-      if (existingScoop) {
-        existingScoop.style.left = `${event.offsetX - 40}px`;
-        existingScoop.style.top = `${event.offsetY - 40}px`;
+    function addEntry() {
+      const newEntryContent = newEntryTextarea.value.trim();
+      if (newEntryContent !== '') {
+        const now = new Date();
+        entries.push({ date: now.toISOString(), content: newEntryContent });
+        saveEntries();
+        newEntryTextarea.value = ''; // Clear the textarea
+        displayEntries();
+      } else {
+        alert('Please write something in your entry!');
       }
-    });
+    }
 
-    // Simple drag behavior (making scoops draggable)
-    iceCreamArea.addEventListener('mousedown', (event) => {
-      if (event.target.classList.contains('scoop')) {
-        event.target.isDragging = true;
-        event.target.style.cursor = 'grabbing';
-        event.offsetXStart = event.clientX - event.target.getBoundingClientRect().left;
-        event.offsetYStart = event.clientY - event.target.getBoundingClientRect().top;
-      }
-    });
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit', second: '2-digit' };
+      return date.toLocaleDateString(undefined, options);
+    }
 
-    document.addEventListener('mousemove', (event) => {
-      const draggingScoop = Array.from(iceCreamArea.children).find(child => child.isDragging);
-      if (draggingScoop) {
-        draggingScoop.style.left = `${event.clientX - iceCreamArea.getBoundingClientRect().left - draggingScoop.offsetXStart}px`;
-        draggingScoop.style.top = `${event.clientY - iceCreamArea.getBoundingClientRect().top - draggingScoop.offsetYStart}px`;
-      }
-    });
-    document.addEventListener('mouseup', () => {
-      const draggingScoop = Array.from(iceCreamArea.children).find(child => child.isDragging);
-      if (draggingScoop) {
-        draggingScoop.isDragging = false;
-        draggingScoop.style.cursor = 'grab';
-      }
-    });
+    // Initial display of entries when the page loads
+    displayEntries();
   </script>
 </body>
 </html>
