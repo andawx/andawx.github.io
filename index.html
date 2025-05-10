@@ -1,97 +1,85 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>My Digital Journal</title>
-<style>
-  body { font-family: sans-serif; margin: 20px; background-color: #f4f4f4; }
-  h1 { text-align: center; color: #333; }
-  #journal-container { background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); }
-  #entry-form { margin-bottom: 20px; display: flex; flex-direction: column; }
-  label { margin-bottom: 5px; font-weight: bold; color: #555; }
-  textarea { padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit; font-size: 1em; resize: vertical; }
-  button { padding: 10px 15px; background-color: #5cb85c; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1em; }
-  button:hover { background-color: #4cae4c; }
-  #entries-list { margin-top: 20px; }
-  .entry { border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; border-radius: 4px; background-color: #f9f9f9; }
-  .entry-date { font-size: 0.8em; color: #777; margin-bottom: 5px; }
-  .entry-content { white-space: pre-wrap; /* Preserve line breaks */ }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Digital Journal</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    textarea {
+      width: 100%;
+      height: 150px;
+      padding: 10px;
+      font-size: 16px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+    .entries {
+      margin-top: 30px;
+    }
+    .entry {
+      background: white;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-left: 5px solid #3498db;
+    }
+    .timestamp {
+      font-size: 12px;
+      color: gray;
+    }
+  </style>
 </head>
 <body>
-  <div id="journal-container">
+
+  <header>
     <h1>My Digital Journal</h1>
+    <p>Write your thoughts and feelings below</p>
+  </header>
 
-    <div id="entry-form">
-      <label for="new-entry">New Entry:</label>
-      <textarea id="new-entry" rows="5" placeholder="Write your thoughts here..."></textarea>
-      <button onclick="addEntry()">Add Entry</button>
-    </div>
+  <main>
+    <textarea id="journalInput" placeholder="What's on your mind today?"></textarea>
+    <br />
+    <button onclick="saveEntry()">Save Entry</button>
 
-    <div id="entries-list">
-      <h2>Journal Entries</h2>
-      <p id="no-entries" style="font-style: italic; color: #777;">No entries yet.</p>
+    <div class="entries" id="entries">
+      <!-- Saved entries will appear here -->
     </div>
-  </div>
+  </main>
 
   <script>
-    const newEntryTextarea = document.getElementById('new-entry');
-    const entriesListDiv = document.getElementById('entries-list');
-    const noEntriesMessage = document.getElementById('no-entries');
-    let entries = loadEntries(); // Load any saved entries
+    const entriesDiv = document.getElementById("entries");
 
-    function loadEntries() {
-      const storedEntries = localStorage.getItem('journalEntries');
-      return storedEntries ? JSON.parse(storedEntries) : [];
+    function saveEntry() {
+      const text = document.getElementById("journalInput").value.trim();
+      if (text === "") return;
+
+      const entry = document.createElement("div");
+      entry.className = "entry";
+
+      const date = new Date();
+      const timestamp = document.createElement("div");
+      timestamp.className = "timestamp";
+      timestamp.textContent = `Entry on ${date.toLocaleString()}`;
+
+      entry.innerHTML = `<p>${text}</p>`;
+      entry.appendChild(timestamp);
+
+      entriesDiv.prepend(entry);
+      document.getElementById("journalInput").value = "";
     }
-
-    function saveEntries() {
-      localStorage.setItem('journalEntries', JSON.stringify(entries));
-    }
-
-    function displayEntries() {
-      entriesListDiv.innerHTML = '<h2>Journal Entries</h2>';
-      if (entries.length === 0) {
-        entriesListDiv.appendChild(noEntriesMessage);
-        noEntriesMessage.style.display = 'block';
-      } else {
-        noEntriesMessage.style.display = 'none';
-        entries.forEach((entry) => {
-          const entryDiv = document.createElement('div');
-          entryDiv.classList.add('entry');
-          const datePara = document.createElement('p');
-          datePara.classList.add('entry-date');
-          datePara.textContent = formatDate(entry.date);
-          const contentPara = document.createElement('p');
-          contentPara.classList.add('entry-content');
-          contentPara.textContent = entry.content;
-          entryDiv.appendChild(datePara);
-          entryDiv.appendChild(contentPara);
-          entriesListDiv.appendChild(entryDiv);
-        });
-      }
-    }
-
-    function addEntry() {
-      const newEntryContent = newEntryTextarea.value.trim();
-      if (newEntryContent !== '') {
-        const now = new Date();
-        entries.push({ date: now.toISOString(), content: newEntryContent });
-        saveEntries();
-        newEntryTextarea.value = ''; // Clear the textarea
-        displayEntries();
-      } else {
-        alert('Please write something in your entry!');
-      }
-    }
-
-    function formatDate(dateString) {
-      const date = new Date(dateString);
-      const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit', second: '2-digit' };
-      return date.toLocaleDateString(undefined, options);
-    }
-
-    // Initial display of entries when the page loads
-    displayEntries();
   </script>
+
 </body>
 </html>
