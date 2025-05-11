@@ -1,271 +1,194 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Side Hustle Courses</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            background-color: #f8f8f8;
-            color: #333;
-            line-height: 1.6;
-        }
-        header {
-            background-color: #6c5b7b; /* Dark Mauve */
-            color: white;
-            padding: 60px 20px;
-            text-align: center;
-            background-image: url('images/header-courses.jpg'); /* Replace with your image */
-            background-size: cover;
-            background-position: center;
-            position: relative;
-        }
-        header h1 {
-            font-size: 3em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-        header p {
-            font-size: 1.2em;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-        }
-        nav {
-            background-color: #355c7d; /* Prussian Blue */
-            color: white;
-            padding: 15px 20px;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-        }
-        nav ul li {
-            margin: 0 15px;
-        }
-        nav a {
-            color: white;
-            text-decoration: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-        nav a:hover {
-            background-color: #4a6b8a;
-        }
-        .container {
-            max-width: 960px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        h2 {
-            color: #6c5b7b;
-            border-bottom: 2px solid #6c5b7b;
-            padding-bottom: 5px;
-            margin-bottom: 15px;
-        }
-        #course-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .course-card {
-            background-color: #e0f2f7; /* Light Cyan */
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            text-align: center;
-            transition: transform 0.3s ease-in-out;
-        }
-        .course-card:hover {
-            transform: scale(1.03);
-        }
-        .course-card h3 {
-            color: #355c7d;
-            margin-top: 0;
-            margin-bottom: 10px;
-        }
-        .course-card p {
-            color: #555;
-            margin-bottom: 15px;
-        }
-        .course-card a {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #a8dadc; /* Light Blue */
-            color: #333;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-        .course-card a:hover {
-            background-color: #457b9d; /* Steel Blue */
-            color: white;
-        }
-        #import-section {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: #f0f0f0;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        #import-section textarea {
-            width: 80%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-family: inherit;
-            font-size: 1em;
-        }
-        #import-button {
-            padding: 10px 20px;
-            background-color: #e63946; /* Crimson */
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        #import-button:hover {
-            background-color: #c21807;
-        }
-        #message-area {
-            margin-top: 20px;
-            text-align: center;
-            font-style: italic;
-            color: #777;
-        }
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 20px 0;
-            margin-top: 30px;
-        }
-    </style>
+  <title>My Cozy Digital Journal</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background-color: #f8f0e3; /* Soft beige background */
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    #journal-container {
+      background-color: #fff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      width: 80%;
+      max-width: 700px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #a0855b; /* Warm brown heading */
+      margin-bottom: 30px;
+      font-weight: 500;
+      letter-spacing: 0.8px;
+    }
+
+    #entry-form {
+      margin-bottom: 30px;
+      display: grid;
+      gap: 15px;
+    }
+
+    label {
+      font-weight: bold;
+      color: #776e65; /* Muted brown label */
+      margin-bottom: 5px;
+    }
+
+    textarea {
+      padding: 15px;
+      border: 1px solid #d6d3c9; /* Light beige border */
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 1em;
+      resize: vertical;
+      line-height: 1.6;
+      box-sizing: border-box;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: #a0855b; /* Highlight on focus */
+      box-shadow: 0 2px 4px rgba(160, 133, 91, 0.2);
+    }
+
+    button {
+      padding: 12px 20px;
+      background-color: #a0855b; /* Warm brown button */
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #8c734d; /* Darker brown on hover */
+    }
+
+    #entries-list {
+      margin-top: 30px;
+    }
+
+    h2 {
+      color: #a0855b; /* Warm brown subheading */
+      margin-bottom: 20px;
+      font-weight: 500;
+      border-bottom: 1px solid #d6d3c9;
+      padding-bottom: 10px;
+    }
+
+    .entry {
+      border: 1px solid #e0dad7; /* Very light beige border */
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      background-color: #fffafa; /* Off-white entry background */
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .entry-date {
+      font-size: 0.9em;
+      color: #776e65; /* Muted brown date */
+      margin-bottom: 10px;
+      font-style: italic;
+    }
+
+    .entry-content {
+      white-space: pre-wrap;
+      line-height: 1.7;
+      color: #444;
+    }
+
+    #no-entries {
+      font-style: italic;
+      color: #776e65;
+    }
+  </style>
 </head>
 <body>
+  <div id="journal-container">
+    <h1>My Cozy Digital Journal</h1>
 
-    <header>
-        <h1>My Side Hustle Course Hub</h1>
-        <p>Level up your skills and income with these amazing courses.</p>
-    </header>
-
-    <nav>
-        <ul>
-            <li><a href="#courses">Courses</a></li>
-            <li><a href="#import">Import Links</a></li>
-        </ul>
-    </nav>
-
-    <div class="container">
-        <section id="courses" class="section">
-            <h2>My Courses</h2>
-            <div id="course-list">
-                <p id="no-courses">No courses imported yet. Please use the "Import Links" section.</p>
-            </div>
-        </section>
-
-        <section id="import" class="section">
-            <h2>Import Your Course Links</h2>
-            <p>Paste your course links below, one link per line, optionally followed by a comma and a short description.</p>
-            <textarea id="course-links" rows="5" placeholder="https://yourcourse1.com, Learn Web Development\nhttps://yourskillcourse.net, Master Digital Marketing"></textarea>
-            <button id="import-button">Import Courses</button>
-            <div id="message-area"></div>
-        </section>
+    <div id="entry-form">
+      <label for="new-entry">Write your thoughts:</label>
+      <textarea id="new-entry" rows="7" placeholder="Dear Journal..."></textarea>
+      <button onclick="addEntry()">Add to Journal</button>
     </div>
 
-    <footer>
-        <p>&copy; 2025 My Side Hustle Journey</p>
-    </footer>
+    <div id="entries-list">
+      <h2>Past Entries</h2>
+      <p id="no-entries" style="display: none;">No entries yet.</p>
+    </div>
+  </div>
 
-    <script>
-        const courseLinksTextarea = document.getElementById('course-links');
-        const importButton = document.getElementById('import-button');
-        const courseListDiv = document.getElementById('course-list');
-        const noCoursesMessage = document.getElementById('no-courses');
-        const messageArea = document.getElementById('message-area');
+  <script>
+    const newEntryTextarea = document.getElementById('new-entry');
+    const entriesListDiv = document.getElementById('entries-list');
+    const noEntriesMessage = document.getElementById('no-entries');
+    let entries = loadEntries();
 
-        let courses = loadCourses();
-        displayCourses();
+    function loadEntries() {
+      const storedEntries = localStorage.getItem('journalEntries');
+      return storedEntries ? JSON.parse(storedEntries) : [];
+    }
 
-        function loadCourses() {
-            const storedCourses = localStorage.getItem('sideHustleCourses');
-            return storedCourses ? JSON.parse(storedCourses) : [];
-        }
+    function saveEntries() {
+      localStorage.setItem('journalEntries', JSON.stringify(entries));
+    }
 
-        function saveCourses() {
-            localStorage.setItem('sideHustleCourses', JSON.stringify(courses));
-        }
+    function displayEntries() {
+      entriesListDiv.innerHTML = '<h2>Past Entries</h2>';
+      if (entries.length === 0) {
+        noEntriesMessage.style.display = 'block';
+      } else {
+        noEntriesMessage.style.display = 'none';
+        entries.forEach((entry) => {
+          const entryDiv = document.createElement('div');
+          entryDiv.classList.add('entry');
+          const datePara = document.createElement('p');
+          datePara.classList.add('entry-date');
+          datePara.textContent = formatDate(entry.date);
+          const contentPara = document.createElement('p');
+          contentPara.classList.add('entry-content');
+          contentPara.textContent = entry.content;
+          entryDiv.appendChild(datePara);
+          entryDiv.appendChild(contentPara);
+          entriesListDiv.appendChild(entryDiv);
+        });
+      }
+    }
 
-        function displayCourses() {
-            courseListDiv.innerHTML = '';
-            if (courses.length === 0) {
-                noCoursesMessage.style.display = 'block';
-            } else {
-                noCoursesMessage.style.display = 'none';
-                courses.forEach(course => {
-                    const courseCard = document.createElement('div');
-                    courseCard.classList.add('course-card');
-                    const title = document.createElement('h3');
-                    title.textContent = course.title || 'Course Link';
-                    const link = document.createElement('a');
-                    link.href = course.url;
-                    link.textContent = 'View Course';
-                    link.target = '_blank';
-                    courseCard.appendChild(title);
-                    if (course.description) {
-                        const description = document.createElement('p');
-                        description.textContent = course.description;
-                        courseCard.appendChild(description);
-                    }
-                    courseCard.appendChild(link);
-                    courseListDiv.appendChild(courseCard);
-                });
-            }
-        }
+    function addEntry() {
+      const newEntryContent = newEntryTextarea.value.trim();
+      if (newEntryContent !== '') {
+        const now = new Date();
+        entries.unshift({ date: now.toISOString(), content: newEntryContent }); // Add new entries to the beginning
+        saveEntries();
+        newEntryTextarea.value = '';
+        displayEntries();
+      } else {
+        alert('Your journal entry cannot be empty!');
+      }
+    }
 
-        importButton.addEventListener('click', importCourseLinks);
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit' };
+      return date.toLocaleDateString(undefined, options);
+    }
 
-        function importCourseLinks() {
-            const linksText = courseLinksTextarea.value.trim();
-            const newCourses = [];
-            const lines = linksText.split('\n');
-
-            lines.forEach(line => {
-                const parts = line.split(',').map(part => part.trim());
-                if (parts[0]) {
-                    newCourses.push({ url: parts[0], title: parts[1] });
-                }
-            });
-
-            if (newCourses.length > 0) {
-                courses = [...courses, ...newCourses];
-                saveCourses();
-                displayCourses();
-                messageArea.textContent = 'Successfully imported ' + newCourses.length + ' courses!';
-                courseLinksTextarea.value = '';
-                setTimeout(() => {
-                    messageArea.textContent = '';
-                }, 3000);
-            } else {
-                messageArea.textContent = 'No valid links found to import.';
-            }
-        }
-    </script>
-
+    displayEntries();
+  </script>
 </body>
 </html>
