@@ -3,116 +3,245 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fruit Fact Finder</title>
+    <title>Wanderlust Explorer</title>
     <style>
         body {
-            font-family: sans-serif;
-            margin: 20px;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
             background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
         }
-        #search-container {
-            max-width: 400px;
-            margin: 0 auto;
-            background-color: #fff;
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            background-image: url('images/header-travel.jpg'); /* Replace with your image */
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        header p {
+            font-size: 1.2em;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        nav {
+            background-color: #333;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+        nav ul li {
+            margin: 0 15px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        nav a:hover {
+            background-color: #555;
+        }
+        .container {
+            max-width: 960px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            text-align: center;
         }
-        #input-area {
-            display: flex;
-            margin-bottom: 20px;
+        h2 {
+            color: #007bff;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
         }
-        #fruit-input {
-            flex-grow: 1;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px 0 0 5px;
-            outline: none;
+        .section {
+            margin-bottom: 30px;
         }
-        #search-button {
-            background-color: #28a745;
+        .packing-list ul {
+            list-style-type: square;
+            padding-left: 20px;
+        }
+        .airport-checks ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+        .transportation-options ul {
+            list-style-type: circle;
+            padding-left: 20px;
+        }
+        .flight-prices {
+            margin-top: 15px;
+        }
+        .flight-prices p {
+            margin-bottom: 5px;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .gallery img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+        .gallery img:hover {
+            transform: scale(1.05);
+        }
+        footer {
+            background-color: #333;
             color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 0 5px 5px 0;
-            cursor: pointer;
-        }
-        #search-button:hover {
-            background-color: #218838;
-        }
-        #info-area {
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-            white-space: pre-wrap;
-        }
-        #info-area h2 {
-            color: #28a745;
-            margin-top: 0;
-        }
-        #not-found {
-            color: red;
-            font-style: italic;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 30px;
         }
     </style>
 </head>
 <body>
-    <div id="search-container">
-        <h1>Fruit Fact Finder</h1>
-        <div id="input-area">
-            <input type="text" id="fruit-input" placeholder="Enter a fruit (e.g., apple)">
-            <button id="search-button">Find Info</button>
-        </div>
-        <div id="info-area">
-            <p id="not-found" style="display: none;">Fruit not found in our database.</p>
-        </div>
+
+    <header>
+        <h1>Your Next Adventure Awaits</h1>
+        <p>Plan your perfect trip with us.</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#packing">What to Pack</a></li>
+            <li><a href="#airport">Airport Checks</a></li>
+            <li><a href="#transportation">Transportation</a></li>
+            <li><a href="#flights">Flight Prices</a></li>
+            <li><a href="#gallery">Travel Gallery</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <section id="packing" class="section">
+            <h2>What to Pack</h2>
+            <div class="packing-list">
+                <h3>Essentials:</h3>
+                <ul>
+                    <li>Passport and visas (if required)</li>
+                    <li>Flight and accommodation confirmations</li>
+                    <li>Travel insurance details</li>
+                    <li>Medications and prescriptions</li>
+                    <li>Phone and charger</li>
+                    <li>Universal adapter</li>
+                    <li>Comfortable walking shoes</li>
+                </ul>
+                <h3>Clothing (adapt to your destination):</h3>
+                <ul>
+                    <li>T-shirts and tops</li>
+                    <li>Pants or skirts</li>
+                    <li>Sweater or jacket</li>
+                    <li>Underwear and socks</li>
+                    <li>Swimwear (if applicable)</li>
+                </ul>
+                <h3>Toiletries:</h3>
+                <ul>
+                    <li>Toothbrush and toothpaste</li>
+                    <li>Shampoo, conditioner, and soap</li>
+                    <li>Sunscreen and insect repellent</li>
+                    <li>Personal hygiene items</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="airport" class="section">
+            <h2>Navigating Airport Checks</h2>
+            <div class="airport-checks">
+                <h3>Before You Go:</h3>
+                <ul>
+                    <li>Check your flight status online.</li>
+                    <li>Ensure your baggage meets the airline's size and weight restrictions.</li>
+                    <li>Have your boarding pass and ID ready.</li>
+                </ul>
+                <h3>At the Airport:</h3>
+                <ul>
+                    <li>Check-in at the airline counter or online.</li>
+                    <li>Proceed to security screening:
+                        <ul>
+                            <li>Remove electronics and liquids from your bag.</li>
+                            <li>Take off your belt and shoes (as required).</li>
+                        </ul>
+                    </li>
+                    <li>Find your gate and be there on time for boarding.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="transportation" class="section">
+            <h2>Getting Around</h2>
+            <div class="transportation-options">
+                <h3>Common Options:</h3>
+                <ul>
+                    <li>Public Transportation (buses, trains, subways)</li>
+                    <li>Taxis and ride-sharing services</li>
+                    <li>Rental cars</li>
+                    <li>Walking and cycling</li>
+                </ul>
+                <h3>Tips:</h3>
+                <ul>
+                    <li>Research transportation options at your destination in advance.</li>
+                    <li>Consider purchasing travel passes for public transport.</li>
+                    <li>Download relevant transportation apps.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="flights" class="section">
+            <h2>Find Flight Prices</h2>
+            <div class="flight-prices">
+                <p>Looking for the best flight deals?</p>
+                <p><strong>Please note:</strong> Real-time flight price information cannot be directly displayed on this static HTML page. You can use the following resources to search for flights:</p>
+                <ul>
+                    <li><a href="https://www.google.com/flights" target="_blank">Google Flights</a></li>
+                    <li><a href="https://www.skyscanner.com/" target="_blank">Skyscanner</a></li>
+                    <li><a href="https://www.kayak.com/" target="_blank">Kayak</a></li>
+                    <li>Visit the websites of individual airlines.</li>
+                </ul>
+                <p>Remember to be flexible with your dates and airports to find better deals!</p>
+            </div>
+        </section>
+
+        <section id="gallery" class="section">
+            <h2>Travel Inspiration</h2>
+            <div class="gallery">
+                <img src="images/travel1.jpg" alt="Tropical Beach">
+                <img src="images/travel2.jpg" alt="Mountain Landscape">
+                <img src="images/travel3.jpg" alt="City Skyline">
+                <img src="images/travel4.jpg" alt="Forest Trail">
+                <img src="images/travel5.jpg" alt="Ancient Ruins">
+                <img src="images/travel6.jpg" alt="Desert Scene">
+            </div>
+        </section>
     </div>
 
-    <script>
-        const fruitInput = document.getElementById('fruit-input');
-        const searchButton = document.getElementById('search-button');
-        const infoArea = document.getElementById('info-area');
-        const notFoundMessage = document.getElementById('not-found');
+    <footer>
+        <p>&copy; 2025 Wanderlust Explorer</p>
+    </footer>
 
-        const fruitData = {
-            "apple": "Apples are a popular fruit, typically red, green, or yellow. They are crisp and sweet and are a good source of fiber.",
-            "banana": "Bananas are long, curved fruits with yellow skin and soft, sweet flesh. They are a good source of potassium.",
-            "orange": "Oranges are citrus fruits known for their juicy, slightly acidic flesh and fragrant peel. They are rich in Vitamin C.",
-            "grape": "Grapes are small, round or oval berries that grow in clusters. They can be green, red, or purple and are often eaten fresh, used in wine, or dried into raisins.",
-            "strawberry": "Strawberries are red, heart-shaped fruits with a sweet and slightly tart taste. They are an excellent source of Vitamin C and antioxidants.",
-            "mango": "Mangoes are tropical stone fruits with sweet, yellow-orange flesh and a large central seed. They are rich in vitamins and have a unique flavor.",
-            "watermelon": "Watermelons are large, round or oval fruits with a green rind and sweet, watery red flesh. They are refreshing and hydrating.",
-            "kiwi": "Kiwis are small, oval fruits with fuzzy brown skin and green flesh with tiny black seeds. They have a sweet and tangy flavor.",
-            "blueberry": "Blueberries are small, round berries that are typically blue or purple. They are sweet and are packed with antioxidants.",
-            "pineapple": "Pineapples are large tropical fruits with a tough, spiky exterior and sweet, yellow flesh. They contain bromelain, an enzyme with various health benefits."
-        };
-
-        searchButton.addEventListener('click', displayFruitInfo);
-        fruitInput.addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') {
-                displayFruitInfo();
-            }
-        });
-
-        function displayFruitInfo() {
-            const fruitName = fruitInput.value.trim().toLowerCase();
-            infoArea.innerHTML = ''; // Clear previous info
-            notFoundMessage.style.display = 'none';
-
-            if (fruitData.hasOwnProperty(fruitName)) {
-                const info = fruitData[fruitName];
-                const title = document.createElement('h2');
-                title.textContent = fruitName.charAt(0).toUpperCase() + fruitName.slice(1); // Capitalize first letter
-                const paragraph = document.createElement('p');
-                paragraph.textContent = info;
-                infoArea.appendChild(title);
-                infoArea.appendChild(paragraph);
-            } else {
-                notFoundMessage.style.display = 'block';
-            }
-        }
-    </script>
 </body>
 </html>
