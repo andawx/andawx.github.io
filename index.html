@@ -3,51 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat with a Bot</title>
+    <title>Number & Symbol Evaluator</title>
     <style>
         body {
             font-family: sans-serif;
             margin: 20px;
             background-color: #f4f4f4;
         }
-        #chat-container {
-            max-width: 600px;
+        #eval-container {
+            max-width: 400px;
             margin: 0 auto;
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             padding: 20px;
         }
-        #chat-log {
-            height: 300px;
+        #output-area {
+            height: 100px;
             overflow-y: auto;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
             margin-bottom: 10px;
             background-color: #f9f9f9;
-        }
-        .user-message {
-            text-align: right;
-            margin-bottom: 5px;
-            color: #007bff;
-        }
-        .bot-message {
-            text-align: left;
-            margin-bottom: 5px;
-            color: #28a745;
+            white-space: pre-wrap; /* Preserve formatting */
         }
         #input-area {
             display: flex;
         }
-        #message-input {
+        #expression-input {
             flex-grow: 1;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px 0 0 5px;
             outline: none;
         }
-        #send-button {
+        #evaluate-button {
             background-color: #007bff;
             color: white;
             border: none;
@@ -55,91 +46,66 @@
             border-radius: 0 5px 5px 0;
             cursor: pointer;
         }
-        #send-button:hover {
+        #evaluate-button:hover {
             background-color: #0056b3;
+        }
+        .user-input {
+            color: #007bff;
+            font-weight: bold;
+        }
+        .bot-output {
+            color: #28a745;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <div id="chat-container">
-        <h1>Chat with our Bot</h1>
-        <div id="chat-log">
-            </div>
+    <div id="eval-container">
+        <h1>Number & Symbol Evaluator</h1>
+        <div id="output-area">
+            <p class="bot-output">Bot: Enter an arithmetic expression (e.g., 2+3, 5*4, 10/2).</p>
+        </div>
         <div id="input-area">
-            <input type="text" id="message-input" placeholder="Type your message...">
-            <button id="send-button">Send</button>
+            <input type="text" id="expression-input" placeholder="Enter expression...">
+            <button id="evaluate-button">Evaluate</button>
         </div>
     </div>
 
     <script>
-        const chatLog = document.getElementById('chat-log');
-        const messageInput = document.getElementById('message-input');
-        const sendButton = document.getElementById('send-button');
+        const outputArea = document.getElementById('output-area');
+        const expressionInput = document.getElementById('expression-input');
+        const evaluateButton = document.getElementById('evaluate-button');
 
-        sendButton.addEventListener('click', sendMessage);
-        messageInput.addEventListener('keypress', function(event) {
+        evaluateButton.addEventListener('click', evaluateExpression);
+        expressionInput.addEventListener('keypress', function(event) {
             if (event.key === 'Enter') {
-                sendMessage();
+                evaluateExpression();
             }
         });
 
-        function sendMessage() {
-            const message = messageInput.value.trim();
-            if (message) {
-                appendMessage('user', message);
-                messageInput.value = '';
-                // ** Here's where you would send the message to your bot (API call) **
-                // For example, using fetch:
-                /*
-                fetch('/api/bot', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ message: message }),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    appendMessage('bot', data.response);
-                })
-                .catch(error => {
-                    appendMessage('bot', 'Error communicating with the bot.');
-                    console.error('Error:', error);
-                });
-                */
-                // ** For a basic, non-API example, you could have hardcoded responses: **
-                getBotResponse(message);
-            }
+        function appendOutput(sender, text) {
+            const messageParagraph = document.createElement('p');
+            messageParagraph.classList.add(`${sender}-output`);
+            messageParagraph.textContent = `${sender === 'user' ? 'You:' : 'Bot:'} ${text}`;
+            outputArea.appendChild(messageParagraph);
+            outputArea.scrollTop = outputArea.scrollHeight; // Scroll to the bottom
         }
 
-        function appendMessage(sender, text) {
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add(`${sender}-message`);
-            messageDiv.textContent = `${sender === 'user' ? 'You:' : 'Bot:'} ${text}`;
-            chatLog.appendChild(messageDiv);
-            chatLog.scrollTop = chatLog.scrollHeight; // Scroll to the bottom
-        }
-
-        // ** Basic, non-API bot response logic (replace with API call in a real scenario) **
-        function getBotResponse(userMessage) {
-            // Simple example responses based on keywords
-            let botResponse;
-            userMessage = userMessage.toLowerCase();
-
-            if (userMessage.includes('hello') || userMessage.includes('hi')) {
-                botResponse = 'Hello there!';
-            } else if (userMessage.includes('how are you')) {
-                botResponse = 'I am doing well, thank you for asking!';
-            } else if (userMessage.includes('bye') || userMessage.includes('goodbye')) {
-                botResponse = 'Goodbye! Have a great day!';
-            } else {
-                botResponse = "I'm not sure I understand. Can you ask something else?";
+        function evaluateExpression() {
+            const expression = expressionInput.value.trim();
+            if (expression) {
+                appendOutput('user', expression);
+                expressionInput.value = '';
+                try {
+                    // ** WARNING: Using eval() can be risky with untrusted input. **
+                    // ** In a real application, you should use a safer method to parse and evaluate expressions. **
+                    const result = eval(expression);
+                    appendOutput('bot', `= ${result}`);
+                } catch (error) {
+                    appendOutput('bot', `Error: Invalid expression.`);
+                    console.error("Evaluation Error:", error);
+                }
             }
-
-            // Simulate a delay for the bot's response
-            setTimeout(() => {
-                appendMessage('bot', botResponse);
-            }, 500);
         }
     </script>
 </body>
