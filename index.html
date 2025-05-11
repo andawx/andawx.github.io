@@ -3,181 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Empower & Explore!</title>
+    <title>Chat with a Bot</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            background-color: #f9f9f9;
-            color: #333;
-            line-height: 1.6;
+            font-family: sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
         }
-        header {
-            background-color: #ff69b4; /* Hot Pink */
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 10px 0;
-            text-align: center;
-        }
-        nav ul li {
-            display: inline;
-            margin: 0 15px;
-        }
-        nav a {
-            color: white;
-            text-decoration: none;
-        }
-        nav a:hover {
-            text-decoration: underline;
-        }
-        #hero {
-            background-image: url('images/hero-girls.jpg'); /* Replace with your image */
-            background-size: cover;
-            color: white;
-            text-align: center;
-            padding: 100px 0;
-        }
-        #hero h1 {
-            font-size: 3em;
-            margin-bottom: 10px;
-        }
-        #hero p {
-            font-size: 1.2em;
-            margin-bottom: 20px;
-        }
-        .container {
-            max-width: 960px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: white;
+        #chat-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
         }
-        h2 {
-            color: #ff69b4;
-            border-bottom: 2px solid #ff69b4;
-            padding-bottom: 5px;
-            margin-bottom: 15px;
-        }
-        .section {
-            margin-bottom: 30px;
-        }
-        .article-list ul {
-            list-style: none;
-            padding: 0;
-        }
-        .article-list li {
-            padding: 10px 0;
-            border-bottom: 1px dotted #ccc;
-        }
-        .article-list li:last-child {
-            border-bottom: none;
-        }
-        .article-list a {
-            color: #007bff;
-            text-decoration: none;
-        }
-        .article-list a:hover {
-            text-decoration: underline;
-        }
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-        .gallery img {
-            width: 100%;
-            height: auto;
+        #chat-log {
+            height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            border: 1px solid #ddd;
             border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
         }
-        footer {
-            background-color: #333;
+        .user-message {
+            text-align: right;
+            margin-bottom: 5px;
+            color: #007bff;
+        }
+        .bot-message {
+            text-align: left;
+            margin-bottom: 5px;
+            color: #28a745;
+        }
+        #input-area {
+            display: flex;
+        }
+        #message-input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px 0 0 5px;
+            outline: none;
+        }
+        #send-button {
+            background-color: #007bff;
             color: white;
-            text-align: center;
-            padding: 15px 0;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+        #send-button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-
-    <header>
-        <h1>[Website Name - e.g., Girl Power Hub]</h1>
-        <nav>
-            <ul>
-                <li><a href="#explore">Explore</a></li>
-                <li><a href="#connect">Connect</a></li>
-                <li><a href="#create">Create</a></li>
-                <li><a href="#inspire">Inspire</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <section id="hero">
-        <h1>Welcome to Our Space!</h1>
-        <p>A place for exploration, connection, creativity, and inspiration.</p>
-        <a href="#explore" style="color: white; text-decoration: none; background-color: #007bff; padding: 10px 20px; border-radius: 5px;">Start Exploring</a>
-    </section>
-
-    <div class="container">
-        <section id="explore" class="section">
-            <h2>Explore</h2>
-            <div class="article-list">
-                <h3>Trending Topics</h3>
-                <ul>
-                    <li><a href="#">Discover the Latest Fashion Trends</a></li>
-                    <li><a href="#">Easy and Fun DIY Craft Ideas</a></li>
-                    <li><a href="#">Book Recommendations for Young Readers</a></li>
-                    <li><a href="#">Tips for Staying Healthy and Active</a></li>
-                    <li><a href="#">Understanding Your Feelings and Emotions</a></li>
-                </ul>
+    <div id="chat-container">
+        <h1>Chat with our Bot</h1>
+        <div id="chat-log">
             </div>
-        </section>
-
-        <section id="connect" class="section">
-            <h2>Connect</h2>
-            <p>Join our community! Share your thoughts, ideas, and connect with others.</p>
-            <p>Coming soon: Forums and chat groups!</p>
-        </section>
-
-        <section id="create" class="section">
-            <h2>Create</h2>
-            <p>Unleash your creativity! Find inspiration and share your creations.</p>
-            <div class="gallery">
-                <img src="images/craft1.jpg" alt="Craft Idea 1">
-                <img src="images/drawing1.jpg" alt="Drawing 1">
-                <img src="images/story1.jpg" alt="Short Story 1">
-                </div>
-            <p><a href="#">Share Your Creations! (Coming Soon)</a></p>
-        </section>
-
-        <section id="inspire" class="section">
-            <h2>Inspire</h2>
-            <p>Read stories of amazing girls and women making a difference.</p>
-            <div class="article-list">
-                <h3>Inspiring Stories</h3>
-                <ul>
-                    <li><a href="#">Meet a Young Scientist Making Waves</a></li>
-                    <li><a href="#">The Story of a Courageous Activist</a></li>
-                    <li><a href="#">Celebrating Girls in Sports</a></li>
-                    <li><a href="#">Artists Who Changed the World</a></li>
-                </ul>
-            </div>
-        </section>
+        <div id="input-area">
+            <input type="text" id="message-input" placeholder="Type your message...">
+            <button id="send-button">Send</button>
+        </div>
     </div>
 
-    <footer>
-        <p>&copy; 2025 [Your Website Name]</p>
-    </footer>
+    <script>
+        const chatLog = document.getElementById('chat-log');
+        const messageInput = document.getElementById('message-input');
+        const sendButton = document.getElementById('send-button');
 
+        sendButton.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            if (message) {
+                appendMessage('user', message);
+                messageInput.value = '';
+                // ** Here's where you would send the message to your bot (API call) **
+                // For example, using fetch:
+                /*
+                fetch('/api/bot', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: message }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    appendMessage('bot', data.response);
+                })
+                .catch(error => {
+                    appendMessage('bot', 'Error communicating with the bot.');
+                    console.error('Error:', error);
+                });
+                */
+                // ** For a basic, non-API example, you could have hardcoded responses: **
+                getBotResponse(message);
+            }
+        }
+
+        function appendMessage(sender, text) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add(`${sender}-message`);
+            messageDiv.textContent = `${sender === 'user' ? 'You:' : 'Bot:'} ${text}`;
+            chatLog.appendChild(messageDiv);
+            chatLog.scrollTop = chatLog.scrollHeight; // Scroll to the bottom
+        }
+
+        // ** Basic, non-API bot response logic (replace with API call in a real scenario) **
+        function getBotResponse(userMessage) {
+            // Simple example responses based on keywords
+            let botResponse;
+            userMessage = userMessage.toLowerCase();
+
+            if (userMessage.includes('hello') || userMessage.includes('hi')) {
+                botResponse = 'Hello there!';
+            } else if (userMessage.includes('how are you')) {
+                botResponse = 'I am doing well, thank you for asking!';
+            } else if (userMessage.includes('bye') || userMessage.includes('goodbye')) {
+                botResponse = 'Goodbye! Have a great day!';
+            } else {
+                botResponse = "I'm not sure I understand. Can you ask something else?";
+            }
+
+            // Simulate a delay for the bot's response
+            setTimeout(() => {
+                appendMessage('bot', botResponse);
+            }, 500);
+        }
+    </script>
 </body>
 </html>
