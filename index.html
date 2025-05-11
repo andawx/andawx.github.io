@@ -3,59 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A List of Random Links</title>
+    <title>Local Connect - Your Neighborhood Hub</title>
     <style>
         body {
             font-family: sans-serif;
             margin: 20px;
-            background-color: #f4f4f4;
+            background-color: #f8f9fa;
             color: #333;
         }
-        h1 {
+        header {
             text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        h1 {
             color: #007bff;
         }
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-        li {
-            margin-bottom: 10px;
-            padding: 10px;
-            background-color: #fff;
+        #need-board, #skill-profiles, #local-events {
+            margin-bottom: 30px;
+            padding: 15px;
             border: 1px solid #ddd;
             border-radius: 5px;
+            background-color: #fff;
         }
-        a {
+        h2 {
+            color: #28a745;
+            border-bottom: 1px dashed #ccc;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+        .need-item, .skill-profile-item, .event-item {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+        .need-item:last-child, .skill-profile-item:last-child, .event-item:last-child {
+            border-bottom: none;
+        }
+        .user-info {
+            font-weight: bold;
             color: #007bff;
+        }
+        .need-description, .skill-description, .event-description {
+            margin-top: 5px;
+            color: #555;
+        }
+        .post-button {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
             text-decoration: none;
         }
-        a:hover {
-            text-decoration: underline;
+        .post-button:hover {
+            background-color: #0056b3;
         }
         .note {
             font-size: 0.8em;
             color: #777;
-            margin-top: 20px;
             text-align: center;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>A Collection of (Somewhat) Random Links</h1>
-    <p style="text-align: center;">You never know what you might find!</p>
-    <ul>
-        <li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">A Classic Internet Moment</a></li>
-        <li><a href="https://en.wikipedia.org/wiki/Special:Random" target="_blank">Explore a Random Wikipedia Article</a></li>
-        <li><a href="https://www.nasa.gov/multimedia/imagegallery/iotd.html" target="_blank">NASA's Image of the Day</a></li>
-        <li><a href="https://randomstreetview.com/" target="_blank">Wander Through a Random Street View Location</a></li>
-        <li><a href="https://apod.nasa.gov/apod/" target="_blank">Astronomy Picture of the Day</a></li>
-        <li><a href="https://www.theuselessweb.com/" target="_blank">Visit a Truly Useless Website</a></li>
-        <li><a href="https://www.reddit.com/r/random/" target="_blank">The Random Subreddit</a></li>
-        <li><a href="https://thispersondoesnotexist.com/" target="_blank">See a Randomly Generated Face</a></li>
-        <li><a href="https://xkcd.com/" target="_blank">XKCD - A Webcomic of Romance, Sarcasm, Math, and Language</a></li>
-        <li><a href="https://archive.org/web/" target="_blank">The Internet Archive Wayback Machine</a></li>
-    </ul>
-    <p class="note">These links were chosen somewhat arbitrarily and may lead to interesting, boring, or utterly bizarre corners of the internet. Click at your own risk (and enjoyment!).</p>
+    <header>
+        <h1>Local Connect - Kumanovo</h1>
+        <p>Connecting our neighborhood, one need and skill at a time.</p>
+    </header>
+
+    <div id="need-board">
+        <h2>Recent Needs</h2>
+        <div class="need-item">
+            <span class="user-info">Ana (Near City Park)</span> - Needs help with gardening this Saturday morning.
+            <p class="need-description">Looking for someone experienced with weeding and planting flowers. Willing to pay 500 MKD.</p>
+        </div>
+        <div class="need-item">
+            <span class="user-info">Marko (Centar)</span> - Urgent: Leaky faucet in the kitchen!
+            <p class="need-description">Needs a quick fix by someone with plumbing knowledge. Can offer help with tech support in return.</p>
+        </div>
+        <div class="need-item">
+            <span class="user-info">Elena (Karposh)</span> - Looking for a dog walker for my Golden Retriever, Rex, this evening.
+            <p class="need-description">About an hour walk around 6 PM. Offering 300 MKD.</p>
+        </div>
+        </div>
+
+    <div id="skill-profiles">
+        <h2>Available Skills</h2>
+        <div class="skill-profile-item">
+            <span class="user-info">Goran (Diva Naselba)</span> - Offers: Basic Plumbing, Furniture Assembly.
+            <p class="skill-description">Available evenings and weekends. Experienced with minor home repairs.</p>
+        </div>
+        <div class="skill-profile-item">
+            <span class="user-info">Marija (Novo Selo)</span> - Offers: Gardening, Pet Sitting (Cats & Dogs).
+            <p class="skill-description">Loves plants and animals! Available most weekdays after 4 PM and weekends.</p>
+        </div>
+        <div class="skill-profile-item">
+            <span class="user-info">Stefan (Todorovce)</span> - Offers: Tech Support (Computers, Software), Language Tutoring (English).
+            <p class="skill-description">IT professional with a passion for teaching. Flexible availability.</p>
+        </div>
+        </div>
+
+    <div id="local-events">
+        <h2>Local Initiatives & Events</h2>
+        <div class="event-item">
+            <span class="user-info">Kumanovo Municipality</span> - Community Cleanup at the Old Bazaar - Saturday, May 17th, 9 AM.
+            <p class="event-description">Volunteers needed! Bring your own gloves and enthusiasm.</p>
+        </div>
+        <div class="event-item">
+            <span class="user-info">Local Library</span> - Book Club Meeting - Tuesday, May 20th, 6 PM.
+            <p class="event-description">Discussing "The Alchemist" by Paulo Coelho. All welcome!</p>
+        </div>
+        </div>
+
+    <a href="#" class="post-button">Post a Need or Offer a Skill</a>
+    <a href="#" class="post-button">Share a Local Event</a>
+
+    <p class="note">This is a static representation. Real functionality would require JavaScript and server-side implementation for dynamic content, user accounts, real-time updates, and location services.</p>
 </body>
 </html>
