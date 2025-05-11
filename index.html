@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wanderlust Explorer</title>
+    <title>My Side Hustle Courses</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            background-color: #f4f4f4;
+            background-color: #f8f8f8;
             color: #333;
             line-height: 1.6;
         }
         header {
-            background-color: #007bff;
+            background-color: #6c5b7b; /* Dark Mauve */
             color: white;
-            padding: 40px 20px;
+            padding: 60px 20px;
             text-align: center;
-            background-image: url('images/header-travel.jpg'); /* Replace with your image */
+            background-image: url('images/header-courses.jpg'); /* Replace with your image */
             background-size: cover;
             background-position: center;
             position: relative;
@@ -32,7 +32,7 @@
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
         }
         nav {
-            background-color: #333;
+            background-color: #355c7d; /* Prussian Blue */
             color: white;
             padding: 15px 20px;
             text-align: center;
@@ -58,7 +58,7 @@
             transition: background-color 0.3s ease;
         }
         nav a:hover {
-            background-color: #555;
+            background-color: #4a6b8a;
         }
         .container {
             max-width: 960px;
@@ -69,47 +69,84 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
         h2 {
-            color: #007bff;
-            border-bottom: 2px solid #007bff;
+            color: #6c5b7b;
+            border-bottom: 2px solid #6c5b7b;
             padding-bottom: 5px;
             margin-bottom: 15px;
         }
-        .section {
-            margin-bottom: 30px;
-        }
-        .packing-list ul {
-            list-style-type: square;
-            padding-left: 20px;
-        }
-        .airport-checks ul {
-            list-style-type: disc;
-            padding-left: 20px;
-        }
-        .transportation-options ul {
-            list-style-type: circle;
-            padding-left: 20px;
-        }
-        .flight-prices {
-            margin-top: 15px;
-        }
-        .flight-prices p {
-            margin-bottom: 5px;
-        }
-        .gallery {
+        #course-list {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
             margin-top: 20px;
         }
-        .gallery img {
-            width: 100%;
-            height: auto;
+        .course-card {
+            background-color: #e0f2f7; /* Light Cyan */
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
             transition: transform 0.3s ease-in-out;
         }
-        .gallery img:hover {
-            transform: scale(1.05);
+        .course-card:hover {
+            transform: scale(1.03);
+        }
+        .course-card h3 {
+            color: #355c7d;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        .course-card p {
+            color: #555;
+            margin-bottom: 15px;
+        }
+        .course-card a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #a8dadc; /* Light Blue */
+            color: #333;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .course-card a:hover {
+            background-color: #457b9d; /* Steel Blue */
+            color: white;
+        }
+        #import-section {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        #import-section textarea {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 1em;
+        }
+        #import-button {
+            padding: 10px 20px;
+            background-color: #e63946; /* Crimson */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #import-button:hover {
+            background-color: #c21807;
+        }
+        #message-area {
+            margin-top: 20px;
+            text-align: center;
+            font-style: italic;
+            color: #777;
         }
         footer {
             background-color: #333;
@@ -123,125 +160,112 @@
 <body>
 
     <header>
-        <h1>Your Next Adventure Awaits</h1>
-        <p>Plan your perfect trip with us.</p>
+        <h1>My Side Hustle Course Hub</h1>
+        <p>Level up your skills and income with these amazing courses.</p>
     </header>
 
     <nav>
         <ul>
-            <li><a href="#packing">What to Pack</a></li>
-            <li><a href="#airport">Airport Checks</a></li>
-            <li><a href="#transportation">Transportation</a></li>
-            <li><a href="#flights">Flight Prices</a></li>
-            <li><a href="#gallery">Travel Gallery</a></li>
+            <li><a href="#courses">Courses</a></li>
+            <li><a href="#import">Import Links</a></li>
         </ul>
     </nav>
 
     <div class="container">
-        <section id="packing" class="section">
-            <h2>What to Pack</h2>
-            <div class="packing-list">
-                <h3>Essentials:</h3>
-                <ul>
-                    <li>Passport and visas (if required)</li>
-                    <li>Flight and accommodation confirmations</li>
-                    <li>Travel insurance details</li>
-                    <li>Medications and prescriptions</li>
-                    <li>Phone and charger</li>
-                    <li>Universal adapter</li>
-                    <li>Comfortable walking shoes</li>
-                </ul>
-                <h3>Clothing (adapt to your destination):</h3>
-                <ul>
-                    <li>T-shirts and tops</li>
-                    <li>Pants or skirts</li>
-                    <li>Sweater or jacket</li>
-                    <li>Underwear and socks</li>
-                    <li>Swimwear (if applicable)</li>
-                </ul>
-                <h3>Toiletries:</h3>
-                <ul>
-                    <li>Toothbrush and toothpaste</li>
-                    <li>Shampoo, conditioner, and soap</li>
-                    <li>Sunscreen and insect repellent</li>
-                    <li>Personal hygiene items</li>
-                </ul>
+        <section id="courses" class="section">
+            <h2>My Courses</h2>
+            <div id="course-list">
+                <p id="no-courses">No courses imported yet. Please use the "Import Links" section.</p>
             </div>
         </section>
 
-        <section id="airport" class="section">
-            <h2>Navigating Airport Checks</h2>
-            <div class="airport-checks">
-                <h3>Before You Go:</h3>
-                <ul>
-                    <li>Check your flight status online.</li>
-                    <li>Ensure your baggage meets the airline's size and weight restrictions.</li>
-                    <li>Have your boarding pass and ID ready.</li>
-                </ul>
-                <h3>At the Airport:</h3>
-                <ul>
-                    <li>Check-in at the airline counter or online.</li>
-                    <li>Proceed to security screening:
-                        <ul>
-                            <li>Remove electronics and liquids from your bag.</li>
-                            <li>Take off your belt and shoes (as required).</li>
-                        </ul>
-                    </li>
-                    <li>Find your gate and be there on time for boarding.</li>
-                </ul>
-            </div>
-        </section>
-
-        <section id="transportation" class="section">
-            <h2>Getting Around</h2>
-            <div class="transportation-options">
-                <h3>Common Options:</h3>
-                <ul>
-                    <li>Public Transportation (buses, trains, subways)</li>
-                    <li>Taxis and ride-sharing services</li>
-                    <li>Rental cars</li>
-                    <li>Walking and cycling</li>
-                </ul>
-                <h3>Tips:</h3>
-                <ul>
-                    <li>Research transportation options at your destination in advance.</li>
-                    <li>Consider purchasing travel passes for public transport.</li>
-                    <li>Download relevant transportation apps.</li>
-                </ul>
-            </div>
-        </section>
-
-        <section id="flights" class="section">
-            <h2>Find Flight Prices</h2>
-            <div class="flight-prices">
-                <p>Looking for the best flight deals?</p>
-                <p><strong>Please note:</strong> Real-time flight price information cannot be directly displayed on this static HTML page. You can use the following resources to search for flights:</p>
-                <ul>
-                    <li><a href="https://www.google.com/flights" target="_blank">Google Flights</a></li>
-                    <li><a href="https://www.skyscanner.com/" target="_blank">Skyscanner</a></li>
-                    <li><a href="https://www.kayak.com/" target="_blank">Kayak</a></li>
-                    <li>Visit the websites of individual airlines.</li>
-                </ul>
-                <p>Remember to be flexible with your dates and airports to find better deals!</p>
-            </div>
-        </section>
-
-        <section id="gallery" class="section">
-            <h2>Travel Inspiration</h2>
-            <div class="gallery">
-                <img src="images/travel1.jpg" alt="Tropical Beach">
-                <img src="images/travel2.jpg" alt="Mountain Landscape">
-                <img src="images/travel3.jpg" alt="City Skyline">
-                <img src="images/travel4.jpg" alt="Forest Trail">
-                <img src="images/travel5.jpg" alt="Ancient Ruins">
-                <img src="images/travel6.jpg" alt="Desert Scene">
-            </div>
+        <section id="import" class="section">
+            <h2>Import Your Course Links</h2>
+            <p>Paste your course links below, one link per line, optionally followed by a comma and a short description.</p>
+            <textarea id="course-links" rows="5" placeholder="https://yourcourse1.com, Learn Web Development\nhttps://yourskillcourse.net, Master Digital Marketing"></textarea>
+            <button id="import-button">Import Courses</button>
+            <div id="message-area"></div>
         </section>
     </div>
 
     <footer>
-        <p>&copy; 2025 Wanderlust Explorer</p>
+        <p>&copy; 2025 My Side Hustle Journey</p>
     </footer>
+
+    <script>
+        const courseLinksTextarea = document.getElementById('course-links');
+        const importButton = document.getElementById('import-button');
+        const courseListDiv = document.getElementById('course-list');
+        const noCoursesMessage = document.getElementById('no-courses');
+        const messageArea = document.getElementById('message-area');
+
+        let courses = loadCourses();
+        displayCourses();
+
+        function loadCourses() {
+            const storedCourses = localStorage.getItem('sideHustleCourses');
+            return storedCourses ? JSON.parse(storedCourses) : [];
+        }
+
+        function saveCourses() {
+            localStorage.setItem('sideHustleCourses', JSON.stringify(courses));
+        }
+
+        function displayCourses() {
+            courseListDiv.innerHTML = '';
+            if (courses.length === 0) {
+                noCoursesMessage.style.display = 'block';
+            } else {
+                noCoursesMessage.style.display = 'none';
+                courses.forEach(course => {
+                    const courseCard = document.createElement('div');
+                    courseCard.classList.add('course-card');
+                    const title = document.createElement('h3');
+                    title.textContent = course.title || 'Course Link';
+                    const link = document.createElement('a');
+                    link.href = course.url;
+                    link.textContent = 'View Course';
+                    link.target = '_blank';
+                    courseCard.appendChild(title);
+                    if (course.description) {
+                        const description = document.createElement('p');
+                        description.textContent = course.description;
+                        courseCard.appendChild(description);
+                    }
+                    courseCard.appendChild(link);
+                    courseListDiv.appendChild(courseCard);
+                });
+            }
+        }
+
+        importButton.addEventListener('click', importCourseLinks);
+
+        function importCourseLinks() {
+            const linksText = courseLinksTextarea.value.trim();
+            const newCourses = [];
+            const lines = linksText.split('\n');
+
+            lines.forEach(line => {
+                const parts = line.split(',').map(part => part.trim());
+                if (parts[0]) {
+                    newCourses.push({ url: parts[0], title: parts[1] });
+                }
+            });
+
+            if (newCourses.length > 0) {
+                courses = [...courses, ...newCourses];
+                saveCourses();
+                displayCourses();
+                messageArea.textContent = 'Successfully imported ' + newCourses.length + ' courses!';
+                courseLinksTextarea.value = '';
+                setTimeout(() => {
+                    messageArea.textContent = '';
+                }, 3000);
+            } else {
+                messageArea.textContent = 'No valid links found to import.';
+            }
+        }
+    </script>
 
 </body>
 </html>
