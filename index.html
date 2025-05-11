@@ -3,128 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Local Connect - Your Neighborhood Hub</title>
+    <title>Your Photography Portfolio</title>
     <style>
         body {
             font-family: sans-serif;
-            margin: 20px;
-            background-color: #f8f9fa;
+            margin: 0;
+            background-color: #f8f8f8;
             color: #333;
+            line-height: 1.6;
         }
         header {
+            background-color: #222;
+            color: #fff;
+            padding: 20px;
             text-align: center;
-            padding: 20px 0;
-            border-bottom: 1px solid #ddd;
-            margin-bottom: 20px;
         }
-        h1 {
-            color: #007bff;
-        }
-        #need-board, #skill-profiles, #local-events {
-            margin-bottom: 30px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #fff;
-        }
-        h2 {
-            color: #28a745;
-            border-bottom: 1px dashed #ccc;
-            padding-bottom: 5px;
-            margin-bottom: 10px;
-        }
-        .need-item, .skill-profile-item, .event-item {
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
-            margin-bottom: 10px;
-        }
-        .need-item:last-child, .skill-profile-item:last-child, .event-item:last-child {
-            border-bottom: none;
-        }
-        .user-info {
-            font-weight: bold;
-            color: #007bff;
-        }
-        .need-description, .skill-description, .event-description {
-            margin-top: 5px;
-            color: #555;
-        }
-        .post-button {
-            display: block;
-            width: 200px;
-            margin: 20px auto;
-            padding: 10px 15px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0;
             text-align: center;
+        }
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+        nav a {
+            color: #eee;
             text-decoration: none;
         }
-        .post-button:hover {
+        nav a:hover {
+            text-decoration: underline;
+        }
+        #hero {
+            background-image: url('images/hero-image.jpg'); /* Replace with your image */
+            background-size: cover;
+            color: white;
+            text-align: center;
+            padding: 100px 0;
+        }
+        #hero h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        #hero p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .button:hover {
             background-color: #0056b3;
         }
-        .note {
-            font-size: 0.8em;
-            color: #777;
+        #portfolio {
+            padding: 40px 20px;
             text-align: center;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
             margin-top: 20px;
+        }
+        .gallery img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        #about {
+            padding: 40px 20px;
+            text-align: center;
+            background-color: #eee;
+        }
+        #contact {
+            padding: 40px 20px;
+            text-align: center;
+        }
+        footer {
+            background-color: #222;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
         }
     </style>
 </head>
 <body>
+
     <header>
-        <h1>Local Connect - Kumanovo</h1>
-        <p>Connecting our neighborhood, one need and skill at a time.</p>
+        <h1>Your Name Photography</h1>
+        <nav>
+            <ul>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <div id="need-board">
-        <h2>Recent Needs</h2>
-        <div class="need-item">
-            <span class="user-info">Ana (Near City Park)</span> - Needs help with gardening this Saturday morning.
-            <p class="need-description">Looking for someone experienced with weeding and planting flowers. Willing to pay 500 MKD.</p>
-        </div>
-        <div class="need-item">
-            <span class="user-info">Marko (Centar)</span> - Urgent: Leaky faucet in the kitchen!
-            <p class="need-description">Needs a quick fix by someone with plumbing knowledge. Can offer help with tech support in return.</p>
-        </div>
-        <div class="need-item">
-            <span class="user-info">Elena (Karposh)</span> - Looking for a dog walker for my Golden Retriever, Rex, this evening.
-            <p class="need-description">About an hour walk around 6 PM. Offering 300 MKD.</p>
-        </div>
-        </div>
+    <section id="hero">
+        <h1>Capturing Moments, Creating Memories</h1>
+        <p>Professional photography for all your needs.</p>
+        <a href="#contact" class="button">Book a Session</a>
+    </section>
 
-    <div id="skill-profiles">
-        <h2>Available Skills</h2>
-        <div class="skill-profile-item">
-            <span class="user-info">Goran (Diva Naselba)</span> - Offers: Basic Plumbing, Furniture Assembly.
-            <p class="skill-description">Available evenings and weekends. Experienced with minor home repairs.</p>
-        </div>
-        <div class="skill-profile-item">
-            <span class="user-info">Marija (Novo Selo)</span> - Offers: Gardening, Pet Sitting (Cats & Dogs).
-            <p class="skill-description">Loves plants and animals! Available most weekdays after 4 PM and weekends.</p>
-        </div>
-        <div class="skill-profile-item">
-            <span class="user-info">Stefan (Todorovce)</span> - Offers: Tech Support (Computers, Software), Language Tutoring (English).
-            <p class="skill-description">IT professional with a passion for teaching. Flexible availability.</p>
-        </div>
-        </div>
+    <section id="portfolio">
+        <h2>My Portfolio</h2>
+        <div class="gallery">
+            <img src="images/photo1.jpg" alt="Photo 1">
+            <img src="images/photo2.jpg" alt="Photo 2">
+            <img src="images/photo3.jpg" alt="Photo 3">
+            <img src="images/photo4.jpg" alt="Photo 4">
+            <img src="images/photo5.jpg" alt="Photo 5">
+            <img src="images/photo6.jpg" alt="Photo 6">
+            </div>
+    </section>
 
-    <div id="local-events">
-        <h2>Local Initiatives & Events</h2>
-        <div class="event-item">
-            <span class="user-info">Kumanovo Municipality</span> - Community Cleanup at the Old Bazaar - Saturday, May 17th, 9 AM.
-            <p class="event-description">Volunteers needed! Bring your own gloves and enthusiasm.</p>
-        </div>
-        <div class="event-item">
-            <span class="user-info">Local Library</span> - Book Club Meeting - Tuesday, May 20th, 6 PM.
-            <p class="event-description">Discussing "The Alchemist" by Paulo Coelho. All welcome!</p>
-        </div>
-        </div>
+    <section id="about">
+        <h2>About Me</h2>
+        <p>Hi, I'm [Your Name], a passionate photographer based in [Your City/Region]. I specialize in [Your Specialties, e.g., portrait, wedding, event photography]. With [Number] years of experience, I strive to capture the unique essence and emotions of every moment.</p>
+        <p>My approach is [Describe your approach, e.g., relaxed and natural, detail-oriented, creative and artistic]. I believe in creating a comfortable and enjoyable experience for my clients, resulting in beautiful and timeless photographs.</p>
+    </section>
 
-    <a href="#" class="post-button">Post a Need or Offer a Skill</a>
-    <a href="#" class="post-button">Share a Local Event</a>
+    <section id="contact">
+        <h2>Contact Me</h2>
+        <p>Ready to book a photoshoot or have any questions? Reach out!</p>
+        <p>Email: <a href="mailto:your.email@example.com">your.email@example.com</a></p>
+        <p>Phone: [Your Phone Number]</p>
+        </section>
 
-    <p class="note">This is a static representation. Real functionality would require JavaScript and server-side implementation for dynamic content, user accounts, real-time updates, and location services.</p>
+    <footer>
+        <p>&copy; 2025 Your Name Photography</p>
+    </footer>
+
 </body>
 </html>
