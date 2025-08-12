@@ -1,111 +1,344 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>40 Reasons We Love Mom</title>
-  <style>
-    body {
-      font-family: 'Georgia', serif;
-      margin: 0;
-      padding: 0;
-      background-color: #fff6f0;
-      color: #333;
-    }
-    header {
-      background: linear-gradient(135deg, #ffb6b9, #ffe0ac);
-      text-align: center;
-      padding: 2rem;
-      border-bottom: 5px solid #f9c6c9;
-    }
-    header h1 {
-      font-size: 2.5rem;
-      margin: 0;
-      color: #5a2a27;
-    }
-    header p {
-      font-size: 1.2rem;
-      margin-top: 0.5rem;
-      color: #5a2a27;
-    }
-    .container {
-      max-width: 1000px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-    }
-    .section {
-      margin-bottom: 3rem;
-    }
-    .section h2 {
-      font-size: 2rem;
-      color: #b85c5c;
-      border-bottom: 2px solid #f5d0cb;
-      padding-bottom: 0.5rem;
-    }
-    .reasons {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-    .reason {
-      background-color: #fff;
-      padding: 1rem;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      border: 1px solid #ffe3e3;
-    }
-    .gallery {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-    .gallery img {
-      width: 100%;
-      max-width: 300px;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
-    }
-    footer {
-      text-align: center;
-      padding: 2rem;
-      background-color: #ffe0ac;
-      color: #5a2a27;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>Happy 40th Birthday, Mom!</h1>
-    <p>40 reasons why you're the most amazing mom in the world</p>
-  </header>
+import React, { useEffect, useState, useRef } from "react";
 
-  <div class="container">
-    <div class="section">
-      <h2>40 Reasons We Love You</h2>
-      <div class="reasons">
-        <!-- Repeat this block for 40 reasons -->
-        <div class="reason">1. Your hugs make everything better.</div>
-        <div class="reason">2. You always put family first.</div>
-        <div class="reason">3. Your cooking is out of this world.</div>
-        <!-- ... more reasons ... -->
+// Albanian Trivia Challenge
+// Single-file React component (Tailwind CSS assumed)
+// - Default export a React component
+// - Uses localStorage for leaderboard
+// - Questions are stored in a JSON array (easy to expand)
+// - Ad placeholders are present where AdMob or Lovable.dev ad components can be inserted
+// - Firebase/AdMob integration points marked with comments
+
+const QUESTIONS = [
+  { q: "Which city is known as the 'City of a Thousand Windows'?", a: ["Gjirokastër", "Berat", "Shkodër", "Vlorë"], correct: 1 },
+  { q: "What does 'mirëmëngjes' mean?", a: ["Good night", "Good morning", "Please", "Thank you"], correct: 1 },
+  { q: "What is the national symbol of Albania?", a: ["Lion", "Double-headed eagle", "Rose", "Star"], correct: 1 },
+  { q: "When is Albanian Independence Day?", a: ["28 November", "17 February", "24 December", "1 May"], correct: 0 },
+  { q: "Who is a famous Albanian-American singer?", a: ["Enver Hoxha", "Dua Lipa", "Skanderbeg", "Ismail Kadare"], correct: 1 },
+  { q: "Which sea borders Albania to the west?", a: ["Aegean Sea", "Adriatic Sea", "Black Sea", "Mediterranean Sea"], correct: 1 },
+  { q: "Which Albanian city is famous for its Ottoman-era architecture and UNESCO status?", a: ["Tirana", "Berat", "Fier", "Durrës"], correct: 1 },
+  { q: "What is the Albanian currency called (officially)?", a: ["Lek", "Euro", "Dinar", "Leke (Lekë)"] , correct: 0 },
+  { q: "What is the traditional Albanian male clothing item called?", a: ["Fustanella", "Qeleshe (plis)", "Çorape", "Besa"], correct: 1 },
+  { q: "Which mountain range runs through northern Albania?", a: ["Alps", "Accursed Mountains (Prokletije)", "Carpathians", "Dinaric Alps"], correct: 1 },
+  { q: "Which Albanian author was nominated multiple times for international prizes and wrote 'Chronicle in Stone'?", a: ["Ismail Kadare", "Dritëro Agolli", "Fatos Arapi", "Elvira Dones"], correct: 0 },
+  { q: "What is the capital of Albania?", a: ["Shkodër", "Tirana", "Vlora", "Kukës"], correct: 1 },
+  { q: "Which food is traditional in Albania?", a: ["Tacos", "Byrek", "Sushi", "Poutine"], correct: 1 },
+  { q: "Which instrument is traditional in Albanian folk music?", a: ["Kemenche", "Clarinet", "Lahuta (one-string)", "Accordion"], correct: 2 },
+  { q: "What is 'Besa' in Albanian culture?", a: ["A dance", "A promise/pledge of honor", "A traditional meal", "A hat"], correct: 1 },
+  { q: "Which coastal city is known for its Roman amphitheater?", a: ["Durrës", "Sarandë", "Vlorë", "Ohrid"], correct: 0 },
+  { q: "What language family does Albanian belong to?", a: ["Slavic", "Romance", "Indo-European (unique branch)", "Uralic"], correct: 2 },
+  { q: "Which Albanian city hosts a large international film festival?", a: ["Tirana", "Shkodër", "Gjirokastër", "Berat"], correct: 0 },
+  { q: "Which of the following is a famous Albanian footballer?", a: ["Lorik Cana", "Cristiano Ronaldo", "Lionel Messi", "Neymar"], correct: 0 },
+  { q: "Which Albanian island is a popular tourist destination?", a: ["Sazan", "Kornati", "Malta", "Korčula"], correct: 0 },
+  { q: "Which holiday marks the Liberation Day of Albania (end of German occupation)?", a: ["29 November", "28 November", "17 February", "16 November"], correct: 0 },
+  { q: "In Albanian, 'faleminderit' means...", a: ["Excuse me", "Hello", "Thank you", "Goodbye"], correct: 2 },
+  { q: "Which Albanian city is closest to the Ohrid Lake?", a: ["Pogradec", "Sarandë", "Gjirokastër", "Kavajë"], correct: 0 },
+  { q: "Which famous historical leader united Albanian principalities against the Ottomans?", a: ["Skanderbeg", "Mother Teresa", "Ismail Qemali", "Ahmet Zogu"], correct: 0 },
+  { q: "What is a popular Albanian dessert?", a: ["Baklava", "Tiramisu", "Cheesecake", "Pavlova"], correct: 0 },
+  { q: "Which city is Albania's main port?", a: ["Durrës", "Tirana", "Berat", "Shkodër"], correct: 0 },
+  { q: "Which mountain is the highest in Albania?", a: ["Mount Jezerca", "Mount Korab", "Mount Olympus", "Mount Etna"], correct: 1 },
+  { q: "Which is a traditional Albanian dance?", a: ["Vallja e Tropojës", "Flamenco", "Tango", "Waltz"], correct: 0 },
+  { q: "Which city is a major cultural center and birthplace of Mother Teresa?", a: ["Skopje", "Shkodër", "Pristina", "None of the above"], correct: 3 }
+];
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+export default function AlbanianTriviaChallenge() {
+  const [screen, setScreen] = useState("home"); // home, play, leaderboard, daily
+  const [questions, setQuestions] = useState([]);
+  const [index, setIndex] = useState(0);
+  const [score, setScore] = useState(0);
+  const [lives, setLives] = useState(3);
+  const [timer, setTimer] = useState(15);
+  const timerRef = useRef(null);
+  const [selected, setSelected] = useState(null);
+  const [showResult, setShowResult] = useState(false);
+  const [lastCorrect, setLastCorrect] = useState(null);
+  const [message, setMessage] = useState("");
+  const [interstitialCounter, setInterstitialCounter] = useState(0);
+
+  useEffect(() => {
+    // prepare questions when entering play
+    if (screen === "play") {
+      const pool = shuffle(QUESTIONS).slice(0, 20); // pick 20 random questions per session
+      setQuestions(pool);
+      setIndex(0);
+      setScore(0);
+      setLives(3);
+      setTimer(15);
+      setSelected(null);
+      setShowResult(false);
+      setInterstitialCounter(0);
+    }
+  }, [screen]);
+
+  useEffect(() => {
+    if (screen === "play" && questions.length) {
+      startTimer();
+    }
+    return stopTimer;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [screen, questions, index]);
+
+  useEffect(() => {
+    if (timer <= 0 && screen === "play") {
+      // timeout counts as wrong answer
+      onAnswer(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timer]);
+
+  function startTimer() {
+    stopTimer();
+    setTimer(15);
+    timerRef.current = setInterval(() => {
+      setTimer((t) => t - 1);
+    }, 1000);
+  }
+  function stopTimer() {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+  }
+
+  function onAnswer(choiceIndex) {
+    stopTimer();
+    const q = questions[index];
+    const correct = choiceIndex === q.correct;
+    setSelected(choiceIndex);
+    setLastCorrect(correct);
+    setShowResult(true);
+    if (correct) {
+      const speedBonus = Math.max(1, Math.floor(timer / 3));
+      setScore((s) => s + 10 + speedBonus);
+      setMessage("Saktë! +" + (10 + speedBonus));
+    } else {
+      setLives((l) => l - 1);
+      setMessage("Gabim! -1 jetë");
+    }
+
+    // prepare next
+    setTimeout(() => {
+      setShowResult(false);
+      setSelected(null);
+      setMessage("");
+      if (!correct) {
+        // continue or end
+      }
+      const nextIndex = index + 1;
+      setIndex(nextIndex);
+      setTimer(15);
+      // interstitial ad logic placeholder
+      setInterstitialCounter((c) => c + 1);
+      if (interstitialCounter + 1 >= 4) {
+        // show simulated interstitial
+        // Replace this with actual ad call / Lovable.dev ad component
+        alert("Ad placeholder: interstitial ad would show now.");
+        setInterstitialCounter(0);
+      }
+      if (lives - (correct ? 0 : 1) <= 0) {
+        // player lost all lives: end game
+        if (!correct) {
+          // call end after updating lives
+          setTimeout(() => finishGame(), 300);
+          return;
+        }
+      }
+      if (nextIndex >= questions.length) {
+        finishGame();
+        return;
+      }
+      // restart timer for next question
+      startTimer();
+    }, 900);
+  }
+
+  function finishGame() {
+    stopTimer();
+    // save score to leaderboard (localStorage)
+    const name = prompt("Shkruaj emrin tënd për leaderboard (ose shtyp 'Anonym')") || "Anonym";
+    const board = JSON.parse(localStorage.getItem("atc_leaderboard") || "[]");
+    board.push({ name, score, date: new Date().toISOString() });
+    board.sort((a, b) => b.score - a.score);
+    localStorage.setItem("atc_leaderboard", JSON.stringify(board.slice(0, 100)));
+    setScreen("leaderboard");
+  }
+
+  function resetDaily() {
+    // Daily challenge manager (one attempt per day) - simple implementation
+    const last = localStorage.getItem("atc_daily_date");
+    const today = new Date().toISOString().slice(0, 10);
+    if (last === today) {
+      return false; // already played
+    }
+    localStorage.setItem("atc_daily_date", today);
+    return true;
+  }
+
+  function startDaily() {
+    const ok = resetDaily();
+    if (!ok) {
+      alert("Ke luajtur tashmë sfidën e përditshme sot. Provo nesër!");
+      return;
+    }
+    // choose 10 questions for daily (fixed seed-ish: we pick first 10 of shuffled)
+    const pool = shuffle(QUESTIONS).slice(0, 10);
+    setQuestions(pool);
+    setIndex(0);
+    setScore(0);
+    setLives(3);
+    setScreen("play");
+  }
+
+  function clearLeaderboard() {
+    if (confirm("Pastron leaderboard?")) {
+      localStorage.removeItem("atc_leaderboard");
+      alert("Leaderboard u pastrua.");
+    }
+  }
+
+  function watchAdForLife() {
+    // Placeholder for reward ad flow. Replace with actual ad component integration.
+    const watch = confirm("Simulated reward ad: Shiko ad dhe fitoni 1 jetë?");
+    if (watch) {
+      // in real world, call ad SDK and on completion give life
+      setLives((l) => l + 1);
+      alert("Faleminderit! Fitove 1 jetë.");
+      startTimer();
+    }
+  }
+
+  // UI components
+  if (screen === "home") {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-red-700 text-white p-4">
+        <div className="w-full max-w-md bg-black/60 rounded-2xl p-6 shadow-2xl">
+          <div className="flex items-center gap-3">
+            <div className="w-14 h-14 rounded-full bg-red-800 flex items-center justify-center text-2xl font-bold">🦅</div>
+            <div>
+              <h1 className="text-2xl font-extrabold">Albanian Trivia Challenge</h1>
+              <p className="text-sm text-gray-300">Testo dijeninë tënde - Kurora është e kuqe dhe e zezë!</p>
+            </div>
+          </div>
+
+          <div className="mt-6 flex flex-col gap-3">
+            <button className="py-3 rounded-xl bg-black text-white font-bold" onClick={() => setScreen("play")}>Play Now</button>
+            <button className="py-3 rounded-xl bg-black text-white font-bold" onClick={() => setScreen("leaderboard")}>Leaderboard</button>
+            <button className="py-3 rounded-xl bg-black text-white font-bold" onClick={() => startDaily()}>Daily Challenge</button>
+          </div>
+
+          <div className="mt-6 text-center text-xs text-gray-300">Powered by your Facebook page</div>
+
+          {/* Ad banner placeholder - replace with AdMob / Lovable.dev ad component */}
+          <div className="mt-4 h-14 bg-black/40 rounded flex items-center justify-center text-sm">Ad Banner Placeholder</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (screen === "leaderboard") {
+    const board = JSON.parse(localStorage.getItem("atc_leaderboard") || "[]");
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-red-700 text-white p-4">
+        <div className="w-full max-w-2xl bg-black/60 rounded-2xl p-6 shadow-2xl">
+          <div className="flex justify-between items-center">
+            <h2 className="text-2xl font-bold">Leaderboard</h2>
+            <div className="flex gap-2">
+              <button className="px-3 py-1 rounded bg-red-800" onClick={() => setScreen("home")}>Home</button>
+              <button className="px-3 py-1 rounded bg-red-800" onClick={clearLeaderboard}>Clear</button>
+            </div>
+          </div>
+
+          <div className="mt-4 bg-white/5 rounded p-4">
+            {board.length === 0 && <div className="text-gray-300">Nuk ka rezultate ende. Luaj dhe shto emrin tënd!</div>}
+            {board.map((r, i) => (
+              <div key={i} className="flex justify-between py-2 border-b border-white/10">
+                <div className="font-semibold">{i + 1}. {r.name}</div>
+                <div className="text-sm text-gray-300">{r.score}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Ad banner placeholder */}
+          <div className="mt-4 h-14 bg-black/40 rounded flex items-center justify-center text-sm">Ad Banner Placeholder</div>
+        </div>
+      </div>
+    );
+  }
+
+  // play screen
+  const q = questions[index];
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-700 to-black text-white p-4">
+      <div className="w-full max-w-2xl bg-black/60 rounded-2xl p-6 shadow-2xl">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-full bg-red-800 flex items-center justify-center font-bold">🦅</div>
+            <div>
+              <div className="text-sm text-gray-300">Score: {score}</div>
+              <div className="text-sm text-gray-300">Lives: {lives}</div>
+            </div>
+          </div>
+          <div className="text-right">
+            <div className="text-xs text-gray-300">Question {index + 1}/{questions.length}</div>
+            <div className="text-sm">Timer: {timer}s</div>
+          </div>
+        </div>
+
+        <div className="mt-6 bg-white/5 rounded p-4 min-h-[160px] flex flex-col justify-center">
+          <div className="text-lg font-bold">{q ? q.q : "Loading..."}</div>
+        </div>
+
+        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {q && q.a.map((choice, i) => {
+            const isSelected = selected === i;
+            const correct = q.correct === i;
+            const showGreen = showResult && correct;
+            const showRed = showResult && isSelected && !correct;
+            return (
+              <button
+                key={i}
+                onClick={() => !showResult && onAnswer(i)}
+                className={`py-3 rounded-xl font-semibold text-left ${showGreen ? 'bg-green-600 text-black' : ''} ${showRed ? 'bg-red-600 text-black' : 'bg-black/60'} `}
+              >
+                {choice}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="mt-4 flex justify-between items-center">
+          <div className="text-sm text-gray-300">{message}</div>
+          <div className="flex gap-2">
+            <button className="px-3 py-1 rounded bg-red-800" onClick={() => { setScreen("home"); stopTimer(); }}>Exit</button>
+            <button className="px-3 py-1 rounded bg-red-800" onClick={watchAdForLife}>Watch Ad (Get 1 Life)</button>
+          </div>
+        </div>
+
+        {/* Interstitial ad placeholder (simulate) */}
+        <div className="mt-4 h-14 bg-black/40 rounded flex items-center justify-center text-sm">Interstitial Ad Placeholder</div>
       </div>
     </div>
+  );
+}
 
-    <div class="section">
-      <h2>Our Favorite Memories</h2>
-      <div class="gallery">
-        <!-- Replace src with your own image links -->
-        <img src="your-image1.jpg" alt="Me and Mom" />
-        <img src="your-image2.jpg" alt="A Special Moment" />
-        <img src="your-image3.jpg" alt="Another Memory" />
-      </div>
-    </div>
-  </div>
+/*
+Integration notes:
+- Replace the Ad placeholders with actual ad components. In Lovable.dev you may have built-in ad widgets or use Google AdMob / IMA / any ad provider. Place banner component in the banner placeholders and interstitial/reward ads where indicated.
+- For leaderboard persistence across devices, integrate Firebase Firestore and Authentication. Save scores under a collection (e.g., `scores`) and implement server side rules to prevent tampering.
+- Host the question database externally (Google Sheets or JSON on a CDN) and fetch it on load so you can update questions without releasing new code.
+- To make the game more polished:
+  * Add animations (Framer Motion) for transitions.
+  * Add background music with a mute toggle. Ensure music is short loop and licensed.
+  * Improve accessibility: keyboard navigation, ARIA attributes.
 
-  <footer>
-    <p>With all our love, always ❤️</p>
-  </footer>
-</body>
-</html>
+Localization: Right now UI strings are Albanian/Mix of Albanian and English — adjust to full Albanian text if you prefer (I included some Albanian strings like "Saktë", "Gabim", "Nuk ka rezultate yet").
+*/
+
