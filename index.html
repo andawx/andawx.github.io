@@ -18,13 +18,13 @@
         input {
             margin-bottom: 20px;
             padding: 10px;
-            width: 300px;
+            width: 400px;
             font-size: 16px;
         }
         p {
             font-size: 18px;
             font-weight: bold;
-            max-width: 400px;
+            max-width: 500px;
             text-align: center;
         }
     </style>
@@ -38,59 +38,60 @@
     const searchBar = document.getElementById("searchBar");
     const response = document.getElementById("response");
 
-    // List of 50 random "answer-looking" sentences
+    // List of 50 specific, self-contained, plausible random answers
     const randomAnswers = [
-      "It was established in 1947.",
-      "The best choice is pink banana soup.",
-      "Kamala Harris.",
-      "42 is the correct number.",
-      "On Tuesdays, birds prefer coffee.",
-      "Mount Everest is taller than the Eiffel Tower.",
-      "Red shoes work better for dancing.",
-      "It usually rains after midnight.",
-      "The password is pineapple42.",
-      "Dinosaurs loved jazz music.",
-      "The answer is somewhere between 7 and 13.",
-      "Chocolate melts faster in summer.",
-      "A blue cat might appear soon.",
-      "The sun rises from the west on Fridays.",
-      "Ice cream solves most arguments.",
-      "Your neighbor owns a spaceship.",
-      "Pigeons invented the internet.",
-      "It happens every leap year.",
-      "The secret ingredient is laughter.",
-      "Bananas are faster than apples.",
-      "The mayor loves origami.",
-      "Check under the third rock.",
-      "It costs exactly $19.87.",
-      "The elephant wears sunglasses at noon.",
-      "Only on Thursdays it works.",
-      "The festival starts at midnight.",
-      "Turn left at the giant pumpkin.",
-      "Your cat is planning something.",
-      "It takes 17 minutes to boil a rainbow.",
-      "The library is haunted by librarians.",
-      "Coffee tastes better on Mars.",
-      "Purple clouds are safe to touch.",
-      "The fastest animal is your imagination.",
-      "Pizza always arrives late on Wednesdays.",
-      "Never trust a flying turtle.",
-      "This is classified information.",
-      "The answer hides in plain sight.",
-      "It was once owned by a wizard.",
-      "The recipe includes three spoons of moonlight.",
-      "The wizard approves of your choice.",
-      "It will explode at dawn.",
-      "Your socks are plotting.",
-      "The river flows backward on Tuesdays.",
-      "It takes 12 steps to reach the answer.",
-      "The key is under the mat.",
-      "Chocolate frogs are preferred.",
-      "Penguins sometimes vote secretly.",
-      "The clock whispers at midnight.",
-      "The answer is in a bottle of ketchup.",
-      "A rainbow will guide you.",
-      "Trust the third cloud."
+        "The person in question is Kamala Harris.",
+        "It was established as a national holiday in 1947.",
+        "The fastest recorded time is 9.58 seconds, held by Usain Bolt.",
+        "It takes place every July in the main square of the city.",
+        "It was originally invented in Italy during the 18th century.",
+        "The discovery was published in a scientific journal last year.",
+        "It was approved by the city council after several debates.",
+        "The recipe calls for two teaspoons of saffron and a pinch of salt.",
+        "It is located on the east side of the river near the old bridge.",
+        "It happened during the Renaissance period in Europe.",
+        "The monument was built to commemorate the historic event of 1923.",
+        "The main character in the novel is Sherlock Holmes.",
+        "It was signed into law on October 12th of that year.",
+        "The painting is attributed to Van Gogh and dated 1889.",
+        "It is stored in the museum's climate-controlled archive.",
+        "The experiment was conducted under strict laboratory conditions.",
+        "It was performed by a renowned orchestra last month.",
+        "The song reached number one on the charts in 1998.",
+        "It was photographed during an expedition to Antarctica.",
+        "The president gave a speech addressing this very issue.",
+        "It was originally discovered in France in the late 1700s.",
+        "The object is made of bronze and weighs approximately 50 kilograms.",
+        "It was translated into ten languages to reach a global audience.",
+        "The course was taught by Professor Smith in the summer term.",
+        "It was part of the exhibition celebrating contemporary art.",
+        "The mountain is the highest in the region, standing at 3,842 meters.",
+        "It was filmed on location in New Zealand over three months.",
+        "The festival features traditional music and dance every year.",
+        "It was celebrated with fireworks and a parade downtown.",
+        "The sculpture is over 200 years old and preserved meticulously.",
+        "It was first mentioned in a diary from the 18th century.",
+        "It is recommended by experts for anyone interested in the topic.",
+        "The answer to your question is in the book nearest to you, page 23, second sentence.",
+        "It was discovered buried under the ruins of an ancient temple.",
+        "The legislation was passed after months of discussion.",
+        "It was designed by a famous architect known for modernist buildings.",
+        "The award was presented at the ceremony held in December.",
+        "It takes approximately three hours to complete the process.",
+        "The ingredients must be combined at a specific temperature.",
+        "It was used in historical experiments to test gravity.",
+        "The event attracted thousands of spectators from around the world.",
+        "It was broadcast live on national television last week.",
+        "The solution was documented in a peer-reviewed publication.",
+        "It was first performed by a local theater troupe in 1995.",
+        "The city implemented new policies to address the issue.",
+        "It was captured in photographs that became iconic over time.",
+        "The record was broken during an international competition.",
+        "It is stored securely to prevent unauthorized access.",
+        "The findings were published in a prominent scientific journal.",
+        "It was renovated after the earthquake to restore its original design.",
+        "The discovery changed the way researchers view the subject.",
+        "It was approved for public release after thorough review."
     ];
 
     searchBar.addEventListener("keydown", function(event) {
