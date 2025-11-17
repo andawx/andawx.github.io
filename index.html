@@ -54,11 +54,21 @@
         font-size: 18px;
         white-space: pre-line;
     }
+
+    .round-title {
+        margin-top: 40px;
+        color: #ffffff;
+        font-size: 24px;
+        text-decoration: underline;
+    }
     </style>
 </head>
 <body>
 
 <h2>Прашања за граматика на македонски јазик за почетници на ниво А1</h2>
+
+<!-- Round 1 Questions -->
+<!-- Q1-Q10 already here (same as your code) -->
 
 <!-- Q1 -->
 <p>1. Јас 
@@ -160,6 +170,79 @@
 </select>
 домашна.</p>
 
+<!-- Round 2: Present Simple Forms of "To Be" -->
+<h2 class="round-title">Раунд 2: Глаголот "to be" во сегашно време</h2>
+
+<!-- Q11 -->
+<p>11. Јас 
+<select id="q11">
+    <option value="">-- Избери --</option>
+    <option value="correct">сум</option>
+    <option value="wrong">си</option>
+    <option value="wrong">е</option>
+</select>
+среќен.</p>
+
+<!-- Q12 -->
+<p>12. Ти 
+<select id="q12">
+    <option value="">-- Избери --</option>
+    <option value="wrong">сум</option>
+    <option value="correct">си</option>
+    <option value="wrong">сме</option>
+</select>
+уморен.</p>
+
+<!-- Q13 -->
+<p>13. Тој 
+<select id="q13">
+    <option value="">-- Избери --</option>
+    <option value="wrong">си</option>
+    <option value="correct">е</option>
+    <option value="wrong">сме</option>
+</select>
+дома.</p>
+
+<!-- Q14 -->
+<p>14. Таа 
+<select id="q14">
+    <option value="">-- Избери --</option>
+    <option value="correct">е</option>
+    <option value="wrong">сум</option>
+    <option value="wrong">си</option>
+</select>
+во училиште.</p>
+
+<!-- Q15 -->
+<p>15. Ние 
+<select id="q15">
+    <option value="">-- Избери --</option>
+    <option value="wrong">си</option>
+    <option value="wrong">е</option>
+    <option value="correct">сме</option>
+</select>
+подготвени.</p>
+
+<!-- Q16 -->
+<p>16. Вие 
+<select id="q16">
+    <option value="">-- Избери --</option>
+    <option value="correct">сте</option>
+    <option value="wrong">сум</option>
+    <option value="wrong">си</option>
+</select>
+среќни.</p>
+
+<!-- Q17 -->
+<p>17. Тие 
+<select id="q17">
+    <option value="">-- Избери --</option>
+    <option value="wrong">сум</option>
+    <option value="wrong">си</option>
+    <option value="correct">се</option>
+</select>
+уморни.</p>
+
 <button onclick="checkAnswers()">Провери</button>
 
 <div id="feedback"></div>
@@ -171,6 +254,7 @@ function checkAnswers() {
     let anyWrong = false;
 
     const answers = [
+        // Round 1
         {id: "q1", correct: "correct"},
         {id: "q2", correct: "correct"},
         {id: "q3", correct: "correct"},
@@ -180,7 +264,15 @@ function checkAnswers() {
         {id: "q7", correct: "correct"},
         {id: "q8", correct: "correct"},
         {id: "q9", correct: "correct"},
-        {id: "q10", correct: "correct"}
+        {id: "q10", correct: "correct"},
+        // Round 2
+        {id: "q11", correct: "correct"},
+        {id: "q12", correct: "correct"},
+        {id: "q13", correct: "correct"},
+        {id: "q14", correct: "correct"},
+        {id: "q15", correct: "correct"},
+        {id: "q16", correct: "correct"},
+        {id: "q17", correct: "correct"}
     ];
 
     answers.forEach((q, index) => {
@@ -203,7 +295,7 @@ function checkAnswers() {
     }
 
     document.getElementById("feedback").innerText =
-        "Резултат: " + score + "/10\n" + feedbackText;
+        "Резултат: " + score + "/" + answers.length + "\n" + feedbackText;
 }
 </script>
 
