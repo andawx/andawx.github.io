@@ -49,7 +49,7 @@
         border: 2px solid #f44336; /* red */
     }
 
-    #feedback {
+    .feedback {
         margin-top: 15px;
         font-size: 18px;
         white-space: pre-line;
@@ -67,12 +67,12 @@
 
 <h2>Прашања за граматика на македонски јазик за почетници на ниво А1</h2>
 
-<!-- Round 1 Questions -->
-<!-- Q1-Q10 already here (same as your code) -->
+<!-- Round 1: General Grammar -->
+<h2 class="round-title">Раунд 1: Општа граматика</h2>
 
 <!-- Q1 -->
 <p>1. Јас 
-<select id="q1">
+<select id="r1q1">
     <option value="">-- Избери --</option>
     <option value="wrong">оди</option>
     <option value="correct">одам</option>
@@ -82,7 +82,7 @@
 
 <!-- Q2 -->
 <p>2. Таа 
-<select id="q2">
+<select id="r1q2">
     <option value="">-- Избери --</option>
     <option value="correct">чита</option>
     <option value="wrong">читам</option>
@@ -92,7 +92,7 @@
 
 <!-- Q3 -->
 <p>3. Ние 
-<select id="q3">
+<select id="r1q3">
     <option value="">-- Избери --</option>
     <option value="wrong">сум</option>
     <option value="wrong">е</option>
@@ -102,7 +102,7 @@
 
 <!-- Q4 -->
 <p>4. Ти 
-<select id="q4">
+<select id="r1q4">
     <option value="">-- Избери --</option>
     <option value="wrong">јаде</option>
     <option value="correct">јадеш</option>
@@ -112,7 +112,7 @@
 
 <!-- Q5 -->
 <p>5. Тој 
-<select id="q5">
+<select id="r1q5">
     <option value="">-- Избери --</option>
     <option value="correct">пие</option>
     <option value="wrong">пијам</option>
@@ -122,7 +122,7 @@
 
 <!-- Q6 -->
 <p>6. Вие 
-<select id="q6">
+<select id="r1q6">
     <option value="">-- Избери --</option>
     <option value="wrong">оди</option>
     <option value="wrong">одиме</option>
@@ -132,7 +132,7 @@
 
 <!-- Q7 -->
 <p>7. Јас 
-<select id="q7">
+<select id="r1q7">
     <option value="">-- Избери --</option>
     <option value="wrong">има</option>
     <option value="wrong">имаш</option>
@@ -142,7 +142,7 @@
 
 <!-- Q8 -->
 <p>8. Тие 
-<select id="q8">
+<select id="r1q8">
     <option value="">-- Избери --</option>
     <option value="wrong">е</option>
     <option value="correct">се</option>
@@ -152,7 +152,7 @@
 
 <!-- Q9 -->
 <p>9. Таа 
-<select id="q9">
+<select id="r1q9">
     <option value="">-- Избери --</option>
     <option value="wrong">играш</option>
     <option value="correct">игра</option>
@@ -162,7 +162,7 @@
 
 <!-- Q10 -->
 <p>10. Ние 
-<select id="q10">
+<select id="r1q10">
     <option value="">-- Избери --</option>
     <option value="wrong">пишува</option>
     <option value="correct">пишуваме</option>
@@ -170,114 +170,127 @@
 </select>
 домашна.</p>
 
-<!-- Round 2: Present Simple Forms of "To Be" -->
+<button onclick="checkRound1()">Провери Раунд 1</button>
+<div id="feedback1" class="feedback"></div>
+
+<!-- Round 2: Present Simple of "To Be" -->
 <h2 class="round-title">Раунд 2: Глаголот "to be" во сегашно време</h2>
 
-<!-- Q11 -->
-<p>11. Јас 
-<select id="q11">
+<!-- Conversational style blanks -->
+<!-- Q1 -->
+<p>1. A: ___ you a teacher?  
+B: Yes, I <select id="r2q1">
     <option value="">-- Избери --</option>
-    <option value="correct">сум</option>
-    <option value="wrong">си</option>
-    <option value="wrong">е</option>
-</select>
-среќен.</p>
+    <option value="correct">am</option>
+    <option value="wrong">is</option>
+    <option value="wrong">are</option>
+</select>.</p>
 
-<!-- Q12 -->
-<p>12. Ти 
-<select id="q12">
+<!-- Q2 -->
+<p>2. A: He ___ tired.  
+B: Yes, he <select id="r2q2">
     <option value="">-- Избери --</option>
-    <option value="wrong">сум</option>
-    <option value="correct">си</option>
-    <option value="wrong">сме</option>
-</select>
-уморен.</p>
+    <option value="wrong">am</option>
+    <option value="correct">is</option>
+    <option value="wrong">are</option>
+</select>.</p>
 
-<!-- Q13 -->
-<p>13. Тој 
-<select id="q13">
+<!-- Q3 -->
+<p>3. A: We ___ ready.  
+B: Yes, we <select id="r2q3">
     <option value="">-- Избери --</option>
-    <option value="wrong">си</option>
-    <option value="correct">е</option>
-    <option value="wrong">сме</option>
-</select>
-дома.</p>
+    <option value="wrong">is</option>
+    <option value="wrong">am</option>
+    <option value="correct">are</option>
+</select>.</p>
 
-<!-- Q14 -->
-<p>14. Таа 
-<select id="q14">
+<!-- Q4 -->
+<p>4. A: I ___ happy today.  
+B: Yes, you <select id="r2q4">
     <option value="">-- Избери --</option>
-    <option value="correct">е</option>
-    <option value="wrong">сум</option>
-    <option value="wrong">си</option>
-</select>
-во училиште.</p>
+    <option value="correct">are</option>
+    <option value="wrong">am</option>
+    <option value="wrong">is</option>
+</select>.</p>
 
-<!-- Q15 -->
-<p>15. Ние 
-<select id="q15">
+<!-- Q5 -->
+<p>5. A: She ___ at home.  
+B: Yes, she <select id="r2q5">
     <option value="">-- Избери --</option>
-    <option value="wrong">си</option>
-    <option value="wrong">е</option>
-    <option value="correct">сме</option>
-</select>
-подготвени.</p>
+    <option value="wrong">are</option>
+    <option value="correct">is</option>
+    <option value="wrong">am</option>
+</select>.</p>
 
-<!-- Q16 -->
-<p>16. Вие 
-<select id="q16">
+<!-- Q6 -->
+<p>6. A: You ___ late.  
+B: No, I <select id="r2q6">
     <option value="">-- Избери --</option>
-    <option value="correct">сте</option>
-    <option value="wrong">сум</option>
-    <option value="wrong">си</option>
-</select>
-среќни.</p>
+    <option value="correct">am</option>
+    <option value="wrong">is</option>
+    <option value="wrong">are</option>
+</select>.</p>
 
-<!-- Q17 -->
-<p>17. Тие 
-<select id="q17">
+<!-- Q7 -->
+<p>7. A: They ___ in the park.  
+B: Yes, they <select id="r2q7">
     <option value="">-- Избери --</option>
-    <option value="wrong">сум</option>
-    <option value="wrong">си</option>
-    <option value="correct">се</option>
-</select>
-уморни.</p>
+    <option value="wrong">am</option>
+    <option value="wrong">is</option>
+    <option value="correct">are</option>
+</select>.</p>
 
-<button onclick="checkAnswers()">Провери</button>
+<!-- Q8 -->
+<p>8. A: I ___ tired.  
+B: No, you <select id="r2q8">
+    <option value="">-- Избери --</option>
+    <option value="correct">are</option>
+    <option value="wrong">is</option>
+    <option value="wrong">am</option>
+</select>.</p>
 
-<div id="feedback"></div>
+<!-- Q9 -->
+<p>9. A: He ___ a student.  
+B: Yes, he <select id="r2q9">
+    <option value="">-- Избери --</option>
+    <option value="wrong">am</option>
+    <option value="correct">is</option>
+    <option value="wrong">are</option>
+</select>.</p>
+
+<!-- Q10 -->
+<p>10. A: We ___ friends.  
+B: Yes, we <select id="r2q10">
+    <option value="">-- Избери --</option>
+    <option value="wrong">is</option>
+    <option value="wrong">am</option>
+    <option value="correct">are</option>
+</select>.</p>
+
+<button onclick="checkRound2()">Провери Раунд 2</button>
+<div id="feedback2" class="feedback"></div>
 
 <script>
-function checkAnswers() {
+function checkRound1() {
     let score = 0;
     let feedbackText = "Неточни прашања: ";
     let anyWrong = false;
 
     const answers = [
-        // Round 1
-        {id: "q1", correct: "correct"},
-        {id: "q2", correct: "correct"},
-        {id: "q3", correct: "correct"},
-        {id: "q4", correct: "correct"},
-        {id: "q5", correct: "correct"},
-        {id: "q6", correct: "correct"},
-        {id: "q7", correct: "correct"},
-        {id: "q8", correct: "correct"},
-        {id: "q9", correct: "correct"},
-        {id: "q10", correct: "correct"},
-        // Round 2
-        {id: "q11", correct: "correct"},
-        {id: "q12", correct: "correct"},
-        {id: "q13", correct: "correct"},
-        {id: "q14", correct: "correct"},
-        {id: "q15", correct: "correct"},
-        {id: "q16", correct: "correct"},
-        {id: "q17", correct: "correct"}
+        {id: "r1q1", correct: "correct"},
+        {id: "r1q2", correct: "correct"},
+        {id: "r1q3", correct: "correct"},
+        {id: "r1q4", correct: "correct"},
+        {id: "r1q5", correct: "correct"},
+        {id: "r1q6", correct: "correct"},
+        {id: "r1q7", correct: "correct"},
+        {id: "r1q8", correct: "correct"},
+        {id: "r1q9", correct: "correct"},
+        {id: "r1q10", correct: "correct"}
     ];
 
     answers.forEach((q, index) => {
         const element = document.getElementById(q.id);
-
         if (element.value === q.correct) {
             element.classList.remove("wrong");
             element.classList.add("correct");
@@ -290,11 +303,47 @@ function checkAnswers() {
         }
     });
 
-    if (!anyWrong) {
-        feedbackText = "Сите одговори се точни! 🎉";
-    }
+    if (!anyWrong) feedbackText = "Сите одговори се точни! 🎉";
 
-    document.getElementById("feedback").innerText =
+    document.getElementById("feedback1").innerText =
+        "Резултат: " + score + "/" + answers.length + "\n" + feedbackText;
+}
+
+function checkRound2() {
+    let score = 0;
+    let feedbackText = "Неточни прашања: ";
+    let anyWrong = false;
+
+    const answers = [
+        {id: "r2q1", correct: "correct"},
+        {id: "r2q2", correct: "correct"},
+        {id: "r2q3", correct: "correct"},
+        {id: "r2q4", correct: "correct"},
+        {id: "r2q5", correct: "correct"},
+        {id: "r2q6", correct: "correct"},
+        {id: "r2q7", correct: "correct"},
+        {id: "r2q8", correct: "correct"},
+        {id: "r2q9", correct: "correct"},
+        {id: "r2q10", correct: "correct"}
+    ];
+
+    answers.forEach((q, index) => {
+        const element = document.getElementById(q.id);
+        if (element.value === q.correct) {
+            element.classList.remove("wrong");
+            element.classList.add("correct");
+            score++;
+        } else {
+            element.classList.remove("correct");
+            element.classList.add("wrong");
+            feedbackText += (index + 1) + " ";
+            anyWrong = true;
+        }
+    });
+
+    if (!anyWrong) feedbackText = "Сите одговори се точни! 🎉";
+
+    document.getElementById("feedback2").innerText =
         "Резултат: " + score + "/" + answers.length + "\n" + feedbackText;
 }
 </script>
