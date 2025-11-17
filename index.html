@@ -1,110 +1,210 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="mk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Answer Search Engine</title>
+    <title>MK Beginner Grammar Quiz</title>
     <style>
-        body {
-            background: linear-gradient(to bottom right, #fdfdfb, #f5e9da);
-            height: 100vh;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            font-family: Arial, sans-serif;
-        }
-        input {
-            margin-bottom: 20px;
-            padding: 10px;
-            width: 400px;
-            font-size: 16px;
-        }
-        p {
-            font-size: 18px;
-            font-weight: bold;
-            max-width: 500px;
-            text-align: center;
-        }
+    body {
+        background-color: #121212;
+        color: #ffffff;
+        font-family: Arial, sans-serif;
+    }
+
+    select {
+        background-color: #1e1e1e;
+        color: white;
+        border: 1px solid #444;
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    h2 {
+        color: #ffffff;
+    }
+
+    p {
+        color: #e0e0e0;
+        font-size: 18px;
+    }
+
+    button {
+        background-color: #1e1e1e;
+        color: white;
+        border: 1px solid #444;
+        padding: 8px 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    button:hover {
+        background-color: #2a2a2a;
+    }
+
+    .correct {
+        border: 2px solid #4CAF50; /* green */
+    }
+
+    .wrong {
+        border: 2px solid #f44336; /* red */
+    }
+
+    #feedback {
+        margin-top: 15px;
+        font-size: 18px;
+        white-space: pre-line;
+    }
     </style>
 </head>
 <body>
 
-<input type="search" id="searchBar" placeholder="Ask anything...">
-<p id="response"></p>
+<h2>Прашања за граматика на македонски јазик за почетници на ниво А1</h2>
+
+<!-- Q1 -->
+<p>1. Јас 
+<select id="q1">
+    <option value="">-- Избери --</option>
+    <option value="wrong">оди</option>
+    <option value="correct">одам</option>
+    <option value="wrong">одиш</option>
+</select>
+во училиште.</p>
+
+<!-- Q2 -->
+<p>2. Таа 
+<select id="q2">
+    <option value="">-- Избери --</option>
+    <option value="correct">чита</option>
+    <option value="wrong">читам</option>
+    <option value="wrong">читаш</option>
+</select>
+книга.</p>
+
+<!-- Q3 -->
+<p>3. Ние 
+<select id="q3">
+    <option value="">-- Избери --</option>
+    <option value="wrong">сум</option>
+    <option value="wrong">е</option>
+    <option value="correct">сме</option>
+</select>
+среќни.</p>
+
+<!-- Q4 -->
+<p>4. Ти 
+<select id="q4">
+    <option value="">-- Избери --</option>
+    <option value="wrong">јаде</option>
+    <option value="correct">јадеш</option>
+    <option value="wrong">јадам</option>
+</select>
+јаболко.</p>
+
+<!-- Q5 -->
+<p>5. Тој 
+<select id="q5">
+    <option value="">-- Избери --</option>
+    <option value="correct">пие</option>
+    <option value="wrong">пијам</option>
+    <option value="wrong">пиеш</option>
+</select>
+вода.</p>
+
+<!-- Q6 -->
+<p>6. Вие 
+<select id="q6">
+    <option value="">-- Избери --</option>
+    <option value="wrong">оди</option>
+    <option value="wrong">одиме</option>
+    <option value="correct">одите</option>
+</select>
+дома.</p>
+
+<!-- Q7 -->
+<p>7. Јас 
+<select id="q7">
+    <option value="">-- Избери --</option>
+    <option value="wrong">има</option>
+    <option value="wrong">имаш</option>
+    <option value="correct">имам</option>
+</select>
+куче.</p>
+
+<!-- Q8 -->
+<p>8. Тие 
+<select id="q8">
+    <option value="">-- Избери --</option>
+    <option value="wrong">е</option>
+    <option value="correct">се</option>
+    <option value="wrong">сум</option>
+</select>
+во парк.</p>
+
+<!-- Q9 -->
+<p>9. Таа 
+<select id="q9">
+    <option value="">-- Избери --</option>
+    <option value="wrong">играш</option>
+    <option value="correct">игра</option>
+    <option value="wrong">играм</option>
+</select>
+фудбал.</p>
+
+<!-- Q10 -->
+<p>10. Ние 
+<select id="q10">
+    <option value="">-- Избери --</option>
+    <option value="wrong">пишува</option>
+    <option value="correct">пишуваме</option>
+    <option value="wrong">пишуваш</option>
+</select>
+домашна.</p>
+
+<button onclick="checkAnswers()">Провери</button>
+
+<div id="feedback"></div>
 
 <script>
-    const searchBar = document.getElementById("searchBar");
-    const response = document.getElementById("response");
+function checkAnswers() {
+    let score = 0;
+    let feedbackText = "Неточни прашања: ";
+    let anyWrong = false;
 
-    // List of 50 specific, self-contained, plausible random answers
-    const randomAnswers = [
-        "The person in question is Kamala Harris.",
-        "It was established as a national holiday in 1947.",
-        "The fastest recorded time is 9.58 seconds, held by Usain Bolt.",
-        "It takes place every July in the main square of the city.",
-        "It was originally invented in Italy during the 18th century.",
-        "The discovery was published in a scientific journal last year.",
-        "It was approved by the city council after several debates.",
-        "The recipe calls for two teaspoons of saffron and a pinch of salt.",
-        "It is located on the east side of the river near the old bridge.",
-        "It happened during the Renaissance period in Europe.",
-        "The monument was built to commemorate the historic event of 1923.",
-        "The main character in the novel is Sherlock Holmes.",
-        "It was signed into law on October 12th of that year.",
-        "The painting is attributed to Van Gogh and dated 1889.",
-        "It is stored in the museum's climate-controlled archive.",
-        "The experiment was conducted under strict laboratory conditions.",
-        "It was performed by a renowned orchestra last month.",
-        "The song reached number one on the charts in 1998.",
-        "It was photographed during an expedition to Antarctica.",
-        "The president gave a speech addressing this very issue.",
-        "It was originally discovered in France in the late 1700s.",
-        "The object is made of bronze and weighs approximately 50 kilograms.",
-        "It was translated into ten languages to reach a global audience.",
-        "The course was taught by Professor Smith in the summer term.",
-        "It was part of the exhibition celebrating contemporary art.",
-        "The mountain is the highest in the region, standing at 3,842 meters.",
-        "It was filmed on location in New Zealand over three months.",
-        "The festival features traditional music and dance every year.",
-        "It was celebrated with fireworks and a parade downtown.",
-        "The sculpture is over 200 years old and preserved meticulously.",
-        "It was first mentioned in a diary from the 18th century.",
-        "It is recommended by experts for anyone interested in the topic.",
-        "The answer to your question is in the book nearest to you, page 23, second sentence.",
-        "It was discovered buried under the ruins of an ancient temple.",
-        "The legislation was passed after months of discussion.",
-        "It was designed by a famous architect known for modernist buildings.",
-        "The award was presented at the ceremony held in December.",
-        "It takes approximately three hours to complete the process.",
-        "The ingredients must be combined at a specific temperature.",
-        "It was used in historical experiments to test gravity.",
-        "The event attracted thousands of spectators from around the world.",
-        "It was broadcast live on national television last week.",
-        "The solution was documented in a peer-reviewed publication.",
-        "It was first performed by a local theater troupe in 1995.",
-        "The city implemented new policies to address the issue.",
-        "It was captured in photographs that became iconic over time.",
-        "The record was broken during an international competition.",
-        "It is stored securely to prevent unauthorized access.",
-        "The findings were published in a prominent scientific journal.",
-        "It was renovated after the earthquake to restore its original design.",
-        "The discovery changed the way researchers view the subject.",
-        "It was approved for public release after thorough review.",
-        "Why the hell would you ask that?"
+    const answers = [
+        {id: "q1", correct: "correct"},
+        {id: "q2", correct: "correct"},
+        {id: "q3", correct: "correct"},
+        {id: "q4", correct: "correct"},
+        {id: "q5", correct: "correct"},
+        {id: "q6", correct: "correct"},
+        {id: "q7", correct: "correct"},
+        {id: "q8", correct: "correct"},
+        {id: "q9", correct: "correct"},
+        {id: "q10", correct: "correct"}
     ];
 
-    searchBar.addEventListener("keydown", function(event) {
-        if (event.key === "Enter") {
-            const userInput = searchBar.value.trim();
-            if (userInput !== "") {
-                // Pick a random answer from the list
-                const randomIndex = Math.floor(Math.random() * randomAnswers.length);
-                response.textContent = randomAnswers[randomIndex];
-            }
+    answers.forEach((q, index) => {
+        const element = document.getElementById(q.id);
+
+        if (element.value === q.correct) {
+            element.classList.remove("wrong");
+            element.classList.add("correct");
+            score++;
+        } else {
+            element.classList.remove("correct");
+            element.classList.add("wrong");
+            feedbackText += (index + 1) + " ";
+            anyWrong = true;
         }
     });
+
+    if (!anyWrong) {
+        feedbackText = "Сите одговори се точни! 🎉";
+    }
+
+    document.getElementById("feedback").innerText =
+        "Резултат: " + score + "/10\n" + feedbackText;
+}
 </script>
 
 </body>
