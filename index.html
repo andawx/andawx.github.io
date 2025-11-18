@@ -67,7 +67,7 @@
 
 <h2>Прашања за граматика на македонски јазик за почетници на ниво А1</h2>
 
-<!-- Round 1: General Grammar -->
+<!-- Round 1 -->
 <h2 class="round-title">Раунд 1: Општа граматика</h2>
 
 <p>1. Јас 
@@ -163,7 +163,7 @@
 <button onclick="checkRound1()">Провери Раунд 1</button>
 <div id="feedback1" class="feedback"></div>
 
-<!-- Round 2: Present Simple of "To Be" in Macedonian -->
+<!-- Round 2 -->
 <h2 class="round-title">Раунд 2: Глаголот "Биди" во сегашно време</h2>
 
 <p>1. А: Дали си ти учител?  
@@ -249,6 +249,92 @@
 <button onclick="checkRound2()">Провери Раунд 2</button>
 <div id="feedback2" class="feedback"></div>
 
+<!-- ROUND 3 (NEW): THIS / THAT / THESE / THOSE -->
+<h2 class="round-title">Раунд 3: Ова / Тоа / Овие / Тие</h2>
+
+<p>1. <select id="r3q1">
+    <option value="">-- Избери --</option>
+    <option value="correct">Ова</option>
+    <option value="wrong">Тоа</option>
+    <option value="wrong">Овие</option>
+    <option value="wrong">Тие</option>
+</select> е книга.</p>
+
+<p>2. <select id="r3q2">
+    <option value="">-- Избери --</option>
+    <option value="wrong">Ова</option>
+    <option value="correct">Тоа</option>
+    <option value="wrong">Овие</option>
+    <option value="wrong">Тие</option>
+</select> е стол таму.</p>
+
+<p>3. <select id="r3q3">
+    <option value="">-- Избери --</option>
+    <option value="wrong">Ова</option>
+    <option value="wrong">Тоа</option>
+    <option value="correct">Овие</option>
+    <option value="wrong">Тие</option>
+</select> се тетратки.</p>
+
+<p>4. <select id="r3q4">
+    <option value="">-- Избери --</option>
+    <option value="wrong">Ова</option>
+    <option value="wrong">Тоа</option>
+    <option value="wrong">Овие</option>
+    <option value="correct">Тие</option>
+</select> се ученици таму.</p>
+
+<p>5. <select id="r3q5">
+    <option value="">-- Избери --</option>
+    <option value="correct">Ова</option>
+    <option value="wrong">Тоа</option>
+    <option value="wrong">Овие</option>
+    <option value="wrong">Тие</option>
+</select> е мојот пенкало.</p>
+
+<p>6. <select id="r3q6">
+    <option value="">-- Избери --</option>
+    <option value="wrong">Ова</option>
+    <option value="correct">Тоа</option>
+    <option value="wrong">Овие</option>
+    <option value="wrong">Тие</option>
+</select> е твојата чанта таму.</p>
+
+<p>7. <select id="r3q7">
+    <option value="">-- Избери --</option>
+    <option value="wrong">Ова</option>
+    <option value="wrong">Тоа</option>
+    <option value="correct">Овие</option>
+    <option value="wrong">Тие</option>
+</select> се моите книги овде.</p>
+
+<p>8. <select id="r3q8">
+    <option value="">-- Избери --</option>
+    <option value="wrong">Ова</option>
+    <option value="wrong">Тоа</option>
+    <option value="wrong">Овие</option>
+    <option value="correct">Тие</option>
+</select> се тетратки таму.</p>
+
+<p>9. <select id="r3q9">
+    <option value="">-- Избери --</option>
+    <option value="correct">Ова</option>
+    <option value="wrong">Тоа</option>
+    <option value="wrong">Овие</option>
+    <option value="wrong">Тие</option>
+</select> е мојот часовник.</p>
+
+<p>10. <select id="r3q10">
+    <option value="">-- Избери --</option>
+    <option value="wrong">Ова</option>
+    <option value="wrong">Тоа</option>
+    <option value="wrong">Овие</option>
+    <option value="correct">Тие</option>
+</select> се твоите играчки таму.</p>
+
+<button onclick="checkRound3()">Провери Раунд 3</button>
+<div id="feedback3" class="feedback"></div>
+
 <script>
 function checkRound1() {
     let score = 0;
@@ -323,6 +409,44 @@ function checkRound2() {
     if (!anyWrong) feedbackText = "Сите одговори се точни! 🎉";
 
     document.getElementById("feedback2").innerText =
+        "Резултат: " + score + "/" + answers.length + "\n" + feedbackText;
+}
+
+function checkRound3() {
+    let score = 0;
+    let feedbackText = "Неточни прашања: ";
+    let anyWrong = false;
+
+    const answers = [
+        {id: "r3q1", correct: "correct"},
+        {id: "r3q2", correct: "correct"},
+        {id: "r3q3", correct: "correct"},
+        {id: "r3q4", correct: "correct"},
+        {id: "r3q5", correct: "correct"},
+        {id: "r3q6", correct: "correct"},
+        {id: "r3q7", correct: "correct"},
+        {id: "r3q8", correct: "correct"},
+        {id: "r3q9", correct: "correct"},
+        {id: "r3q10", correct: "correct"}
+    ];
+
+    answers.forEach((q, index) => {
+        const element = document.getElementById(q.id);
+        if (element.value === q.correct) {
+            element.classList.remove("wrong");
+            element.classList.add("correct");
+            score++;
+        } else {
+            element.classList.remove("correct");
+            element.classList.add("wrong");
+            feedbackText += (index + 1) + " ";
+            anyWrong = true;
+        }
+    });
+
+    if (!anyWrong) feedbackText = "Сите одговори се точни! 🎉";
+
+    document.getElementById("feedback3").innerText =
         "Резултат: " + score + "/" + answers.length + "\n" + feedbackText;
 }
 </script>
