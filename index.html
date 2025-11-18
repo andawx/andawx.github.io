@@ -463,6 +463,121 @@
 <button onclick="checkRound4()">Провери Раунд 4</button>
 <div id="feedback4" class="feedback"></div>
 
+<h2 class="round-title">Раунд 5: "Еден/една/едно" и множествени броеви</h2>
+
+<p>1. Тоа е <select id="r5q1">
+    <option value="">-- Избери --</option>
+    <option value="correct">една</option>
+    <option value="wrong">едно</option>
+    <option value="wrong">еден</option>
+</select> книга.</p>
+
+<p>2. Јас имам <select id="r5q2">
+    <option value="">-- Избери --</option>
+    <option value="correct">еден</option>
+    <option value="wrong">една</option>
+    <option value="wrong">едно</option>
+</select> стол.</p>
+
+<p>3. Таа гледа <select id="r5q3">
+    <option value="">-- Избери --</option>
+    <option value="wrong">еден</option>
+    <option value="wrong">една</option>
+    <option value="correct">едно</option>
+</select> дете.</p>
+
+<p>4. Имам <select id="r5q4">
+    <option value="">-- Избери --</option>
+    <option value="wrong">стол</option>
+    <option value="correct">столови</option>
+    <option value="wrong">столче</option>
+</select>.</p>
+
+<p>5. Тој јаде <select id="r5q5">
+    <option value="">-- Избери --</option>
+    <option value="wrong">јаболко</option>
+    <option value="correct">јаболка</option>
+    <option value="wrong">јаболкава</option>
+</select>.</p>
+
+<p>6. Имам <select id="r5q6">
+    <option value="">-- Избери --</option>
+    <option value="wrong">куче</option>
+    <option value="correct">кучиња</option>
+    <option value="wrong">кучето</option>
+</select>.</p>
+
+<p>7. Тоа е <select id="r5q7">
+    <option value="">-- Избери --</option>
+    <option value="wrong">еден</option>
+    <option value="correct">една</option>
+    <option value="wrong">едно</option>
+</select> маса.</p>
+
+<p>8. Тие читаат <select id="r5q8">
+    <option value="">-- Избери --</option>
+    <option value="wrong">книга</option>
+    <option value="correct">книги</option>
+    <option value="wrong">книгата</option>
+</select>.</p>
+
+<p>9. Тој купи <select id="r5q9">
+    <option value="">-- Избери --</option>
+    <option value="wrong">еден</option>
+    <option value="correct">едно</option>
+    <option value="wrong">една</option>
+</select> пециво.</p>
+
+<p>10. Имаме <select id="r5q10">
+    <option value="">-- Избери --</option>
+    <option value="wrong">торта</option>
+    <option value="correct">торти</option>
+    <option value="wrong">тортата</option>
+</select>.</p>
+
+<button onclick="checkRound5()">Провери Раунд 5</button>
+<div id="feedback5" class="feedback"></div>
+
+<script>
+function checkRound5() {
+    let score = 0;
+    let feedbackText = "Неточни прашања: ";
+    let anyWrong = false;
+
+    const answers = [
+        {id: "r5q1", correct: "correct"},
+        {id: "r5q2", correct: "correct"},
+        {id: "r5q3", correct: "correct"},
+        {id: "r5q4", correct: "correct"},
+        {id: "r5q5", correct: "correct"},
+        {id: "r5q6", correct: "correct"},
+        {id: "r5q7", correct: "correct"},
+        {id: "r5q8", correct: "correct"},
+        {id: "r5q9", correct: "correct"},
+        {id: "r5q10", correct: "correct"}
+    ];
+
+    answers.forEach((q, index) => {
+        const element = document.getElementById(q.id);
+        if (element.value === q.correct) {
+            element.classList.remove("wrong");
+            element.classList.add("correct");
+            score++;
+        } else {
+            element.classList.remove("correct");
+            element.classList.add("wrong");
+            feedbackText += (index + 1) + " ";
+            anyWrong = true;
+        }
+    });
+
+    if (!anyWrong) feedbackText = "Сите одговори се точни! 🎉";
+
+    document.getElementById("feedback5").innerText =
+        "Резултат: " + score + "/" + answers.length + "\n" + feedbackText;
+}
+</script>
+
 <script>
 function checkRound1() {
     let score = 0;
