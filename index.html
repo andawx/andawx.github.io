@@ -338,7 +338,7 @@
 <button onclick="checkRound3()">Провери Раунд 3</button>
 <div id="feedback3" class="feedback"></div>
 
-<h2 class="round-title">Раунд 4: Лични заменки и присвојни придавки (I/my, you/your, etc.)</h2>
+<h2 class="round-title">Раунд 4: Лични заменки и присвојни придавки</h2>
 
 <p>1. <select id="r4q1a">
     <option value="">-- Избери (1) --</option>
@@ -463,7 +463,7 @@
 <button onclick="checkRound4()">Провери Раунд 4</button>
 <div id="feedback4" class="feedback"></div>
 
-<h2 class="round-title">Раунд 5: "Еден/една/едно" и множествени броеви</h2>
+<h2 class="round-title">Раунд 5: Броеви и Множина</h2>
 
 <p>1. Тоа е <select id="r5q1">
     <option value="">-- Избери --</option>
@@ -538,153 +538,80 @@
 <button onclick="checkRound5()">Провери Раунд 5</button>
 <div id="feedback5" class="feedback"></div>
 
-<script>
-function checkRound5() {
-    let score = 0;
-    let feedbackText = "Неточни прашања: ";
-    let anyWrong = false;
+<h2 class="round-title">Раунд 6: Придавки (Adjectives)</h2>
 
-    const answers = [
-        {id: "r5q1", correct: "correct"},
-        {id: "r5q2", correct: "correct"},
-        {id: "r5q3", correct: "correct"},
-        {id: "r5q4", correct: "correct"},
-        {id: "r5q5", correct: "correct"},
-        {id: "r5q6", correct: "correct"},
-        {id: "r5q7", correct: "correct"},
-        {id: "r5q8", correct: "correct"},
-        {id: "r5q9", correct: "correct"},
-        {id: "r5q10", correct: "correct"}
-    ];
+<p>1. Тој е <select id="r6q1">
+    <option value="">-- Избери --</option>
+    <option value="wrong">голем</option>
+    <option value="correct">стар</option>
+    <option value="wrong">нова</option>
+</select> човек.</p>
 
-    answers.forEach((q, index) => {
-        const element = document.getElementById(q.id);
-        if (element.value === q.correct) {
-            element.classList.remove("wrong");
-            element.classList.add("correct");
-            score++;
-        } else {
-            element.classList.remove("correct");
-            element.classList.add("wrong");
-            feedbackText += (index + 1) + " ";
-            anyWrong = true;
-        }
-    });
+<p>2. Таа има <select id="r6q2">
+    <option value="">-- Избери --</option>
+    <option value="wrong">стар</option>
+    <option value="correct">убава</option>
+    <option value="wrong">убав</option>
+</select> чанта.</p>
 
-    if (!anyWrong) feedbackText = "Сите одговори се точни! 🎉";
+<p>3. Ова е <select id="r6q3">
+    <option value="">-- Избери --</option>
+    <option value="wrong">мал</option>
+    <option value="wrong">мала</option>
+    <option value="correct">мало</option>
+</select> куче.</p>
 
-    document.getElementById("feedback5").innerText =
-        "Резултат: " + score + "/" + answers.length + "\n" + feedbackText;
-}
-</script>
+<p>4. Ние јадеме <select id="r6q4">
+    <option value="">-- Избери --</option>
+    <option value="correct">вкусна</option>
+    <option value="wrong">вкусен</option>
+    <option value="wrong">вкусни</option>
+</select> храна.</p>
 
-<!-- ---------------- ROUND 6: ПРИДАВКИ ---------------- -->
-<div id="round6" style="display:none; margin-top:20px;">
-    <h2>Рунда 6: Придавки</h2>
+<p>5. Тие се <select id="r6q5">
+    <option value="">-- Избери --</option>
+    <option value="correct">среќни</option>
+    <option value="wrong">среќен</option>
+    <option value="wrong">среќна</option>
+</select> деца.</p>
 
-    <!-- 1 -->
-    <label>1. Оваа книга е многу ___. </label>
-    <select>
-        <option>-- Избери --</option>
-        <option>интересна</option>
-        <option>убава</option>
-        <option>нова</option>
-    </select>
-    <br><br>
+<p>6. Тоа е <select id="r6q6">
+    <option value="">-- Избери --</option>
+    <option value="wrong">скапа</option>
+    <option value="correct">скап</option>
+    <option value="wrong">скапо</option>
+</select> автомобил.</p>
 
-    <!-- 2 -->
-    <label>2. Тој има ___ автомобил. </label>
-    <select>
-        <option>-- Избери --</option>
-        <option>стар</option>
-        <option>брз</option>
-        <option>мал</option>
-    </select>
-    <br><br>
+<p>7. Јас имам <select id="r6q7">
+    <option value="">-- Избери --</option>
+    <option value="wrong">интересен</option>
+    <option value="wrong">интересно</option>
+    <option value="correct">интересна</option>
+</select> книга.</p>
 
-    <!-- 3 -->
-    <label>3. Мојата соба е многу ___. </label>
-    <select>
-        <option>-- Избери --</option>
-        <option>голема</option>
-        <option>нова</option>
-        <option>скапа</option>
-    </select>
-    <br><br>
+<p>8. Вие сте <select id="r6q8">
+    <option value="">-- Избери --</option>
+    <option value="correct">добри</option>
+    <option value="wrong">добар</option>
+    <option value="wrong">добра</option>
+</select> пријатели.</p>
 
-    <!-- 4 -->
-    <label>4. Тоа е ___ прашање. </label>
-    <select>
-        <option>-- Избери --</option>
-        <option>тешко</option>
-        <option>лесно</option>
-        <option>интересно</option>
-    </select>
-    <br><br>
+<p>9. Времето е <select id="r6q9">
+    <option value="">-- Избери --</option>
+    <option value="wrong">топли</option>
+    <option value="correct">топло</option>
+    <option value="wrong">топла</option>
+</select> денес.</p>
 
-    <!-- 5 -->
-    <label>5. Купивме ___ телефон. </label>
-    <select>
-        <option>-- Избери --</option>
-        <option>нов</option>
-        <option>стар</option>
-        <option>скап</option>
-    </select>
-    <br><br>
+<p>10. Таа носи <select id="r6q10">
+    <option value="">-- Избери --</option>
+    <option value="correct">црвена</option>
+    <option value="wrong">црвен</option>
+    <option value="wrong">црвено</option>
+</select> блуза.</p>
 
-    <!-- 6 -->
-    <label>6. Твојот брат е многу ___. </label>
-    <select>
-        <option>-- Избери --</option>
-        <option>брз</option>
-        <option>мал</option>
-        <option>интересен</option>
-    </select>
-    <br><br>
-
-    <!-- 7 -->
-    <label>7. Тоа е ___ задача. </label>
-    <select>
-        <option>-- Избери --</option>
-        <option>лесна</option>
-        <option>тешка</option>
-        <option>убава</option>
-    </select>
-    <br><br>
-
-    <!-- 8 -->
-    <label>8. Нашата куќа е ___. </label>
-    <select>
-        <option>-- Избери --</option>
-        <option>голема</option>
-        <option>мала</option>
-        <option>нова</option>
-    </select>
-    <br><br>
-
-    <!-- 9 -->
-    <label>9. Тоа дете е многу ___. </label>
-    <select>
-        <option>-- Избери --</option>
-        <option>брзо</option>
-        <option>мало</option>
-        <option>убаво</option>
-    </select>
-    <br><br>
-
-    <!-- 10 -->
-    <label>10. Овој часовник е премногу ___. </label>
-    <select>
-        <option>-- Избери --</option>
-        <option>скап</option>
-        <option>стар</option>
-        <option>нов</option>
-    </select>
-    <br><br>
-
-    <button onclick="nextRound(6)">Следна рунда</button>
-</div>
-
+<button onclick="checkRound6()">Провери Раунд 6</button>
+<div id="feedback6" class="feedback"></div>
 
 <script>
 function checkRound1() {
@@ -841,10 +768,81 @@ function checkRound4() {
         "Резултат: " + correctItems + "/" + totalItems + "\n" + feedbackText;
 }
 
-// Retain all previous check functions for functionality
-function checkRound1() { /* ... original content ... */ }
-function checkRound2() { /* ... original content ... */ }
-function checkRound3() { /* ... original content ... */ }
+function checkRound5() {
+    let score = 0;
+    let feedbackText = "Неточни прашања: ";
+    let anyWrong = false;
+
+    const answers = [
+        {id: "r5q1", correct: "correct"},
+        {id: "r5q2", correct: "correct"},
+        {id: "r5q3", correct: "correct"},
+        {id: "r5q4", correct: "correct"},
+        {id: "r5q5", correct: "correct"},
+        {id: "r5q6", correct: "correct"},
+        {id: "r5q7", correct: "correct"},
+        {id: "r5q8", correct: "correct"},
+        {id: "r5q9", correct: "correct"},
+        {id: "r5q10", correct: "correct"}
+    ];
+
+    answers.forEach((q, index) => {
+        const element = document.getElementById(q.id);
+        if (element.value === q.correct) {
+            element.classList.remove("wrong");
+            element.classList.add("correct");
+            score++;
+        } else {
+            element.classList.remove("correct");
+            element.classList.add("wrong");
+            feedbackText += (index + 1) + " ";
+            anyWrong = true;
+        }
+    });
+
+    if (!anyWrong) feedbackText = "Сите одговори се точни! 🎉";
+
+    document.getElementById("feedback5").innerText =
+        "Резултат: " + score + "/" + answers.length + "\n" + feedbackText;
+}
+
+function checkRound6() {
+    let score = 0;
+    let feedbackText = "Неточни прашања: ";
+    let anyWrong = false;
+
+    const answers = [
+        {id: "r6q1", correct: "correct"},
+        {id: "r6q2", correct: "correct"},
+        {id: "r6q3", correct: "correct"},
+        {id: "r6q4", correct: "correct"},
+        {id: "r6q5", correct: "correct"},
+        {id: "r6q6", correct: "correct"},
+        {id: "r6q7", correct: "correct"},
+        {id: "r6q8", correct: "correct"},
+        {id: "r6q9", correct: "correct"},
+        {id: "r6q10", correct: "correct"}
+    ];
+
+    answers.forEach((q, index) => {
+        const element = document.getElementById(q.id);
+        if (element.value === q.correct) {
+            element.classList.remove("wrong");
+            element.classList.add("correct");
+            score++;
+        } else {
+            element.classList.remove("correct");
+            element.classList.add("wrong");
+            feedbackText += (index + 1) + " ";
+            anyWrong = true;
+        }
+    });
+
+    if (!anyWrong) feedbackText = "Сите одговори се точни! 🎉";
+
+    document.getElementById("feedback6").innerText =
+        "Резултат: " + score + "/" + answers.length + "\n" + feedbackText;
+}
 </script>
 
 </body>
