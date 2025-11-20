@@ -19,7 +19,7 @@
         }
     </style>
 </head>
-<body class="p-4 md:p-8 min-h-screen flex items-center justify-center">
+<body class="p-4 md:p-8 min-h-screen flex items-center justify-center relative">
 
     <div id="quiz-container" class="w-full max-w-xl bg-white shadow-2xl rounded-xl p-6 md:p-10 border border-gray-100">
         <h1 class="text-3xl font-extrabold text-indigo-700 mb-6 text-center">Квиз за вежбање граматика</h1>
@@ -78,6 +78,11 @@
             </button>
         </div>
     </div>
+    
+    <!-- Copyright Notice in the bottom left corner of the viewport -->
+    <div id="copyright-notice" class="absolute bottom-4 left-4 text-xs text-gray-500 hidden md:block">
+        © 2025 Website by Anda A. All rights reserved.
+    </div>
 
     <script type="module">
         // Import Firebase modules
@@ -99,10 +104,10 @@
         // Data structure for the entire quiz
         const quizData = [
             // =======================================================================
-            // РУНДА 1 - САМО ЕДЕН ПРИМЕР (ВЕ МОЛИМЕ ПОПОЛНЕТЕ ДО 10)
+            // РУНДА 1: Конјугација на глаголи - Јас/Ти
             // =======================================================================
             {
-                title: "Рунда 1: (Место за вашиот наслов)",
+                title: "Рунда 1: Конјугација на глаголи - Јас/Ти",
                 questions: [
                     { text: "Пример: Јас [SELECT_WORD] во Скопје.", options: ["живее", "живеам", "живеат"], answer: "живеам" },
                     { text: "Ти [SELECT_WORD] кафе.", options: ["пијам", "пиеш", "пијат"], answer: "пиеш" },
@@ -117,10 +122,10 @@
                 ]
             },
             // =======================================================================
-            // РУНДА 2 - САМО ЕДЕН ПРИМЕР (ВЕ МОЛИМЕ ПОПОЛНЕТЕ ДО 10)
+            // РУНДА 2: Конјугација на глаголи - Тој/Таа
             // =======================================================================
             {
-                title: "Рунда 2: (Место за вашиот наслов)",
+                title: "Рунда 2: Конјугација на глаголи - Тој/Таа",
                 questions: [
                     { text: "Пример: Ти [SELECT_WORD] да играш фудбал.", options: ["сакаме", "сакаш", "сакам"], answer: "сакаш" },
                     { text: "Јас [SELECT_WORD] на работа секој ден.", options: ["одам", "одиш", "оди"], answer: "одам" },
@@ -135,10 +140,10 @@
                 ]
             },
             // =======================================================================
-            // РУНДА 3 - САМО ЕДЕН ПРИМЕР (ВЕ МОЛИМЕ ПОПОЛНЕТЕ ДО 10)
+            // РУНДА 3: Конјугација на глаголи - Ние/Вие/Тие
             // =======================================================================
             {
-                title: "Рунда 3: (Место за вашиот наслов)",
+                title: "Рунда 3: Конјугација на глаголи - Ние/Вие/Тие",
                 questions: [
                     { text: "Пример: Тој [SELECT_WORD] автомобил.", options: ["возиме", "вози", "возиш"], answer: "вози" },
                     { text: "Јас [SELECT_WORD] книги.", options: ["читаш", "читам", "чита"], answer: "читам" },
@@ -153,10 +158,10 @@
                 ]
             },
             // =======================================================================
-            // РУНДА 4 - САМО ЕДЕН ПРИМЕР (ВЕ МОЛИМЕ ПОПОЛНЕТЕ ДО 10)
+            // РУНДА 4: Мешана конјугација и помошни глаголи
             // =======================================================================
             {
-                title: "Рунда 4: (Место за вашиот наслов)",
+                title: "Рунда 4: Мешана конјугација",
                 questions: [
                     { text: "Пример: Ние [SELECT_WORD] во канцеларија.", options: ["работи", "работат", "работиме"], answer: "работиме" },
                     { text: "Јас [SELECT_WORD] овошје.", options: ["сакаш", "сакам", "сака"], answer: "сакам" },
@@ -171,10 +176,10 @@
                 ]
             },
             // =======================================================================
-            // РУНДА 5 - САМО ЕДЕН ПРИМЕР (ВЕ МОЛИМЕ ПОПОЛНЕТЕ ДО 10)
+            // РУНДА 5: Сегашно просто време (Преглед)
             // =======================================================================
             {
-                title: "Рунда 5: (Место за вашиот наслов)",
+                title: "Рунда 5: Сегашно просто време (Преглед)",
                 questions: [
                     { text: "Пример: Тие [SELECT_WORD] рано наутро.", options: ["стануваш", "стануваат", "станувам"], answer: "стануваат" },
                     { text: "Јас [SELECT_WORD] во Скопје.", options: ["живееш", "живеам", "живее"], answer: "живеам" },
@@ -189,7 +194,7 @@
                 ]
             },
             // =======================================================================
-            // РУНДА 6 (СЕГАШНО ПРОСТО ВРЕМЕ: ЈАС ПРАВАМ, НЕ ПРАВАМ, ДАЛИ ПРАВАМ?)
+            // РУНДА 6: Сегашно просто време (I do, I don’t, Do I?)
             // =======================================================================
             {
                 title: "Рунда 6: Сегашно просто време (I do, I don’t, Do I?)",
@@ -247,7 +252,7 @@
                 ]
             },
             // =======================================================================
-            // РУНДА 7 (ЗБОРОВИ ЗА ПРАШАЊА И РЕД НА ЗБОРОВИ)
+            // РУНДА 7: Зборови за прашања и Ред на зборови
             // =======================================================================
             {
                 title: "Рунда 7: Зборови за прашања и Ред на зборови",
@@ -305,10 +310,10 @@
                 ]
             },
             // =======================================================================
-            // НОВА РУНДА 8: ПРИЛОЗИ ЗА ФРЕКВЕНЦИЈА
+            // РУНДА 8: Прилози за фреквенција (Adverbs of Frequency)
             // =======================================================================
             {
-                title: "Рунда 8: Прилози за фреквенција (Adverbs of Frequency)",
+                title: "Рунда 8: Прилози за фреквенција",
                 questions: [
                     { 
                         text: "Таа [SELECT_WORD] доаѓа на час доцна.", 
@@ -363,10 +368,10 @@
                 ]
             },
             // =======================================================================
-            // НОВА РУНДА 9: СУБЈЕКТ НАСПРОТИ ОБЈЕКТ ЗАМЕНКИ
+            // РУНДА 9: Субјект наспроти Објект заменки (I/Me, She/Her)
             // =======================================================================
             {
-                title: "Рунда 9: Субјект наспроти Објект заменки (I/Me, She/Her)",
+                title: "Рунда 9: Субјект наспроти Објект заменки",
                 questions: [
                     { 
                         text: "Ти и [SELECT_WORD] сме пријатели.", 
@@ -421,10 +426,10 @@
                 ]
             },
             // =======================================================================
-            // НОВА РУНДА 10: ПОСЕСИВНА 'S И ЧИЈ/ЧИЈА/ЧИЕ
+            // РУНДА 10: Посесивна 's и Чиј/Чија/Чие (Whose/Possessive)
             // =======================================================================
             {
-                title: "Рунда 10: Посесивна 's и Чиј/Чија/Чие (Whose/Possessive)",
+                title: "Рунда 10: Посесивна 's и Чиј/Чија/Чие",
                 questions: [
                     { 
                         text: "[SELECT_WORD] е овој молив?", 
@@ -498,6 +503,7 @@
         const checkButton = document.getElementById('check-button');
         const roundTitle = document.getElementById('round-title');
         const progressMessage = document.getElementById('progress-message');
+        const copyrightNotice = document.getElementById('copyright-notice');
 
         // --- Firebase Logic ---
 
@@ -607,6 +613,7 @@
             roundSelectionScreen.classList.add('hidden');
             completionScreen.classList.add('hidden');
             quizScreen.classList.remove('hidden');
+            copyrightNotice.classList.add('hidden'); // Hide copyright during quiz
 
             loadQuestion();
         }
@@ -680,6 +687,7 @@
             quizScreen.classList.add('hidden');
             completionScreen.classList.remove('hidden');
             document.getElementById('final-score').textContent = score;
+            copyrightNotice.classList.add('hidden'); // Hide copyright on completion screen
 
             // Check if the current round index is the last completed round index
             // If the score is 10/10 and the current round is the next round index, save the new index
@@ -751,6 +759,7 @@
 
             loadingIndicator.classList.add('hidden');
             roundSelectionScreen.classList.remove('hidden');
+            copyrightNotice.classList.remove('hidden'); // Show copyright on selection screen
         }
 
         // Start the application setup
