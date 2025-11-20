@@ -12,9 +12,9 @@
             background-color: #f3f4f6;
         }
         .highlighted-round {
-            /* Custom style for the suggested next round */
-            box-shadow: 0 0 0 4px #a5b4fc; /* Tailwind indigo-300 */
-            border: 2px solid #4f46e5; /* Tailwind indigo-600 */
+            /* This style is no longer used but kept for aesthetic consistency */
+            box-shadow: 0 0 0 4px #a5b4fc; 
+            border: 2px solid #4f46e5;
             transform: scale(1.03);
         }
     </style>
@@ -24,18 +24,9 @@
     <div id="quiz-container" class="w-full max-w-xl bg-white shadow-2xl rounded-xl p-6 md:p-10 border border-gray-100">
         <h1 class="text-3xl font-extrabold text-indigo-700 mb-6 text-center">Квиз за вежбање граматика</h1>
 
-        <!-- Loading indicator for Firebase -->
-        <div id="loading-indicator" class="text-center p-8">
-            <svg class="animate-spin h-8 w-8 text-indigo-500 mx-auto mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            <p class="text-gray-600">Вчитување на податоци...</p>
-        </div>
-
         <!-- Round Selection Screen -->
-        <div id="round-selection" class="text-center hidden">
-            <p id="progress-message" class="text-lg text-gray-700 mb-6"></p>
+        <div id="round-selection" class="text-center">
+            <p id="progress-message" class="text-lg text-gray-700 mb-6">Избери рунда за да започнеш:</p>
             <div id="round-buttons" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-4">
                 <!-- Buttons will be injected here -->
             </div>
@@ -80,26 +71,32 @@
     </div>
     
     <!-- Copyright Notice in the bottom left corner of the viewport -->
-    <div id="copyright-notice" class="absolute bottom-4 left-4 text-xs text-gray-500 hidden md:block">
+    <div id="copyright-notice" class="absolute bottom-4 left-4 text-xs text-gray-500 md:block">
         © 2025 Website by Anda A. All rights reserved.
     </div>
 
-    <script type="module">
-        // Import Firebase modules
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, setPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // Global Firebase variables provided by the environment
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-quiz-app-id';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-        
+    <script>
         // Internal state variables
-        let db = null;
-        let auth = null;
-        let userId = null;
-        let lastCompletedRoundIndex = -1; // -1 means no rounds completed (start from Round 1, which is index 0)
+        let currentRound = null;
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let selectedAnswer = null; 
+
+        // DOM elements
+        const roundSelectionScreen = document.getElementById('round-selection');
+        const quizScreen = document.getElementById('quiz-screen');
+        const completionScreen = document.getElementById('completion-screen');
+        const roundButtonsContainer = document.getElementById('round-buttons');
+        const questionTextElement = document.getElementById('question-text');
+        const feedbackElement = document.getElementById('feedback');
+        const scoreDisplay = document.getElementById('score-display');
+        const currentQuestionNr = document.getElementById('current-question-nr');
+        const nextButton = document.getElementById('next-button');
+        const checkButton = document.getElementById('check-button');
+        const roundTitle = document.getElementById('round-title');
+        const progressMessage = document.getElementById('progress-message');
+        const copyrightNotice = document.getElementById('copyright-notice');
+
 
         // Data structure for the entire quiz
         const quizData = [
@@ -485,107 +482,7 @@
             }
         ];
 
-        let currentRound = null;
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let selectedAnswer = null; 
 
-        const loadingIndicator = document.getElementById('loading-indicator');
-        const roundSelectionScreen = document.getElementById('round-selection');
-        const quizScreen = document.getElementById('quiz-screen');
-        const completionScreen = document.getElementById('completion-screen');
-        const roundButtonsContainer = document.getElementById('round-buttons');
-        const questionTextElement = document.getElementById('question-text');
-        const feedbackElement = document.getElementById('feedback');
-        const scoreDisplay = document.getElementById('score-display');
-        const currentQuestionNr = document.getElementById('current-question-nr');
-        const nextButton = document.getElementById('next-button');
-        const checkButton = document.getElementById('check-button');
-        const roundTitle = document.getElementById('round-title');
-        const progressMessage = document.getElementById('progress-message');
-        const copyrightNotice = document.getElementById('copyright-notice');
-
-        // --- Firebase Logic ---
-
-        /** Gets the document reference for the user's quiz progress. */
-        function getProgressDocRef() {
-            if (!db || !userId) {
-                console.error("Firestore or User ID not initialized.");
-                return null;
-            }
-            // Private user data path: /artifacts/{appId}/users/{userId}/quiz_progress/progress_doc
-            return doc(db, `artifacts/${appId}/users/${userId}/quiz_progress/progress_doc`);
-        }
-
-        /** Loads the last completed round index from Firestore. */
-        async function loadProgress() {
-            const docRef = getProgressDocRef();
-            if (!docRef) return -1;
-
-            try {
-                const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    if (typeof data.lastCompletedRoundIndex === 'number') {
-                        // Ensure the loaded index is within valid bounds
-                        return Math.min(data.lastCompletedRoundIndex, quizData.length - 1);
-                    }
-                }
-            } catch (error) {
-                console.error("Error loading progress:", error);
-                // Return default on error
-            }
-            return -1;
-        }
-
-        /** Saves the last completed round index to Firestore. */
-        async function saveProgress(roundIndex) {
-            const docRef = getProgressDocRef();
-            if (!docRef) return;
-
-            try {
-                await setDoc(docRef, { lastCompletedRoundIndex: roundIndex });
-                lastCompletedRoundIndex = roundIndex;
-                console.log("Progress saved:", roundIndex);
-            } catch (error) {
-                console.error("Error saving progress:", error);
-            }
-        }
-
-        /** Initializes Firebase and authenticates the user. */
-        async function initFirebase() {
-            if (!firebaseConfig) {
-                console.warn("Firebase config not found. Running in local mode without persistence.");
-                return false;
-            }
-
-            try {
-                const app = initializeApp(firebaseConfig);
-                db = getFirestore(app);
-                auth = getAuth(app);
-                
-                // Set persistence to session (optional but good practice)
-                await setPersistence(auth, browserSessionPersistence);
-
-                if (initialAuthToken) {
-                    await signInWithCustomToken(auth, initialAuthToken);
-                } else {
-                    await signInAnonymously(auth);
-                }
-
-                userId = auth.currentUser.uid;
-                console.log("Firebase initialized. User ID:", userId);
-                return true;
-
-            } catch (error) {
-                console.error("Firebase Initialization Failed:", error);
-                // Fallback to non-persistent mode
-                return false;
-            }
-        }
-
-        // --- Quiz Logic ---
-        
         // Custom modal replacement for alert()
         function showMessage(type, message) {
             feedbackElement.textContent = message;
@@ -613,7 +510,7 @@
             roundSelectionScreen.classList.add('hidden');
             completionScreen.classList.add('hidden');
             quizScreen.classList.remove('hidden');
-            copyrightNotice.classList.add('hidden'); // Hide copyright during quiz
+            copyrightNotice.classList.add('hidden');
 
             loadQuestion();
         }
@@ -683,70 +580,32 @@
             loadQuestion();
         }
 
-        async function showCompletionScreen() {
+        function showCompletionScreen() {
             quizScreen.classList.add('hidden');
             completionScreen.classList.remove('hidden');
             document.getElementById('final-score').textContent = score;
-            copyrightNotice.classList.add('hidden'); // Hide copyright on completion screen
-
-            // Check if the current round index is the last completed round index
-            // If the score is 10/10 and the current round is the next round index, save the new index
-            const currentRoundIndex = quizData.indexOf(currentRound);
-            const nextRoundIndex = currentRoundIndex + 1;
-
-            if (score === currentRound.questions.length && nextRoundIndex > lastCompletedRoundIndex) {
-                 // The user completed this round and it was the next in sequence
-                await saveProgress(nextRoundIndex);
-            }
+            copyrightNotice.classList.add('hidden');
         }
 
         window.resetQuiz = function() {
             quizScreen.classList.add('hidden');
             completionScreen.classList.add('hidden');
-            // Re-run init to reload progress and display buttons
+            // Simply show the selection screen again
             init(); 
         }
 
         // --- Initialization ---
-        async function init() {
-            loadingIndicator.classList.remove('hidden');
-            roundSelectionScreen.classList.add('hidden');
-
-            // 1. Initialize Firebase (if config exists)
-            const isFirebaseReady = await initFirebase();
-
-            // 2. Load Progress
-            if (isFirebaseReady) {
-                lastCompletedRoundIndex = await loadProgress();
-            }
-
-            // 3. Build UI
+        function init() {
+            roundSelectionScreen.classList.remove('hidden');
             roundButtonsContainer.innerHTML = '';
-            roundButtonsContainer.className = 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-4';
             
-            const nextRoundIndex = lastCompletedRoundIndex + 1;
-            let suggestedRoundIndex = -1;
-
-            if (nextRoundIndex < quizData.length) {
-                suggestedRoundIndex = nextRoundIndex;
-                progressMessage.textContent = `Продолжете со Рунда ${suggestedRoundIndex + 1} за да го завршите квизот!`;
-            } else {
-                // All rounds completed or initial state
-                progressMessage.textContent = lastCompletedRoundIndex >= 0 
-                    ? "Честитки! Ги завршивте сите рунди. Можете да започнете повторно."
-                    : "Избери рунда за да започнеш:";
-            }
+            progressMessage.textContent = "Избери рунда за да започнеш:";
 
             quizData.forEach((round, index) => {
                 const button = document.createElement('button');
                 
-                let buttonClass = 'bg-indigo-500 text-white font-semibold py-3 rounded-lg shadow hover:bg-indigo-600 transition duration-150';
-
-                // Check if this round is the suggested one
-                if (index === suggestedRoundIndex) {
-                    buttonClass += ' highlighted-round';
-                    button.title = "Препорачана рунда за продолжување";
-                }
+                // No highlighting is applied now, all rounds are available
+                const buttonClass = 'bg-indigo-500 text-white font-semibold py-3 rounded-lg shadow hover:bg-indigo-600 transition duration-150';
                 
                 button.className = buttonClass;
                 button.textContent = round.title.split(':')[0] || `Рунда ${index + 1}`;
@@ -756,10 +615,7 @@
 
             checkButton.onclick = checkAnswer;
             nextButton.onclick = nextQuestion;
-
-            loadingIndicator.classList.add('hidden');
-            roundSelectionScreen.classList.remove('hidden');
-            copyrightNotice.classList.remove('hidden'); // Show copyright on selection screen
+            copyrightNotice.classList.remove('hidden');
         }
 
         // Start the application setup
