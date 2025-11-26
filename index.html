@@ -589,6 +589,66 @@ questions: [
 { text: "Собата треба да биде подготвена [SELECT_WORD] утре.", options: ["пред", "по", "за"], answer: "за" },
 { text: "Јас ручам [SELECT_WORD] пладне.", options: ["во", "на", "пред"], answer: "во" }
 ]
+},
+
+// round 15
+// Round 15 questions with randomized correct-option positions
+const round15 = [
+  {
+    text: "Јас секогаш го (вежбам) мојот англиски јазик.",
+    options: shuffle(["вежбам", "вежба", "вежбаш"]),
+    answer: "вежбам"
+  },
+  {
+    text: "Тие често го (читаат) дневникот.",
+    options: shuffle(["читаат", "читаме", "читаш"]),
+    answer: "читаат"
+  },
+  {
+    text: "Ти го (пиеш) чајот секое утро.",
+    options: shuffle(["пиеш", "пиеме", "пијат"]),
+    answer: "пиеш"
+  },
+  {
+    text: "Марко (игра) фудбал после училиште.",
+    options: shuffle(["игра", "играм", "играте"]),
+    answer: "игра"
+  },
+  {
+    text: "Ние секогаш (пишуваме) домашни задачи.",
+    options: shuffle(["пишуваме", "пишува", "пишуваат"]),
+    answer: "пишуваме"
+  },
+  {
+    text: "Ти и Петар (трчате) во парк секоја недела.",
+    options: shuffle(["трчате", "трча", "трчам"]),
+    answer: "трчате"
+  },
+  {
+    text: "Јас (готвам) ручек за целото семејство.",
+    options: shuffle(["готвам", "готват", "готваме"]),
+    answer: "готвам"
+  },
+  {
+    text: "Ана (учи) за тестот цел ден.",
+    options: shuffle(["учи", "учат", "учиш"]),
+    answer: "учи"
+  },
+  {
+    text: "Тие (патуваат) многу во зима.",
+    options: shuffle(["патуваат", "патува", "патуваш"]),
+    answer: "патуваат"
+  },
+  {
+    text: "Ние (седиме) во двор кога е топло.",
+    options: shuffle(["седиме", "седат", "седам"]),
+    answer: "седиме"
+  }
+];
+
+// Utility shuffle function
+function shuffle(array) {
+  return array.sort(() => Math.random() - 0.5);
 }
 
         ];
