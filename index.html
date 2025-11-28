@@ -1,790 +1,159 @@
 <!DOCTYPE html>
-<html lang="mk">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Квиз за вежбање граматика</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Simple Calculator</title>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6;
+        /* Basic styling for the calculator */
+        .calculator {
+            width: 300px;
+            margin: 50px auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            background-color: #f7f7f7;
         }
-        .highlighted-round {
-            /* This style is no longer used but kept for aesthetic consistency */
-            box-shadow: 0 0 0 4px #a5b4fc; 
-            border: 2px solid #4f46e5;
-            transform: scale(1.03);
+
+        .display {
+            width: 95%;
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 2em;
+            text-align: right;
+            border: 1px solid #aaa;
+            border-radius: 3px;
+            background-color: #fff;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .buttons button {
+            padding: 20px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #e0e0e0;
+            transition: background-color 0.2s;
+        }
+
+        .buttons button:hover {
+            background-color: #d0d0d0;
+        }
+
+        .buttons button.operator {
+            background-color: #ff9500;
+            color: white;
+        }
+
+        .buttons button.operator:hover {
+            background-color: #cc7a00;
+        }
+
+        .buttons button.clear {
+            background-color: #ff3b30;
+            color: white;
+        }
+
+        .buttons button.clear:hover {
+            background-color: #cc3028;
+        }
+
+        .buttons button.equal {
+            background-color: #4cd964;
+            color: white;
+            grid-column: span 2; /* Span two columns for the equals button */
+        }
+
+        .buttons button.equal:hover {
+            background-color: #38a84a;
         }
     </style>
 </head>
-<body class="p-4 md:p-8 min-h-screen flex items-center justify-center relative">
+<body>
 
-    <div id="quiz-container" class="w-full max-w-xl bg-white shadow-2xl rounded-xl p-6 md:p-10 border border-gray-100">
-        <h1 class="text-3xl font-extrabold text-indigo-700 mb-6 text-center">Квиз за вежбање граматика</h1>
+<div class="calculator">
+    <input type="text" class="display" id="display" disabled>
 
-        <!-- Round Selection Screen -->
-        <div id="round-selection" class="text-center">
-            <p id="progress-message" class="text-lg text-gray-700 mb-6">Избери рунда за да започнеш:</p>
-            <div id="round-buttons" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-4">
-                <!-- Buttons will be injected here -->
-            </div>
-        </div>
+    <div class="buttons">
+        <button class="clear" onclick="clearDisplay()">AC</button>
+        <button onclick="appendToDisplay('/')" class="operator">/</button>
+        <button onclick="appendToDisplay('*')" class="operator">×</button>
+        <button onclick="appendToDisplay('-')" class="operator">−</button>
 
-        <!-- Quiz Screen -->
-        <div id="quiz-screen" class="hidden">
-            <h2 id="round-title" class="text-2xl font-bold text-gray-800 mb-4 text-center"></h2>
-            
-            <div class="bg-indigo-50 p-4 rounded-lg mb-6 shadow-inner">
-                <p class="text-sm font-semibold text-indigo-600">Прашање <span id="current-question-nr"></span>/10</p>
-                <p id="question-text" class="text-xl mt-2 font-medium text-gray-900"></p>
-            </div>
+        <button onclick="appendToDisplay('7')">7</button>
+        <button onclick="appendToDisplay('8')">8</button>
+        <button onclick="appendToDisplay('9')">9</button>
+        <button onclick="appendToDisplay('+')" class="operator">+</button>
 
-            <p class="text-md font-semibold text-gray-600 mb-3">Избери го точниот збор:</p>
+        <button onclick="appendToDisplay('4')">4</button>
+        <button onclick="appendToDisplay('5')">5</button>
+        <button onclick="appendToDisplay('6')">6</button>
 
-            <div id="options-container" class="space-y-3 mb-6">
-                <!-- Options will be injected here -->
-            </div>
+        <button onclick="appendToDisplay('1')">1</button>
+        <button onclick="appendToDisplay('2')">2</button>
+        <button onclick="appendToDisplay('3')">3</button>
 
-            <div id="feedback" class="p-3 rounded-lg text-center mb-6 hidden font-medium"></div>
-
-            <div class="flex justify-between items-center">
-                <p class="text-lg font-bold text-gray-700">Резултат: <span id="score-display" class="text-indigo-600">0</span></p>
-                <button id="next-button" class="px-6 py-3 bg-indigo-600 text-white font-bold rounded-lg shadow-md hover:bg-indigo-700 transition duration-150 disabled:bg-gray-400" disabled>
-                    Следно
-                </button>
-                <button id="check-button" class="px-6 py-3 bg-green-500 text-white font-bold rounded-lg shadow-md hover:bg-green-600 transition duration-150">
-                    Провери го одговорот
-                </button>
-            </div>
-        </div>
-
-        <!-- Completion Screen -->
-        <div id="completion-screen" class="hidden text-center">
-            <h2 class="text-3xl font-extrabold text-green-600 mb-4">Рунда завршена!</h2>
-            <p class="text-xl text-gray-700 mb-6">Вашиот финален резултат е: <span id="final-score" class="text-green-600 font-bold"></span>/10</p>
-            <button onclick="resetQuiz()" class="px-6 py-3 bg-indigo-600 text-white font-bold rounded-lg shadow-md hover:bg-indigo-700 transition duration-150">
-                Избери друга рунда
-            </button>
-        </div>
+        <button onclick="appendToDisplay('0')">0</button>
+        <button onclick="appendToDisplay('.')">.</button>
+        <button class="equal" onclick="calculate()">=</button>
     </div>
-    
-    <!-- Copyright Notice in the bottom left corner of the viewport -->
-    <div id="copyright-notice" class="absolute bottom-4 left-4 text-xs text-gray-500 md:block">
-        © 2025 Website by Anda A. All rights reserved.
-    </div>
+</div>
 
-    <script>
-        // Internal state variables
-        let currentRound = null;
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let selectedAnswer = null; 
+<script>
+    const display = document.getElementById('display');
+    let currentInput = '';
+    let result = null;
+    let operator = null;
+    let waitForOperand = false;
 
-        // DOM elements
-        const roundSelectionScreen = document.getElementById('round-selection');
-        const quizScreen = document.getElementById('quiz-screen');
-        const completionScreen = document.getElementById('completion-screen');
-        const roundButtonsContainer = document.getElementById('round-buttons');
-        const questionTextElement = document.getElementById('question-text');
-        const feedbackElement = document.getElementById('feedback');
-        const scoreDisplay = document.getElementById('score-display');
-        const currentQuestionNr = document.getElementById('current-question-nr');
-        const nextButton = document.getElementById('next-button');
-        const checkButton = document.getElementById('check-button');
-        const roundTitle = document.getElementById('round-title');
-        const progressMessage = document.getElementById('progress-message');
-        const copyrightNotice = document.getElementById('copyright-notice');
+    // Function to append characters to the display
+    function appendToDisplay(value) {
+        if (value === '.' && currentInput.includes('.')) return;
 
-
-        // Data structure for the entire quiz
-        const quizData = [
-            // =======================================================================
-            // РУНДА 1: Конјугација на глаголи - Јас/Ти
-            // =======================================================================
-            {
-                title: "Рунда 1: Конјугација на глаголи - Јас/Ти",
-                questions: [
-                    { text: "Пример: Јас [SELECT_WORD] во Скопје.", options: ["живее", "живеам", "живеат"], answer: "живеам" },
-                    { text: "Ти [SELECT_WORD] кафе.", options: ["пијам", "пиеш", "пијат"], answer: "пиеш" },
-                    { text: "Тој [SELECT_WORD] да спие рано.", options: ["сакам", "сака", "сакаат"], answer: "сака" },
-                    { text: "Ние [SELECT_WORD] во паркот.", options: ["играме", "играш", "игра"], answer: "играме" },
-                    { text: "Вие [SELECT_WORD] Македонија.", options: ["патувам", "патувате", "патува"], answer: "патувате" },
-                    { text: "Тие [SELECT_WORD] јаболка.", options: ["јаде", "јадат", "јадам"], answer: "јадат" },
-                    { text: "Јас [SELECT_WORD] нов автомобил.", options: ["купам", "купуваш", "купува"], answer: "купам" },
-                    { text: "Таа [SELECT_WORD] писмо.", options: ["пишеш", "пишувам", "пишува"], answer: "пишува" },
-                    { text: "Тоа [SELECT_WORD] многу вода.", options: ["пијат", "пие", "пиеме"], answer: "пие" },
-                    { text: "Јас [SELECT_WORD] дома.", options: ["сум", "си", "е"], answer: "сум" },
-                ]
-            },
-            // =======================================================================
-            // РУНДА 2: Конјугација на глаголи - Тој/Таа
-            // =======================================================================
-            {
-                title: "Рунда 2: Конјугација на глаголи - Тој/Таа",
-                questions: [
-                    { text: "Пример: Ти [SELECT_WORD] да играш фудбал.", options: ["сакаме", "сакаш", "сакам"], answer: "сакаш" },
-                    { text: "Јас [SELECT_WORD] на работа секој ден.", options: ["одам", "одиш", "оди"], answer: "одам" },
-                    { text: "Тој [SELECT_WORD] ручек.", options: ["готвиме", "готви", "готват"], answer: "готви" },
-                    { text: "Ние [SELECT_WORD] англиски.", options: ["учите", "учиме", "учат"], answer: "учиме" },
-                    { text: "Вие [SELECT_WORD] среќни.", options: ["сум", "сте", "се"], answer: "сте" },
-                    { text: "Тие [SELECT_WORD] брзо.", options: ["трчаме", "трчаш", "трчаат"], answer: "трчаат" },
-                    { text: "Ти [SELECT_WORD] во Скопје.", options: ["живеам", "живееш", "живее"], answer: "живееш" },
-                    { text: "Јас [SELECT_WORD] за компјутери.", options: ["работи", "работам", "работат"], answer: "работам" },
-                    { text: "Таа [SELECT_WORD] доцна.", options: ["доаѓаш", "доаѓа", "доаѓаме"], answer: "доаѓа" },
-                    { text: "Ние [SELECT_WORD] да пливаме.", options: ["знаеш", "знаеме", "знаат"], answer: "знаеме" },
-                ]
-            },
-            // =======================================================================
-            // РУНДА 3: Конјугација на глаголи - Ние/Вие/Тие
-            // =======================================================================
-            {
-                title: "Рунда 3: Конјугација на глаголи - Ние/Вие/Тие",
-                questions: [
-                    { text: "Пример: Тој [SELECT_WORD] автомобил.", options: ["возиме", "вози", "возиш"], answer: "вози" },
-                    { text: "Јас [SELECT_WORD] книги.", options: ["читаш", "читам", "чита"], answer: "читам" },
-                    { text: "Ти [SELECT_WORD] во училиште.", options: ["работиме", "работиш", "работам"], answer: "работиш" },
-                    { text: "Таа [SELECT_WORD] одлично.", options: ["пееш", "пее", "пеат"], answer: "пее" },
-                    { text: "Ние [SELECT_WORD] за новата куќа.", options: ["планираш", "планираме", "планираат"], answer: "планираме" },
-                    { text: "Вие [SELECT_WORD] одлично.", options: ["зборувам", "зборувате", "зборува"], answer: "зборувате" },
-                    { text: "Тие [SELECT_WORD] во градината.", options: ["работи", "работат", "работиш"], answer: "работат" },
-                    { text: "Јас [SELECT_WORD] многу вода.", options: ["пие", "пијам", "пијат"], answer: "пијам" },
-                    { text: "Тој [SELECT_WORD] телевизија.", options: ["гледам", "гледа", "гледаш"], answer: "гледа" },
-                    { text: "Мачката [SELECT_WORD] на столот.", options: ["спијат", "спие", "спијам"], answer: "спие" },
-                ]
-            },
-            // =======================================================================
-            // РУНДА 4: Мешана конјугација и помошни глаголи
-            // =======================================================================
-            {
-                title: "Рунда 4: Мешана конјугација",
-                questions: [
-                    { text: "Пример: Ние [SELECT_WORD] во канцеларија.", options: ["работи", "работат", "работиме"], answer: "работиме" },
-                    { text: "Јас [SELECT_WORD] овошје.", options: ["сакаш", "сакам", "сака"], answer: "сакам" },
-                    { text: "Ти [SELECT_WORD] убаво.", options: ["цртам", "црташ", "црта"], answer: "црташ" },
-                    { text: "Таа [SELECT_WORD] пица.", options: ["готват", "готви", "готвиме"], answer: "готви" },
-                    { text: "Тој [SELECT_WORD] нов телефон.", options: ["купувам", "купува", "купуваме"], answer: "купува" },
-                    { text: "Вие [SELECT_WORD] вест.", options: ["читам", "читате", "чита"], answer: "читате" },
-                    { text: "Тие [SELECT_WORD] рано.", options: ["станува", "стануваш", "стануваат"], answer: "стануваат" },
-                    { text: "Јас [SELECT_WORD] заспијам.", options: ["можам", "можеш", "може"], answer: "можам" },
-                    { text: "Ние [SELECT_WORD] гладни.", options: ["сум", "сме", "сте"], answer: "сме" },
-                    { text: "Тоа [SELECT_WORD] далеку.", options: ["лета", "летам", "леташ"], answer: "лета" },
-                ]
-            },
-            // =======================================================================
-            // РУНДА 5: Сегашно просто време (Преглед)
-            // =======================================================================
-            {
-                title: "Рунда 5: Сегашно просто време (Преглед)",
-                questions: [
-                    { text: "Пример: Тие [SELECT_WORD] рано наутро.", options: ["стануваш", "стануваат", "станувам"], answer: "стануваат" },
-                    { text: "Јас [SELECT_WORD] во Скопје.", options: ["живееш", "живеам", "живее"], answer: "живеам" },
-                    { text: "Ти [SELECT_WORD] мојот пријател.", options: ["е", "си", "сум"], answer: "си" },
-                    { text: "Таа [SELECT_WORD] во продавница.", options: ["одиш", "оди", "одам"], answer: "оди" },
-                    { text: "Ние [SELECT_WORD] да учиме.", options: ["сакаат", "сакаме", "сакаш"], answer: "сакаме" },
-                    { text: "Тој [SELECT_WORD] нова куќа.", options: ["гради", "градам", "градиме"], answer: "гради" },
-                    { text: "Вие [SELECT_WORD] гласни.", options: ["сум", "е", "сте"], answer: "сте" },
-                    { text: "Тие [SELECT_WORD] филм.", options: ["гледа", "гледаат", "гледам"], answer: "гледаат" },
-                    { text: "Јас [SELECT_WORD] работа.", options: ["бара", "барам", "бараш"], answer: "барам" },
-                    { text: "Тоа [SELECT_WORD] брзо.", options: ["возиме", "вози", "возиш"], answer: "вози" },
-                ]
-            },
-            // =======================================================================
-            // РУНДА 6: Сегашно просто време (I do, I don’t, Do I?)
-            // =======================================================================
-            {
-                title: "Рунда 6: Сегашно просто време (I do, I don’t, Do I?)",
-                questions: [
-                    { 
-                        text: "Јас [SELECT_WORD] појадок секое утро.", 
-                        options: ["јадам", "јаде", "јадеш"], 
-                        answer: "јадам" 
-                    },
-                    { 
-                        text: "Таа не [SELECT_WORD] шпански.", 
-                        options: ["зборува", "зборуваат", "зборуваш"], 
-                        answer: "зборува" 
-                    },
-                    { 
-                        text: "Дали ние [SELECT_WORD] на училиште со автобус?", 
-                        options: ["одиме", "одам", "оди"], 
-                        answer: "одиме" 
-                    },
-                    { 
-                        text: "Тој [SELECT_WORD] фудбал за време на викенди.", 
-                        options: ["игра", "играш", "играат"], 
-                        answer: "игра" 
-                    },
-                    { 
-                        text: "Тие не [SELECT_WORD] во голем град.", 
-                        options: ["живеат", "живееш", "живее"], 
-                        answer: "живеат" 
-                    },
-                    { 
-                        text: "Тоа [SELECT_WORD] добро. (Телефонот)", 
-                        options: ["работи", "работам", "работат"], 
-                        answer: "работи" 
-                    },
-                    { 
-                        text: "Дали ти [SELECT_WORD] пица?", 
-                        options: ["сакаш", "сака", "сакаат"], 
-                        answer: "сакаш" 
-                    },
-                    { 
-                        text: "Јас не [SELECT_WORD] кафе навечер.", 
-                        options: ["пијам", "пие", "пијат"], 
-                        answer: "пијам" 
-                    },
-                    { 
-                        text: "Моите родители [SELECT_WORD] телевизија навечер.", 
-                        options: ["гледаат", "гледам", "гледа"], 
-                        answer: "гледаат" 
-                    },
-                    { 
-                        text: "Мачката [SELECT_WORD] на столот.", 
-                        options: ["спие", "спијам", "спиеш"], 
-                        answer: "спие" 
-                    }
-                ]
-            },
-            // =======================================================================
-            // РУНДА 7: Зборови за прашања и Ред на зборови
-            // =======================================================================
-            {
-                title: "Рунда 7: Зборови за прашања и Ред на зборови",
-                questions: [
-                    { 
-                        text: "[SELECT_WORD] е твојата омилена боја?", 
-                        options: ["Кој", "Која", "Што"], 
-                        answer: "Која" 
-                    },
-                    { 
-                        text: "Ти [SELECT_WORD] на училиште секој ден.", 
-                        options: ["одиш", "одиме", "одам"], 
-                        answer: "одиш" 
-                    },
-                    { 
-                        text: "[SELECT_WORD] е мојата книга?", 
-                        options: ["Кога", "Каде", "Зошто"], 
-                        answer: "Каде" 
-                    },
-                    { 
-                        text: "Тие [SELECT_WORD] филм навечер.", 
-                        options: ["гледаат", "гледа", "гледаш"], 
-                        answer: "гледаат" 
-                    },
-                    { 
-                        text: "[SELECT_WORD] си толку среќен?", 
-                        options: ["Кој", "Зошто", "Што"], 
-                        answer: "Зошто" 
-                    },
-                    { 
-                        text: "Јас [SELECT_WORD] кафе наутро.", 
-                        options: ["пијам", "пие", "пиеш"], 
-                        answer: "пијам" 
-                    },
-                    { 
-                        text: "Дали [SELECT_WORD] да спиеш сега?", 
-                        options: ["сакаш", "сака", "сакаме"], 
-                        answer: "сакаш" 
-                    },
-                    { 
-                        text: "[SELECT_WORD] часот е сега?", 
-                        options: ["Колку", "Каде", "Кога"], 
-                        answer: "Колку" 
-                    },
-                    { 
-                        text: "Мајка ми [SELECT_WORD] торта.", 
-                        options: ["прави", "прават", "правам"], 
-                        answer: "прави" 
-                    },
-                    { 
-                        text: "[SELECT_WORD] си доаѓаш дома?", 
-                        options: ["Што", "Како", "Кога"], 
-                        answer: "Кога" 
-                    }
-                ]
-            },
-            // =======================================================================
-            // РУНДА 8: Прилози за фреквенција (Adverbs of Frequency)
-            // =======================================================================
-            {
-                title: "Рунда 8: Прилози за фреквенција",
-                questions: [
-                    { 
-                        text: "Таа [SELECT_WORD] доаѓа на час доцна.", 
-                        options: ["никогаш", "секогаш", "понекогаш"], 
-                        answer: "никогаш" 
-                    },
-                    { 
-                        text: "Ние [SELECT_WORD] јадеме вечера во 7 часот.", 
-                        options: ["обично", "ретко", "никогаш"], 
-                        answer: "обично" 
-                    },
-                    { 
-                        text: "Тој [SELECT_WORD] заборава на роденденот на сопругата.", 
-                        options: ["никогаш", "често", "секогаш"], 
-                        answer: "секогаш" 
-                    },
-                    { 
-                        text: "Дали вие [SELECT_WORD] одите во кино?", 
-                        options: ["понекогаш", "често", "секогаш"], 
-                        answer: "често" 
-                    },
-                    { 
-                        text: "Јас [SELECT_WORD] читам книга пред спиење.", 
-                        options: ["понекогаш", "ретко", "секогаш"], 
-                        answer: "секогаш" 
-                    },
-                    { 
-                        text: "Тие [SELECT_WORD] патуваат во странство.", 
-                        options: ["ретко", "секогаш", "обично"], 
-                        answer: "ретко" 
-                    },
-                    { 
-                        text: "Сонцето [SELECT_WORD] заоѓа на исток.", 
-                        options: ["никогаш", "често", "понекогаш"], 
-                        answer: "никогаш" 
-                    },
-                    { 
-                        text: "Ние [SELECT_WORD] пиеме вода по вежбање.", 
-                        options: ["секогаш", "ретко", "понекогаш"], 
-                        answer: "секогаш" 
-                    },
-                    { 
-                        text: "[SELECT_WORD] таа доаѓа да те види?", 
-                        options: ["Каде", "Колку често", "Кој"], 
-                        answer: "Колку често" 
-                    },
-                    { 
-                        text: "Тоа [SELECT_WORD] се случува во нашиот град.", 
-                        options: ["често", "ретко", "обично"], 
-                        answer: "ретко" 
-                    }
-                ]
-            },
-            // =======================================================================
-            // РУНДА 9: Субјект наспроти Објект заменки (I/Me, She/Her)
-            // =======================================================================
-            {
-                title: "Рунда 9: Субјект наспроти Објект заменки",
-                questions: [
-                    { 
-                        text: "Ти и [SELECT_WORD] сме пријатели.", 
-                        options: ["мене", "јас"], 
-                        answer: "јас" 
-                    },
-                    { 
-                        text: "Тој ѝ даде подарок на [SELECT_WORD].", 
-                        options: ["таа", "неа"], 
-                        answer: "неа" 
-                    },
-                    { 
-                        text: "[SELECT_WORD] го гледаат филмот.", 
-                        options: ["Нив", "Тие"], 
-                        answer: "Тие" 
-                    },
-                    { 
-                        text: "Наставникот му се јави на [SELECT_WORD].", 
-                        options: ["тој", "него"], 
-                        answer: "него" 
-                    },
-                    { 
-                        text: "Јас и [SELECT_WORD] одиме во паркот.", 
-                        options: ["тој", "него"], 
-                        answer: "тој" 
-                    },
-                    { 
-                        text: "Ве молиме, дојдете со [SELECT_WORD].", 
-                        options: ["нас", "ние"], 
-                        answer: "нас" 
-                    },
-                    { 
-                        text: "[SELECT_WORD] е многу убава.", 
-                        options: ["Таа", "Неа"], 
-                        answer: "Таа" 
-                    },
-                    { 
-                        text: "Дали ја виде [SELECT_WORD]?", 
-                        options: ["јас", "мене"], 
-                        answer: "мене" 
-                    },
-                    { 
-                        text: "Мачката го брка [SELECT_WORD].", 
-                        options: ["тој", "него"], 
-                        answer: "него" 
-                    },
-                    { 
-                        text: "[SELECT_WORD] имаат голема куќа.", 
-                        options: ["Тие", "Нив"], 
-                        answer: "Тие" 
-                    }
-                ]
-            },
-            // =======================================================================
-            // РУНДА 10: Посесивна 's и Чиј/Чија/Чие (Whose/Possessive)
-            // =======================================================================
-            {
-                title: "Рунда 10: Посесивна 's и Чиј/Чија/Чие",
-                questions: [
-                    { 
-                        text: "[SELECT_WORD] е овој молив?", 
-                        options: ["Чија", "Чие", "Чиј"], 
-                        answer: "Чиј" 
-                    },
-                    { 
-                        text: "Ова е [SELECT_WORD] книга.", 
-                        options: ["Маријина", "Марија", "Маријино"], 
-                        answer: "Маријина" 
-                    },
-                    { 
-                        text: "[SELECT_WORD] е оваа чанта?", 
-                        options: ["Чие", "Чија", "Чиј"], 
-                        answer: "Чија" 
-                    },
-                    { 
-                        text: "Тоа е [SELECT_WORD] куче.", 
-                        options: ["нивно", "нивни", "нивна"], 
-                        answer: "нивно" 
-                    },
-                    { 
-                        text: "Оваа куќа е [SELECT_WORD].", 
-                        options: ["наш", "наша", "наше"], 
-                        answer: "наша" 
-                    },
-                    { 
-                        text: "[SELECT_WORD] клучеви се овие?", 
-                        options: ["Чии", "Чие", "Чија"], 
-                        answer: "Чии" 
-                    },
-                    { 
-                        text: "Тие одат со [SELECT_WORD] автомобил.", 
-                        options: ["нашиот", "наши", "нашата"], 
-                        answer: "нашиот" 
-                    },
-                    { 
-                        text: "Дали е ова [SELECT_WORD] топка?", 
-                        options: ["негова", "негово", "негов"], 
-                        answer: "негова" 
-                    },
-                    { 
-                        text: "[SELECT_WORD] се овие чевли?", 
-                        options: ["Чија", "Чии", "Чие"], 
-                        answer: "Чии" 
-                    },
-                    { 
-                        text: "Тие се [SELECT_WORD] пријатели.", 
-                        options: ["мој", "моја", "мои"], 
-                        answer: "мои" 
-                    }
-                ]
-            },
-            // =======================================================================
-            // РУНДА 11: Множина на именки (Plural Forms of Nouns)
-            // =======================================================================
-            {
-                title: "Рунда 11: Множина на именки",
-                questions: [
-                    { 
-                        text: "Една [SELECT_WORD] (маса), две маси.", 
-                        options: ["маса", "масата", "маси"], 
-                        answer: "маса" 
-                    },
-                    { 
-                        text: "Тие имаат многу [SELECT_WORD] (пријател).", 
-                        options: ["пријателов", "пријатели", "пријателки"], 
-                        answer: "пријатели" 
-                    },
-                    { 
-                        text: "Јас купив три [SELECT_WORD] (јаболко).", 
-                        options: ["јаболки", "јаболка", "јаболкото"], 
-                        answer: "јаболка" 
-                    },
-                    { 
-                        text: "Тоа се [SELECT_WORD] (дете) на мојот брат.", 
-                        options: ["деца", "детеи", "детиња"], 
-                        answer: "деца" 
-                    },
-                    { 
-                        text: "Во Скопје има многу [SELECT_WORD] (улица).", 
-                        options: ["улици", "улицаи", "улички"], 
-                        answer: "улици" 
-                    },
-                    { 
-                        text: "Ние видовме две [SELECT_WORD] (куче) во паркот.", 
-                        options: ["кучиња", "кучеви", "кучи"], 
-                        answer: "кучиња" 
-                    },
-                    { 
-                        text: "Ова се [SELECT_WORD] (врата) од мојата куќа.", 
-                        options: ["врати", "вратата", "вратови"], 
-                        answer: "врати" 
-                    },
-                    { 
-                        text: "Тие имаат две [SELECT_WORD] (кола).", 
-                        options: ["коли", "колите", "колаи"], 
-                        answer: "коли" 
-                    },
-                    { 
-                        text: "Колку [SELECT_WORD] (ден) има во една недела?", 
-                        options: ["дена", "денови", "ден"], 
-                        answer: "дена" 
-                    },
-                    { 
-                        text: "Јас го прочитав ова во [SELECT_WORD] (весник).", 
-                        options: ["весници", "весник", "весникте"], 
-                        answer: "весници" 
-                    }
-                ]
-            },
-
-            //round 12
-{
-title: "Рунда 12: Сегашно продолжено време",
-questions: [
-{ text: "Јас [SELECT_WORD] (сега јадам) јаболко.", options: ["јадам", "јадам сега", "сум јадејќи"], answer: "јадам сега" },
-{ text: "Таа [SELECT_WORD] (сега чита) книга.", options: ["чита", "чита сега", "е читајќи"], answer: "чита сега" },
-{ text: "Тие [SELECT_WORD] (сега играат) фудбал.", options: ["играат", "играат сега", "игра"], answer: "играат сега" },
-{ text: "Тој [SELECT_WORD] (сега работи) во канцеларија.", options: ["работи", "работи сега", "е работи"], answer: "работи сега" },
-{ text: "Ние [SELECT_WORD] (сега учиме) македонски.", options: ["учиме", "учиме сега", "учат"], answer: "учиме сега" },
-{ text: "Детето [SELECT_WORD] (сега спие).", options: ["спие", "спие сега", "е спиејќи"], answer: "спие сега" },
-{ text: "Јас [SELECT_WORD] (сега гледам) филм.", options: ["гледам", "гледам сега", "е гледајќи"], answer: "гледам сега" },
-{ text: "Тие [SELECT_WORD] (сега зборуваат).", options: ["зборуваат", "зборуваат сега", "зборува"], answer: "зборуваат сега" },
-{ text: "Ти [SELECT_WORD] (сега пиеш) вода.", options: ["пиеш", "пиеш сега", "пиј"], answer: "пиеш сега" },
-{ text: "Мачката [SELECT_WORD] (сега трча).", options: ["трча", "трча сега", "е трчајќи"], answer: "трча сега" }
-]
-},
-
-//round 13
-{
-title: "Рунда 13: Прилози за место",
-questions: [
-{ text: "Книгата е [SELECT_WORD].", options: ["тука", "таму", "горе"], answer: "тука" },
-{ text: "Кучето е [SELECT_WORD] во дворот.", options: ["таму", "тука", "долу"], answer: "таму" },
-{ text: "Погледни [SELECT_WORD], облаците се убави.", options: ["горе", "долу", "таму"], answer: "горе" },
-{ text: "Мојата чанта е [SELECT_WORD] под масата.", options: ["долу", "горе", "таму"], answer: "долу" },
-{ text: "Тој стои [SELECT_WORD] до мене.", options: ["тука", "таму", "горе"], answer: "тука" },
-{ text: "Мачката е [SELECT_WORD] на шкафот.", options: ["горе", "долу", "тука"], answer: "горе" },
-{ text: "Чевлите се [SELECT_WORD] во ходникот.", options: ["таму", "тука", "горе"], answer: "таму" },
-{ text: "Топката се тркала [SELECT_WORD].", options: ["долу", "горе", "таму"], answer: "долу" },
-{ text: "Дојди [SELECT_WORD], те чекам.", options: ["тука", "таму", "горе"], answer: "тука" },
-{ text: "Птиците летаат [SELECT_WORD].", options: ["горе", "долу", "таму"], answer: "горе" }
-]
-},
-
-// round 14
-
-{
-title: "Рунда 14: Предлози за време",
-questions: [
-{ text: "Јас одам на училиште [SELECT_WORD] утро.", options: ["на ", "по ", "во "], answer: "на " },
-{ text: "Се гледаме [SELECT_WORD] два часа.", options: ["пред", "за", "по"], answer: "за" },
-{ text: "Тој доаѓа [SELECT_WORD] пет минути.", options: ["во", "по", "пред"], answer: "пред" },
-{ text: "Ние имаме ручек [SELECT_WORD] 13 часот.", options: ["за", "во", "на"], answer: "во" },
-{ text: "Тие играат фудбал [SELECT_WORD] школо.", options: ["пред", "по", "за"], answer: "по" },
-{ text: "Јас станувам [SELECT_WORD] 7 часот.", options: ["по", "во", "на"], answer: "во" },
-{ text: "Дојди [SELECT_WORD] пауза.", options: ["по", "пред", "за"], answer: "по" },
-{ text: "Тие стигнаа [SELECT_WORD] време.", options: ["во", "на", "по"], answer: "на" },
-{ text: "Собата треба да биде подготвена [SELECT_WORD] утре.", options: ["пред", "по", "за"], answer: "за" },
-{ text: "Јас ручам [SELECT_WORD] пладне.", options: ["во", "на", "пред"], answer: "во" }
-]
-},
-
-// round 15
-{
-title: "Рунда 15: Глаголи во сегашно време",
-questions: [
-{ text: "Јас секогаш го [SELECT_WORD] англискиот јазик.", options: ["вежбам", "вежбаш", "вежба"], answer: "вежбам" },
-{ text: "Тие често [SELECT_WORD] книги.", options: ["читаме", "читаат", "читаш"], answer: "читаат" },
-{ text: "Ти [SELECT_WORD] чај секое утро.", options: ["пијат", "пиеш", "пиеме"], answer: "пиеш" },
-{ text: "Марко [SELECT_WORD] фудбал после училиште.", options: ["игра", "играм", "играте"], answer: "игра" },
-{ text: "Ние секогаш [SELECT_WORD] домашни задачи.", options: ["пишува", "пишуваат", "пишуваме"], answer: "пишуваме" },
-{ text: "Ти и Петар [SELECT_WORD] во парк секоја недела.", options: ["трча", "трчам", "трчате"], answer: "трчате" },
-{ text: "Јас [SELECT_WORD] ручек за семејството.", options: ["готваме", "готвам", "готват"], answer: "готвам" },
-{ text: "Ана [SELECT_WORD] за тестот.", options: ["учиш", "учат", "учи"], answer: "учи" },
-{ text: "Тие [SELECT_WORD] многу во зима.", options: ["патуваат", "патува", "патуваш"], answer: "патуваат" },
-{ text: "Ние [SELECT_WORD] во двор кога е топло.", options: ["седам", "седиме", "седат"], answer: "седиме" }
-]
-},
-
-{
-// round 16
-title: "Рунда 16: Прилози за место",
-questions: [
-{ text: "Мачката е [SELECT_WORD] масата.", options: ["под", "зад", "пред"], answer: "под" },
-{ text: "Книгата е [SELECT_WORD] торбата.", options: ["во", "над", "крај"], answer: "во" },
-{ text: "Автомобилот е паркиран [SELECT_WORD] куќата.", options: ["пред", "зад", "над"], answer: "пред" },
-{ text: "Топката е [SELECT_WORD] столот.", options: ["зад", "во", "под"], answer: "зад" },
-{ text: "Кучето спие [SELECT_WORD] софата.", options: ["крај", "во", "зад"], answer: "крај" },
-{ text: "Рацете ми се [SELECT_WORD] џебовите.", options: ["во", "под", "над"], answer: "во" },
-{ text: "Часовникот е [SELECT_WORD] ѕидот.", options: ["на", "под", "зад"], answer: "на" },
-{ text: "Учениците стојат [SELECT_WORD] таблата.", options: ["пред", "зад", "над"], answer: "пред" },
-{ text: "Мачката скока [SELECT_WORD] креветот.", options: ["на", "под", "зад"], answer: "на" },
-{ text: "Растението е [SELECT_WORD] прозорецот.", options: ["до", "зад", "под"], answer: "до" }
-]
-},
-
-{
-// round 17
-title: "Рунда 17: Придавки (основни описни зборови)",
-questions: [
-{ text: "Куќата е многу [SELECT_WORD].", options: ["голема", "топол", "брзо"], answer: "голема" },
-{ text: "Мојата сестра има [SELECT_WORD] коса.", options: ["долга", "ладен", "стар"], answer: "долга" },
-{ text: "Денес времето е [SELECT_WORD].", options: ["сончево", "бавно", "тврд"], answer: "сончево" },
-{ text: "Ова е [SELECT_WORD] задача.", options: ["лесна", "студено", "темно"], answer: "лесна" },
-{ text: "Јас носам [SELECT_WORD] јакна.", options: ["црвена", "меко", "тежок"], answer: "црвена" },
-{ text: "Мачката е многу [SELECT_WORD].", options: ["мала", "бавно", "ладно"], answer: "мала" },
-{ text: "Ова е многу [SELECT_WORD] книга.", options: ["интересна", "силно", "топло"], answer: "интересна" },
-{ text: "Дечакот има [SELECT_WORD] ранец.", options: ["нов", "сладко", "тешко"], answer: "нов" },
-{ text: "Старата жена има [SELECT_WORD] очила.", options: ["сини", "меко", "голем"], answer: "сини" },
-{ text: "Собата е [SELECT_WORD] и тивка.", options: ["чиста", "ладно", "темно"], answer: "чиста" }
-]
-}
-
-
-    
-
-        ];
-
-
-        // Custom modal replacement for alert()
-        function showMessage(type, message) {
-            feedbackElement.textContent = message;
-            feedbackElement.className = 'p-3 rounded-lg text-center mb-6 font-medium'; // Reset classes
-            
-            if (type === 'correct') {
-                feedbackElement.classList.add('bg-green-100', 'text-green-800');
-            } else if (type === 'incorrect') {
-                feedbackElement.classList.add('bg-red-100', 'text-red-800');
-            }
-            feedbackElement.classList.remove('hidden');
+        // Reset if a calculation was just performed
+        if (waitForOperand && !['+', '-', '*', '/'].includes(value)) {
+            currentInput = '';
+            waitForOperand = false;
         }
 
-        function hideMessage() {
-            feedbackElement.classList.add('hidden');
+        currentInput += value;
+        display.value = currentInput;
+    }
+
+    // Function to clear the display
+    function clearDisplay() {
+        currentInput = '';
+        result = null;
+        operator = null;
+        waitForOperand = false;
+        display.value = '';
+    }
+
+    // Function to calculate the result
+    function calculate() {
+        try {
+            // Use the built-in eval() function to calculate the expression
+            // NOTE: eval() is powerful but should be used carefully in production for security.
+            // For a simple calculator like this, it is acceptable.
+            let finalResult = eval(currentInput);
+            display.value = finalResult;
+            currentInput = String(finalResult);
+            waitForOperand = true;
+        } catch (e) {
+            display.value = 'Error';
+            currentInput = '';
+            waitForOperand = true; // Stay in a reset state after an error
         }
+    }
+</script>
 
-        function startQuiz(roundIndex) {
-            currentRound = quizData[roundIndex];
-            currentQuestionIndex = 0;
-            score = 0;
-            scoreDisplay.textContent = score;
-            roundTitle.textContent = currentRound.title;
-
-            roundSelectionScreen.classList.add('hidden');
-            completionScreen.classList.add('hidden');
-            quizScreen.classList.remove('hidden');
-            copyrightNotice.classList.add('hidden');
-
-            loadQuestion();
-        }
-
-        function loadQuestion() {
-            hideMessage();
-            nextButton.disabled = true;
-            checkButton.disabled = false;
-            selectedAnswer = null;
-            
-            if (currentQuestionIndex >= currentRound.questions.length) {
-                showCompletionScreen();
-                return;
-            }
-
-            const question = currentRound.questions[currentQuestionIndex];
-            currentQuestionNr.textContent = currentQuestionIndex + 1;
-
-            // Split the text to replace the placeholder with an interactive element
-            const textParts = question.text.split('[SELECT_WORD]');
-            
-            // Create the select dropdown
-            const select = document.createElement('select');
-            select.className = 'px-2 py-1 bg-white border border-indigo-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer text-indigo-700 font-semibold';
-            select.onchange = (e) => selectedAnswer = e.target.value;
-            select.innerHTML = '<option value="" disabled selected>Избери...</option>';
-
-            // Add options
-            question.options.forEach(option => {
-                const opt = document.createElement('option');
-                opt.value = option;
-                opt.textContent = option;
-                select.appendChild(opt);
-            });
-
-            // Reconstruct the question text with the select element
-            questionTextElement.innerHTML = '';
-            questionTextElement.appendChild(document.createTextNode(textParts[0].trim() + ' '));
-            questionTextElement.appendChild(select);
-            questionTextElement.appendChild(document.createTextNode(' ' + textParts[1].trim()));
-        }
-
-        function checkAnswer() {
-            if (!selectedAnswer) {
-                showMessage('incorrect', 'Ве молиме, изберете збор пред да продолжите.');
-                return;
-            }
-
-            const question = currentRound.questions[currentQuestionIndex];
-            checkButton.disabled = true;
-            nextButton.disabled = false;
-
-            // Disable the select element after checking
-            questionTextElement.querySelector('select').disabled = true;
-
-            if (selectedAnswer === question.answer) {
-                score++;
-                scoreDisplay.textContent = score;
-                showMessage('correct', 'Точно! Одлично.');
-            } else {
-                showMessage('incorrect', `Неточно. Точниот збор е: "${question.answer}".`);
-            }
-        }
-
-        function nextQuestion() {
-            currentQuestionIndex++;
-            loadQuestion();
-        }
-
-        function showCompletionScreen() {
-            quizScreen.classList.add('hidden');
-            completionScreen.classList.remove('hidden');
-            document.getElementById('final-score').textContent = score;
-            copyrightNotice.classList.add('hidden');
-        }
-
-        window.resetQuiz = function() {
-            quizScreen.classList.add('hidden');
-            completionScreen.classList.add('hidden');
-            // Simply show the selection screen again
-            init(); 
-        }
-
-        // --- Initialization ---
-        function init() {
-            roundSelectionScreen.classList.remove('hidden');
-            roundButtonsContainer.innerHTML = '';
-            
-            progressMessage.textContent = "Избери рунда за да започнеш:";
-
-            quizData.forEach((round, index) => {
-                const button = document.createElement('button');
-                
-                // No highlighting is applied now, all rounds are available
-                const buttonClass = 'bg-indigo-500 text-white font-semibold py-3 rounded-lg shadow hover:bg-indigo-600 transition duration-150';
-                
-                button.className = buttonClass;
-                button.textContent = round.title.split(':')[0] || `Рунда ${index + 1}`;
-                button.onclick = () => startQuiz(index);
-                roundButtonsContainer.appendChild(button);
-            });
-
-            checkButton.onclick = checkAnswer;
-            nextButton.onclick = nextQuestion;
-            copyrightNotice.classList.remove('hidden');
-        }
-
-        // Start the application setup
-        init();
-    </script>
 </body>
 </html>
