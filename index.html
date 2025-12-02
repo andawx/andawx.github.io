@@ -44,7 +44,7 @@
     <!-- Header Navigation Bar -->
     <header class="bg-white shadow-md sticky top-0 z-10">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row justify-between items-center">
-            <a href="#" onclick="init(event)" class="text-2xl font-black text-primary-dark tracking-tight">
+            <a href="#" id="home-link" class="text-2xl font-black text-primary-dark tracking-tight">
                 LearnMacedonian<span class="text-secondary">.com</span>
             </a>
             <nav id="level-tabs" class="flex space-x-2 sm:space-x-4 mt-3 sm:mt-0 text-gray-500 font-medium text-sm sm:text-base">
@@ -59,13 +59,33 @@
             <!-- Global Message Area -->
             <div id="global-feedback" class="p-3 rounded-lg text-center mb-6 hidden font-medium"></div>
 
-            <!-- Level Selector / Landing Screen -->
-            <div id="level-selection" class="">
-                <h1 class="text-3xl font-extrabold text-primary mb-4 text-center">Избери Ниво</h1>
-                <p class="text-lg text-gray-600 mb-8 text-center">Изберете ниво на знаење за да започнете со вежбање граматика.</p>
+            <!-- HOMEPAGE SCREEN (NEW LANDING PAGE) -->
+            <div id="homepage-screen">
+                <h1 class="text-3xl font-extrabold text-primary mb-4 text-center">Добредојдовте во LearnMacedonian.com Квизот!</h1>
+                <p class="text-lg text-gray-600 mb-6 text-center">Овој квиз е дизајниран да ви помогне да ја тестирате и подобрите вашата граматика на македонскиот јазик, структурирана според европските стандарди (CEFR) од A1 до C1.</p>
+                
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mb-8 px-4">
+                    <li class="font-semibold">Нивоата (L1 - L5) ги покриваат сите клучни аспекти на граматиката:</li>
+                    <li>Level 1-2 (Почетник): Основи, сегашно време, лични заменки.</li>
+                    <li>Level 3-4 (Средно): Идна форма, дефинитивна форма, глаголски конструкции.</li>
+                    <li>Level 5 (Експерт): Сложени реченици, конјункции, напредни конструкции.</li>
+                </ul>
+
+                <div class="text-center">
+                    <p class="text-xl font-semibold text-gray-800 mb-4">Изберете ниво во навигацијата погоре или започнете веднаш:</p>
+                    <button onclick="loadLevelSelector(allLevels[0])" class="px-8 py-4 bg-secondary text-white font-bold rounded-lg shadow-xl hover:bg-green-600 transition duration-150 transform hover:scale-105">
+                        Започни со Level 1 (A1)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Level Selector / Landing Screen (MODIFIED to be dynamic) -->
+            <div id="level-selection" class="hidden">
+                <h1 id="level-selection-title" class="text-3xl font-extrabold text-primary mb-4 text-center"></h1>
+                <p id="level-selection-subtitle" class="text-lg text-gray-600 mb-8 text-center">Изберете рунда за да започнете со вежбање граматика.</p>
 
                 <div id="round-buttons" class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                    <!-- Buttons will be injected here by init() -->
+                    <!-- Buttons will be injected here by loadLevelSelector() -->
                 </div>
             </div>
 
@@ -225,15 +245,18 @@
         };
 
         // --- STATE MANAGEMENT ---
-        let currentLevel = 'L1'; // Changed default to L1
+        let currentLevel = 'L1'; 
         let currentRound = null;
         let currentQuestionIndex = 0;
         let score = 0;
         let selectedAnswer = null;
-        let allLevels = Object.keys(quizData); // Dynamically gets L1, L2, L3, L4, L5
+        let allLevels = Object.keys(quizData); 
 
         // --- DOM ELEMENTS ---
+        const homepageScreen = document.getElementById('homepage-screen'); // NEW
         const levelSelectionScreen = document.getElementById('level-selection');
+        const levelSelectionTitle = document.getElementById('level-selection-title'); // NEW
+        const levelSelectionSubtitle = document.getElementById('level-selection-subtitle'); // NEW (Reference)
         const quizScreen = document.getElementById('quiz-screen');
         const completionScreen = document.getElementById('completion-screen');
         const roundButtonsContainer = document.getElementById('round-buttons');
@@ -247,6 +270,7 @@
         const roundTitle = document.getElementById('round-title');
         const levelTabsContainer = document.getElementById('level-tabs');
         const progressBar = document.getElementById('progress-bar');
+        const homeLink = document.getElementById('home-link'); // NEW
 
         // --- UTILITY FUNCTIONS ---
         function showMessage(element, type, message) {
@@ -380,13 +404,32 @@
 
         // --- NAVIGATION & INITIALIZATION ---
 
+        function showHomepage() {
+            homepageScreen.classList.remove('hidden');
+            levelSelectionScreen.classList.add('hidden');
+            quizScreen.classList.add('hidden');
+            completionScreen.classList.add('hidden');
+            hideMessage(globalFeedbackElement);
+            // Ensure no tab is active on the homepage
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active', 'text-primary-dark');
+                link.classList.add('text-gray-500');
+            });
+        }
+
         function loadLevelSelector(level) {
             currentLevel = level;
             currentRound = null;
+            homepageScreen.classList.add('hidden'); // HIDE HOMEPAGE
             quizScreen.classList.add('hidden');
             completionScreen.classList.add('hidden');
             levelSelectionScreen.classList.remove('hidden');
             
+            // --- DYNAMIC TITLE UPDATE ---
+            const levelData = quizData[level];
+            levelSelectionTitle.textContent = levelData.title; 
+            levelSelectionSubtitle.textContent = 'Изберете рунда за да започнете со вежбање граматика.';
+
             // Update active state in nav tabs
             document.querySelectorAll('.nav-link').forEach(link => {
                 link.classList.remove('active', 'text-primary-dark');
@@ -396,7 +439,6 @@
             document.getElementById(`nav-${level}`).classList.remove('text-gray-500');
 
 
-            const levelData = quizData[level];
             roundButtonsContainer.innerHTML = '';
             
             // Set up round buttons for the selected level
@@ -438,11 +480,17 @@
         }
         
         function init(e) {
-            if (e) e.preventDefault(); // Prevent default if called from a link
+            if (e) e.preventDefault(); 
             
             setupLevelTabs();
-            // Start by loading the first level (L1)
-            loadLevelSelector(allLevels[0]);
+            // Start by showing the homepage
+            showHomepage();
+
+            // Set up home link listener
+            homeLink.onclick = (e) => {
+                e.preventDefault();
+                showHomepage();
+            };
 
             // Set up main button listeners
             checkButton.onclick = checkAnswer;
