@@ -66,9 +66,9 @@
                 
                 <ul class="list-disc list-inside space-y-2 text-gray-700 mb-8 px-4">
                     <li class="font-semibold">Нивоата (L1 - L5) ги покриваат сите клучни аспекти на граматиката:</li>
-                    <li>Level 1-2 (Почетник): Основи, сегашно време, лични заменки.</li>
-                    <li>Level 3-4 (Средно): Идна форма, дефинитивна форма, глаголски конструкции.</li>
-                    <li>Level 5 (Експерт): Сложени реченици, конјункции, напредни конструкции.</li>
+                    <li>**Level 1 (Почетник):** Основи, сегашно време, лични и посесивни заменки.</li>
+                    <li>**Level 3 (Средно):** Идна форма, дефинитивна форма, глаголски конструкции.</li>
+                    <li>**Level 5 (Експерт):** Сложени реченици, конјункции, напредни конструкции.</li>
                 </ul>
 
                 <div class="text-center">
@@ -158,6 +158,54 @@
                             { text: "Јас [SELECT_WORD] многу вода.", options: ["сакаш", "сака", "сакам"], answer: "сакам" },
                             { text: "Ние [SELECT_WORD] пријатели.", options: ["се", "сме", "сум"], answer: "сме" },
                             { text: "Ти [SELECT_WORD] уморен.", options: ["е", "си", "сум"], answer: "си" },
+                        ]
+                    },
+                    // --- NEW ROUND 2: POSSESSIVE PRONOUNS (A1) ---
+                    {
+                        roundTitle: "Рунда 2: Посесивни заменки",
+                        questions: [
+                            { text: "Ова е [SELECT_WORD] автомобил. (Мој)", options: ["мое", "мојот", "мој"], answer: "мој" },
+                            { text: "Таа е [SELECT_WORD] мајка. (Твој)", options: ["твојот", "твојата", "твоја"], answer: "твојата" },
+                            { text: "Книгата е [SELECT_WORD]. (Негов)", options: ["негово", "негов", "негова"], answer: "негова" },
+                            { text: "Тоа се [SELECT_WORD] деца. (Наш)", options: ["наши", "наша", "наше"], answer: "наши" },
+                            { text: "Дали е ова [SELECT_WORD] куќа? (Ваш)", options: ["вашата", "вашето", "ваш"], answer: "вашата" },
+                            { text: "Ние ја гледаме [SELECT_WORD] соба. (Нивен)", options: ["нивна", "нивно", "нивни"], answer: "нивна" },
+                            { text: "Ова е [SELECT_WORD] телефон. (Мој)", options: ["моето", "мојот", "мој"], answer: "мојот" },
+                            { text: "Каде е [SELECT_WORD] пријател? (Твој)", options: ["твој", "твојот", "твое"], answer: "твојот" },
+                            { text: "Тие го сакаат [SELECT_WORD] град. (Нивен)", options: ["нивниот", "нивни", "нивното"], answer: "нивниот" },
+                            { text: "Дај ми ја [SELECT_WORD] чаша. (Нејзин)", options: ["нејзината", "нејзин", "нејзино"], answer: "нејзината" },
+                        ]
+                    },
+                    // --- NEW ROUND 3: PLURAL OF NOUNS (A1) ---
+                    {
+                        roundTitle: "Рунда 3: Множина на именки",
+                        questions: [
+                            { text: "Една маса - две [SELECT_WORD].", options: ["маси", "маса", "масиве"], answer: "маси" },
+                            { text: "Еден човек - два [SELECT_WORD].", options: ["човеци", "луѓе", "човек"], answer: "луѓе" },
+                            { text: "Еден град - три [SELECT_WORD].", options: ["градови", "града", "град"], answer: "градови" },
+                            { text: "Една книга - четири [SELECT_WORD].", options: ["книги", "книгиве", "книга"], answer: "книги" },
+                            { text: "Едно дете - многу [SELECT_WORD].", options: ["дете", "деца", "децата"], answer: "деца" },
+                            { text: "Еден ден - седум [SELECT_WORD].", options: ["денои", "ден", "денови"], answer: "денови" },
+                            { text: "Еден прозорец - два [SELECT_WORD].", options: ["прозорци", "прозори", "прозорциве"], answer: "прозорци" },
+                            { text: "Еден пријател - пет [SELECT_WORD].", options: ["пријатели", "пријател", "пријателои"], answer: "пријатели" },
+                            { text: "Една жена - две [SELECT_WORD].", options: ["жена", "жени", "жените"], answer: "жени" },
+                            { text: "Еден број - десет [SELECT_WORD].", options: ["брои", "броја", "броеви"], answer: "броеви" },
+                        ]
+                    },
+                    // --- NEW ROUND 4: NEGATION AND QUESTIONS (A1) ---
+                    {
+                        roundTitle: "Рунда 4: Негација и прашања",
+                        questions: [
+                            { text: "Јас [SELECT_WORD] јадам месо.", options: ["не", "сум не", "да"], answer: "не" },
+                            { text: "[SELECT_WORD] ти одиш на работа?", options: ["Не", "Дали", "Ке"], answer: "Дали" },
+                            { text: "Ние [SELECT_WORD] зборуваме француски.", options: ["не", "да", "не сме"], answer: "не" },
+                            { text: "Тие [SELECT_WORD] се во Скопје.", options: ["не се", "не", "не е"], answer: "не се" },
+                            { text: "[SELECT_WORD] е тој уморен?", options: ["Каде", "Зошто", "Дали"], answer: "Дали" },
+                            { text: "Таа [SELECT_WORD] гледа телевизија.", options: ["не", "не гледа", "гледа"], answer: "не" },
+                            { text: "Дали [SELECT_WORD] имаш мачка?", options: ["ти", "сум", "имаш"], answer: "ти" },
+                            { text: "Ова [SELECT_WORD] е мојата книга.", options: ["не", "не е", "е"], answer: "не е" },
+                            { text: "[SELECT_WORD] вие имате кафе?", options: ["Дали", "Кој", "Што"], answer: "Дали" },
+                            { text: "Тој [SELECT_WORD] сака да чита.", options: ["не", "не сака", "е не"], answer: "не сака" },
                         ]
                     },
                 ]
@@ -253,10 +301,10 @@
         let allLevels = Object.keys(quizData); 
 
         // --- DOM ELEMENTS ---
-        const homepageScreen = document.getElementById('homepage-screen'); // NEW
+        const homepageScreen = document.getElementById('homepage-screen');
         const levelSelectionScreen = document.getElementById('level-selection');
-        const levelSelectionTitle = document.getElementById('level-selection-title'); // NEW
-        const levelSelectionSubtitle = document.getElementById('level-selection-subtitle'); // NEW (Reference)
+        const levelSelectionTitle = document.getElementById('level-selection-title');
+        const levelSelectionSubtitle = document.getElementById('level-selection-subtitle');
         const quizScreen = document.getElementById('quiz-screen');
         const completionScreen = document.getElementById('completion-screen');
         const roundButtonsContainer = document.getElementById('round-buttons');
@@ -270,7 +318,7 @@
         const roundTitle = document.getElementById('round-title');
         const levelTabsContainer = document.getElementById('level-tabs');
         const progressBar = document.getElementById('progress-bar');
-        const homeLink = document.getElementById('home-link'); // NEW
+        const homeLink = document.getElementById('home-link');
 
         // --- UTILITY FUNCTIONS ---
         function showMessage(element, type, message) {
