@@ -24,6 +24,46 @@
         .quiz-card {
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
         }
+        .content-container {
+             /* Shared styling for quiz and info pages */
+            width: 100%; 
+            max-width: 4xl;
+            background-color: white; 
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+            border-radius: 0.75rem; /* rounded-xl */
+            padding: 2.5rem; /* p-10 */
+            border: 1px solid #f3f4f6; /* border-gray-100 */
+        }
+        /* Custom styles for select word buttons */
+        .word-button {
+            padding: 8px 16px;
+            margin: 4px;
+            border-radius: 9999px; /* rounded-full */
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid #d1d5db; /* gray-300 */
+            background-color: #f9fafb; /* gray-50 */
+            color: #1f2937; /* gray-900 */
+        }
+        .word-button:hover:not(.selected) {
+            background-color: #e5e7eb; /* gray-200 */
+        }
+        .word-button.selected {
+            background-color: #2563eb; /* primary */
+            color: white;
+            border-color: #2563eb;
+        }
+        .word-button.correct {
+            background-color: #10b981; /* secondary (success) */
+            color: white;
+            border-color: #10b981;
+        }
+        .word-button.incorrect {
+            background-color: #ef4444; /* red-500 (error) */
+            color: white;
+            border-color: #ef4444;
+        }
     </style>
     <script>
         tailwind.config = {
@@ -54,19 +94,22 @@
     </header>
 
     <main class="flex-grow p-4 md:p-8 flex items-start justify-center pt-10">
-        <div id="quiz-container" class="w-full max-w-xl bg-white quiz-card rounded-xl p-6 md:p-10 border border-gray-100">
+        
+        <!-- QUIZ CONTAINER (Default View) -->
+        <div id="quiz-container" class="w-full max-w-xl content-container mx-auto">
             
             <!-- Global Message Area -->
             <div id="global-feedback" class="p-3 rounded-lg text-center mb-6 hidden font-medium"></div>
 
             <!-- HOMEPAGE SCREEN (NEW LANDING PAGE) -->
-            <div id="homepage-screen">
+            <div id="homepage-screen" class="view-screen">
                 <h1 class="text-3xl font-extrabold text-primary mb-4 text-center">Добредојдовте во LearnMacedonian.com Квизот!</h1>
                 <p class="text-lg text-gray-600 mb-6 text-center">Овој квиз е дизајниран да ви помогне да ја тестирате и подобрите вашата граматика на македонскиот јазик, структурирана според европските стандарди (CEFR) од A1 до C1.</p>
                 
                 <ul class="list-disc list-inside space-y-2 text-gray-700 mb-8 px-4">
                     <li class="font-semibold">Нивоата (L1 - L5) ги покриваат сите клучни аспекти на граматиката:</li>
                     <li>**Level 1 (Почетник):** Основи, сегашно време, лични и посесивни заменки.</li>
+                    <li>**Level 2 (Основно):** Минато време, кратки заменски форми, компарација на придавки.</li>
                     <li>**Level 3 (Средно):** Идна форма, дефинитивна форма, глаголски конструкции.</li>
                     <li>**Level 5 (Експерт):** Сложени реченици, конјункции, напредни конструкции.</li>
                 </ul>
@@ -80,7 +123,7 @@
             </div>
 
             <!-- Level Selector / Landing Screen (MODIFIED to be dynamic) -->
-            <div id="level-selection" class="hidden">
+            <div id="level-selection" class="hidden view-screen">
                 <h1 id="level-selection-title" class="text-3xl font-extrabold text-primary mb-4 text-center"></h1>
                 <p id="level-selection-subtitle" class="text-lg text-gray-600 mb-8 text-center">Изберете рунда за да започнете со вежбање граматика.</p>
 
@@ -90,7 +133,7 @@
             </div>
 
             <!-- Quiz Screen -->
-            <div id="quiz-screen" class="hidden">
+            <div id="quiz-screen" class="hidden view-screen">
                 <h2 id="round-title" class="text-2xl font-extrabold text-gray-800 mb-2"></h2>
                 
                 <!-- Progress Bar -->
@@ -124,7 +167,7 @@
             </div>
 
             <!-- Completion Screen -->
-            <div id="completion-screen" class="hidden text-center p-6 bg-green-50 rounded-lg border border-green-200">
+            <div id="completion-screen" class="hidden view-screen text-center p-6 bg-green-50 rounded-lg border border-green-200">
                 <h2 class="text-3xl font-extrabold text-secondary mb-4">Рунда завршена! 🥳</h2>
                 <p class="text-xl text-gray-700 mb-6">Вашиот финален резултат е: <span id="final-score" class="text-secondary text-4xl font-black"></span>/10</p>
                 <button onclick="resetQuiz()" class="px-8 py-3 bg-primary text-white font-bold rounded-lg shadow-xl hover:bg-blue-600 transition duration-150 transform hover:scale-105">
@@ -132,14 +175,51 @@
                 </button>
             </div>
         </div>
+
+        <!-- SEPARATE INFO PAGE CONTAINER -->
+        <div id="info-page-container" class="w-full max-w-4xl content-container mx-auto hidden">
+            <!-- ABOUT US SCREEN -->
+            <div id="about-us-screen" class="hidden info-screen">
+                <h1 class="text-4xl font-extrabold text-primary mb-6 border-b pb-2">За нас: LearnMacedonian.com</h1>
+                <div class="space-y-6 text-gray-700 leading-relaxed text-lg">
+                    <p>Нашата мисија е да го направиме учењето на македонскиот јазик достапно, структурирано и забавно за ученици од целиот свет. Веруваме дека граматиката е столб на секој јазик, а со овој квиз, нудиме модерен, интерактивен пристап за совладување на комплексни правила. Содржината е внимателно изработена и поделена на нивоа според Заедничката европска референтна рамка (CEFR), осигурувајќи дека секој чекор на вашето патување е логичен и ефикасен, од апсолутен почетник (A1) до напреден корисник (C1).</p>
+                    <p>LearnMacedonian.com е страст за јазикот, поттикната од желбата да се сподели културното богатство на Северна Македонија. Ние не сме само алатка за учење; ние сме мост кон длабоко разбирање на македонската граматика, која е уникатна и полна со предизвици. Секоја рунда од квизот е дизајнирана да таргетира специфична граматичка точка, давајќи ви моментална повратна информација и можност да вежбате додека не постигнете совршенство. Ние се стремиме постојано да додаваме нови содржини и функции за да го одржиме вашето искуство свежо и ангажирачко.</p>
+                    <p>Нашата цел е да ве опремиме со самодовербата што ви е потребна за да зборувате, читате и пишувате македонски ефективно. Независно дали учите за академски цели, патување, или едноставно од љубопитност, ние сме тука да ве поддржиме. Ви благодариме што сте дел од нашата заедница. Започнете со квизот денес и откријте колку брзо можете да напредувате!</p>
+                </div>
+            </div>
+
+            <!-- PRIVACY POLICY SCREEN -->
+            <div id="privacy-policy-screen" class="hidden info-screen">
+                <h1 class="text-4xl font-extrabold text-primary mb-6 border-b pb-2">Политика за приватност</h1>
+                <div class="space-y-6 text-gray-700 leading-relaxed text-lg">
+                    <p>Во LearnMacedonian.com, вашата приватност е наш приоритет. Оваа апликација за квиз не собира никакви лични податоци, како што се имиња, адреси на е-пошта, или информации за локација. Целата интеракција на корисникот, вклучувајќи ги одговорите на квизот и моменталниот резултат, се обработуваат исклучиво во рамките на вашиот прелистувач и не се складираат на нашите сервери. Ние сме посветени на обезбедување безбедна и приватна средина за учење.</p>
+                    <p>Бидејќи ова е самостојна веб-апликација, нема потреба од кориснички сметки или најавување, што значи дека не складираме никакви акредитиви. Ние не користиме колачиња од трети страни (third-party cookies) за следење или насочено рекламирање. Секоја податочна анализа што се врши е исклучиво анонимна и се користи за подобрување на функционалноста и квалитетот на прашањата во квизот. Вашите податоци за напредокот на квизот се ресетираат штом ќе ја напуштите или освежите страницата.</p>
+                    <p>Со користење на LearnMacedonian.com, вие се согласувате со условите од оваа Политика за приватност. Доколку во иднина одлучиме да воведеме функции кои бараат собирање на лични податоци (на пример, зачувување на резултати или регистрација на корисници), оваа Политика ќе биде соодветно ажурирана, а вие ќе бидете известени пред да се соберат какви било информации. Ве молиме, вратете се на оваа страница периодично за да бидете информирани за евентуални промени.</p>
+                </div>
+            </div>
+        </div>
     </main>
     
-    <!-- Footer -->
+    <!-- Footer with new links -->
     <footer class="p-4 text-center text-gray-500 text-sm border-t border-gray-200 mt-auto">
-        © 2025 LearnMacedonian.com | Сите права задржани.
+        <div class="max-w-4xl mx-auto flex justify-center space-x-4">
+            <a href="#" onclick="showInfoScreen('about-us-screen')" class="hover:text-primary transition duration-150">За нас</a>
+            <span>|</span>
+            <a href="#" onclick="showInfoScreen('privacy-policy-screen')" class="hover:text-primary transition duration-150">Политика за приватност</a>
+            <span>|</span>
+            <span>© 2025 LearnMacedonian.com</span>
+        </div>
     </footer>
 
     <script>
+        // --- GLOBAL STATE ---
+        let currentLevelKey = null;
+        let currentRoundIndex = 0;
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let currentAnswer = null;
+        let isAnswerChecked = false;
+
         // --- DATA STRUCTURE: Organized by CEFR Levels (using L1-L5 keys) ---
         const quizData = {
             'L1': {
@@ -160,7 +240,6 @@
                             { text: "Ти [SELECT_WORD] уморен.", options: ["е", "си", "сум"], answer: "си" },
                         ]
                     },
-                    // --- NEW ROUND 2: POSSESSIVE PRONOUNS (A1) ---
                     {
                         roundTitle: "Рунда 2: Посесивни заменки",
                         questions: [
@@ -176,7 +255,6 @@
                             { text: "Дај ми ја [SELECT_WORD] чаша. (Нејзин)", options: ["нејзината", "нејзин", "нејзино"], answer: "нејзината" },
                         ]
                     },
-                    // --- NEW ROUND 3: PLURAL OF NOUNS (A1) ---
                     {
                         roundTitle: "Рунда 3: Множина на именки",
                         questions: [
@@ -192,7 +270,6 @@
                             { text: "Еден број - десет [SELECT_WORD].", options: ["брои", "броја", "броеви"], answer: "броеви" },
                         ]
                     },
-                    // --- NEW ROUND 4: NEGATION AND QUESTIONS (A1) ---
                     {
                         roundTitle: "Рунда 4: Негација и прашања",
                         questions: [
@@ -208,6 +285,51 @@
                             { text: "Тој [SELECT_WORD] сака да чита.", options: ["не", "не сака", "е не"], answer: "не сака" },
                         ]
                     },
+                    {
+                        roundTitle: "Рунда 5: Лични заменки и глаголот 'Сум'",
+                        questions: [
+                            { text: "Јас [SELECT_WORD] студент.", options: ["сум", "си", "е"], answer: "сум" },
+                            { text: "Ти [SELECT_WORD] од Македонија.", options: ["е", "си", "сум"], answer: "си" },
+                            { text: "Тој [SELECT_WORD] дома.", options: ["се", "е", "сме"], answer: "е" },
+                            { text: "Ние [SELECT_WORD] уморни.", options: ["сте", "сме", "се"], answer: "сме" },
+                            { text: "Вие [SELECT_WORD] доктори.", options: ["сте", "се", "сме"], answer: "сте" },
+                            { text: "Тие [SELECT_WORD] во паркот.", options: ["сте", "сум", "се"], answer: "се" },
+                            { text: "Марија [SELECT_WORD] добра.", options: ["сум", "си", "е"], answer: "е" },
+                            { text: "Марко и Ана [SELECT_WORD] тука.", options: ["е", "се", "сме"], answer: "се" },
+                            { text: "Јас и ти [SELECT_WORD] среќни.", options: ["сум", "се", "сме"], answer: "сме" },
+                            { text: "[SELECT_WORD] сум уморен.", options: ["Ти", "Јас", "Тој"], answer: "Јас" },
+                        ]
+                    },
+                    {
+                        roundTitle: "Рунда 6: Предлози за место",
+                        questions: [
+                            { text: "Книгата е [SELECT_WORD] масата.", options: ["во", "на", "под"], answer: "на" },
+                            { text: "Мачката спие [SELECT_WORD] креветот.", options: ["на", "во", "под"], answer: "под" },
+                            { text: "Јас живеам [SELECT_WORD] Скопје.", options: ["на", "до", "во"], answer: "во" },
+                            { text: "Колата е [SELECT_WORD] куќата.", options: ["на", "пред", "зад"], answer: "пред" },
+                            { text: "Пенкалото е [SELECT_WORD] чантата.", options: ["под", "во", "на"], answer: "во" },
+                            { text: "Столицата е [SELECT_WORD] масата.", options: ["над", "до", "во"], answer: "до" },
+                            { text: "Сликите се [SELECT_WORD] ѕидот.", options: ["под", "во", "на"], answer: "на" },
+                            { text: "Градината е [SELECT_WORD] зградата.", options: ["пред", "зад", "на"], answer: "зад" },
+                            { text: "Тие седат [SELECT_WORD] масата.", options: ["до", "на", "пред"], answer: "на" },
+                            { text: "Подарокот е [SELECT_WORD] дрвото.", options: ["на", "во", "под"], answer: "под" },
+                        ]
+                    },
+                    {
+                        roundTitle: "Рунда 7: Придавки и родова согласност",
+                        questions: [
+                            { text: "Ова е [SELECT_WORD] автомобил.", options: ["нов", "нова", "ново"], answer: "нов" },
+                            { text: "Таа има [SELECT_WORD] чанта.", options: ["голем", "голема", "големо"], answer: "голема" },
+                            { text: "Ние јадеме [SELECT_WORD] јаболко.", options: ["црвен", "црвена", "црвено"], answer: "црвено" },
+                            { text: "Тие се [SELECT_WORD] луѓе.", options: ["добар", "добра", "добри"], answer: "добри" },
+                            { text: "Куќата е [SELECT_WORD].", options: ["убав", "убава", "убаво"], answer: "убава" },
+                            { text: "Филмот беше [SELECT_WORD].", options: ["интересен", "интересна", "интересно"], answer: "интересен" },
+                            { text: "Јас сакам [SELECT_WORD] боја.", options: ["син", "сина", "сино"], answer: "сина" },
+                            { text: "Тоа е [SELECT_WORD] дете.", options: ["мал", "мала", "мало"], answer: "мало" },
+                            { text: "Зедов [SELECT_WORD] книги.", options: ["стар", "стара", "стари"], answer: "стари" },
+                            { text: "Дај ми [SELECT_WORD] пенкало.", options: ["жолт", "жолта", "жолто"], answer: "жолто" },
+                        ]
+                    },
                 ]
             },
             'L2': {
@@ -216,227 +338,263 @@
                     {
                         roundTitle: "Рунда 1: Минато време (I)",
                         questions: [
-                            { text: "Вчера [SELECT_WORD] во кино.", options: ["одам", "одеше", "одев"], answer: "одев" },
-                            { text: "Тие [SELECT_WORD] ручек напладне.", options: ["јадеа", "јадеш", "јаде"], answer: "јадеа" },
-                            { text: "Кога [SELECT_WORD] дете, живеев во Битола.", options: ["бев", "беа", "е"], answer: "бев" },
-                            { text: "Ние [SELECT_WORD] филм до доцна.", options: ["гледате", "гледавме", "гледаат"], answer: "гледавме" },
-                            { text: "Зошто [SELECT_WORD] толку гласно?", options: ["зборуваше", "зборувам", "зборувате"], answer: "зборуваше" },
-                            { text: "Ти [SELECT_WORD] книгата вчера.", options: ["прочита", "прочитав", "прочитавме"], answer: "прочита" },
-                            { text: "Мајка ми [SELECT_WORD] торта за роденден.", options: ["правиме", "правеше", "правиш"], answer: "правеше" },
-                            { text: "Тие [SELECT_WORD] на работа со автобус.", options: ["одиме", "одеа", "оди"], answer: "одеа" },
-                            { text: "Јас [SELECT_WORD] дека е тешко.", options: ["мислиме", "мислеше", "мислев"], answer: "мислев" },
-                            { text: "Вие [SELECT_WORD] дома доцна.", options: ["се вратија", "се врати", "се вративте"], answer: "се вративте" },
+                            { text: "Вчера [SELECT_WORD] филм.", options: ["гледаме", "гледав", "гледаш"], answer: "гледав" },
+                            { text: "Тие [SELECT_WORD] во Италија.", options: ["патуваа", "патуваат", "патуваше"], answer: "патуваа" },
                         ]
-                    },
+                    }
                 ]
             },
             'L3': {
                 title: 'Level 3: Средно (B1)',
                 rounds: [
                     {
-                        roundTitle: "Рунда 1: Идна и Дефинитивна форма",
+                        roundTitle: "Рунда 1: Идна форма ('Ке')",
                         questions: [
-                            { text: "Тој [SELECT_WORD] да дојде утре.", options: ["ке дојде", "ќе дојде", "доаѓа"], answer: "ќе дојде" },
-                            { text: "Дај ми [SELECT_WORD] книга на масата.", options: ["таа", "книгата", "книга"], answer: "книгата" },
-                            { text: "Ќе [SELECT_WORD] да те видам.", options: ["обидам", "се обидам", "обидиме"], answer: "се обидам" },
-                            { text: "Јас го купив [SELECT_WORD] подарок.", options: ["тој", "подарокот", "подарок"], answer: "подарокот" },
-                            { text: "Ние [SELECT_WORD] да јадеме пица.", options: ["сакаме", "ќе сакаме", "да сакаме"], answer: "сакаме" },
-                            { text: "Таа зборуваше со [SELECT_WORD] жена.", options: ["стара", "старата", "една стара"], answer: "старата" },
-                            { text: "Јас [SELECT_WORD] одам во кино.", options: ["ќе", "да", "не"], answer: "ќе" },
-                            { text: "Ти [SELECT_WORD] научиш многу.", options: ["ќе", "да", "си"], answer: "ќе" },
-                            { text: "Дали го виде [SELECT_WORD] филм?", options: ["новиот", "нов", "нови"], answer: "новиот" },
-                            { text: "Вие [SELECT_WORD] да зборувате македонски?", options: ["ќе", "знаете", "ќе знаете"], answer: "ќе знаете" },
+                            { text: "Утре [SELECT_WORD] работа.", options: ["ќе работам", "работав", "работам"], answer: "ќе работам" },
+                            { text: "Ние [SELECT_WORD] во сабота.", options: ["ќе одиме", "одиме", "одевме"], answer: "ќе одиме" },
                         ]
-                    },
+                    }
                 ]
             },
             'L4': {
                 title: 'Level 4: Напредно (B2)',
                 rounds: [
                     {
-                        roundTitle: "Рунда 1: Глаголски придавки и конструкции",
+                        roundTitle: "Рунда 1: Сложен глаголски прирок",
                         questions: [
-                            { text: "Автомобилот е [SELECT_WORD].", options: ["поправен", "поправена", "поправил"], answer: "поправен" },
-                            { text: "Таа има [SELECT_WORD] коса.", options: ["плетен", "сплетена", "сплетен"], answer: "сплетена" },
-                            { text: "Не можам да го најдам [SELECT_WORD] клуч.", options: ["изгубен", "изгубениот", "изгубена"], answer: "изгубениот" },
-                            { text: "Работата е [SELECT_WORD] вчера.", options: ["завршена", "завршен", "заврши"], answer: "завршена" },
-                            { text: "Собата беше [SELECT_WORD].", options: ["чиста", "исчистен", "исчистена"], answer: "исчистена" },
-                            { text: "Ние сме [SELECT_WORD] од патувањето.", options: ["уморен", "уморени", "уморни"], answer: "уморени" },
-                            { text: "Ова е [SELECT_WORD] проблем.", options: ["решен", "решено", "решениот"], answer: "решениот" },
-                            { text: "Книгите беа [SELECT_WORD] на полицата.", options: ["ставани", "ставени", "ставил"], answer: "ставени" },
-                            { text: "Зградата е [SELECT_WORD] од познат архитект.", options: ["изграден", "изградена", "изгради"], answer: "изградена" },
-                            { text: "Јаболката се [SELECT_WORD].", options: ["изедено", "изедени", "јаделе"], answer: "изедени" },
+                            { text: "Морам [SELECT_WORD] да учам.", options: ["да почнам", "почнувам", "почна"], answer: "да почнам" },
+                            { text: "Сакаме [SELECT_WORD] да патуваме.", options: ["ќе сакаме", "да сакаме", "сакаме"], answer: "сакаме" },
                         ]
-                    },
+                    }
                 ]
             },
             'L5': {
                 title: 'Level 5: Експерт (C1)',
                 rounds: [
                     {
-                        roundTitle: "Рунда 1: Сложени реченици и конјункции",
+                        roundTitle: "Рунда 1: Условни реченици",
                         questions: [
-                            { text: "[SELECT_WORD] да беше поучен, ќе го разбереше проблемот.", options: ["Иако", "Кога", "Ако"], answer: "Ако" },
-                            { text: "Тој не само што доцнеше, [SELECT_WORD] заборави и на состанокот.", options: ["но", "туку", "а"], answer: "туку" },
-                            { text: "Работата беше завршена [SELECT_WORD] сите очекуваа.", options: ["поради", "порано отколку", "порано"], answer: "порано отколку" },
-                            { text: "Тие живеат заедно [SELECT_WORD] години.", options: ["веќе", "уште", "сеуште"], answer: "веќе" },
-                            { text: "Таа зборува македонски [SELECT_WORD] мајчин јазик.", options: ["како", "како да е", "отколку"], answer: "како" },
-                            { text: "Ќе ти се јавам, [SELECT_WORD] и да нема струја.", options: ["дури", "иако", "и да"], answer: "и да" },
-                            { text: "Го прочита целиот извештај, [SELECT_WORD] иако беше многу долг.", options: ["но", "дури", "а"], answer: "дури" },
-                            { text: "Не знам [SELECT_WORD] да одам или да останам.", options: ["што", "дали", "кој"], answer: "дали" },
-                            { text: "[SELECT_WORD] што го видов, бев изненаден.", options: ["Штом", "Потоа", "Пред"], answer: "Штом" },
-                            { text: "Ние мораме да заминеме, [SELECT_WORD] да сакаме.", options: ["без", "освен ако", "за"], answer: "освен ако" },
+                            { text: "Ако [SELECT_WORD], би дошол.", options: ["дојдеш", "би дошол", "ќе дојдеш"], answer: "дојдеш" },
+                            { text: "Да [SELECT_WORD], би било одлично.", options: ["бевме", "сме", "сме биле"], answer: "бевме" },
                         ]
-                    },
+                    }
                 ]
-            },
+            }
         };
 
-        // --- STATE MANAGEMENT ---
-        let currentLevel = 'L1'; 
-        let currentRound = null;
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let selectedAnswer = null;
-        let allLevels = Object.keys(quizData); 
+        const allLevels = Object.keys(quizData);
 
         // --- DOM ELEMENTS ---
+        const levelTabsContainer = document.getElementById('level-tabs');
         const homepageScreen = document.getElementById('homepage-screen');
         const levelSelectionScreen = document.getElementById('level-selection');
-        const levelSelectionTitle = document.getElementById('level-selection-title');
-        const levelSelectionSubtitle = document.getElementById('level-selection-subtitle');
         const quizScreen = document.getElementById('quiz-screen');
         const completionScreen = document.getElementById('completion-screen');
+        const infoPageContainer = document.getElementById('info-page-container');
         const roundButtonsContainer = document.getElementById('round-buttons');
         const questionTextElement = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
         const feedbackElement = document.getElementById('feedback');
-        const globalFeedbackElement = document.getElementById('global-feedback');
         const scoreDisplay = document.getElementById('score-display');
         const currentQuestionNr = document.getElementById('current-question-nr');
-        const nextButton = document.getElementById('next-button');
-        const checkButton = document.getElementById('check-button');
-        const roundTitle = document.getElementById('round-title');
-        const levelTabsContainer = document.getElementById('level-tabs');
         const progressBar = document.getElementById('progress-bar');
-        const homeLink = document.getElementById('home-link');
-
-        // --- UTILITY FUNCTIONS ---
-        function showMessage(element, type, message) {
-            element.textContent = message;
-            element.className = 'p-3 rounded-lg text-center mb-6 font-medium';
-            element.classList.remove('hidden');
-            
-            if (type === 'correct') {
-                element.classList.add('bg-secondary/10', 'text-secondary', 'border', 'border-secondary/20');
-            } else if (type === 'incorrect') {
-                element.classList.add('bg-red-100', 'text-red-800', 'border', 'border-red-300');
-            } else if (type === 'info') {
-                element.classList.add('bg-blue-100', 'text-blue-800', 'border', 'border-blue-300');
-            }
-        }
-
-        function hideMessage(element) {
-            element.classList.add('hidden');
-        }
+        const checkButton = document.getElementById('check-button');
+        const nextButton = document.getElementById('next-button');
         
-        // --- QUIZ LOGIC ---
+        // --- VIEW MANAGEMENT ---
+        function showView(viewId) {
+            document.querySelectorAll('.view-screen').forEach(el => el.classList.add('hidden'));
+            document.getElementById(viewId).classList.remove('hidden');
+            
+            // Hide info pages
+            infoPageContainer.classList.add('hidden');
+            document.querySelectorAll('.info-screen').forEach(el => el.classList.add('hidden'));
 
-        function updateProgressBar() {
-            if (!currentRound || currentRound.questions.length === 0) {
-                progressBar.style.width = '0%';
-                return;
-            }
-            const progress = (currentQuestionIndex / currentRound.questions.length) * 100;
-            progressBar.style.width = `${progress}%`;
+            // Show Quiz container unless we are showing an info page
+            document.getElementById('quiz-container').classList.remove('hidden');
         }
 
-        function startQuiz(roundIndex) {
-            const levelRounds = quizData[currentLevel].rounds;
-            if (!levelRounds[roundIndex]) return;
+        function showInfoScreen(screenId) {
+            document.querySelectorAll('.view-screen').forEach(el => el.classList.add('hidden'));
+            document.getElementById('quiz-container').classList.add('hidden');
 
-            currentRound = levelRounds[roundIndex];
+            infoPageContainer.classList.remove('hidden');
+            document.querySelectorAll('.info-screen').forEach(el => el.classList.add('hidden'));
+            document.getElementById(screenId).classList.remove('hidden');
+        }
+
+        function createLevelTabs() {
+            levelTabsContainer.innerHTML = '';
+            allLevels.forEach(key => {
+                const level = quizData[key];
+                const button = document.createElement('a');
+                button.href = "#";
+                button.textContent = key.replace('L', 'Level ') + ` (${level.title.match(/\((.*?)\)/)?.[1] || ''})`;
+                button.classList.add('nav-link', 'px-3', 'py-2', 'hover:text-primary-dark');
+                button.dataset.level = key; // Додај стабилен data атрибут
+                button.onclick = (e) => {
+                    e.preventDefault();
+                    loadLevelSelector(key);
+                };
+                levelTabsContainer.appendChild(button);
+            });
+
+            // If a level is currently active (e.g., after returning from quiz), highlight it
+            if (currentLevelKey) {
+                const activeTab = levelTabsContainer.querySelector(`[data-level="${currentLevelKey}"]`);
+                if (activeTab) {
+                    activeTab.classList.add('active');
+                }
+            }
+        }
+
+        // --- QUIZ FLOW ---
+
+        function loadLevelSelector(levelKey) {
+            currentLevelKey = levelKey;
+            
+            // Update tabs to show active level
+            document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+            // Користи стабилен data атрибут за селекција
+            const activeTab = levelTabsContainer.querySelector(`[data-level="${levelKey}"]`);
+            if (activeTab) { // Провери дали елементот постои пред да го користиш
+                 activeTab.classList.add('active');
+            } else {
+                console.error(`Error: Could not find navigation tab for level: ${levelKey}`);
+            }
+
+            const level = quizData[levelKey];
+            document.getElementById('level-selection-title').textContent = level.title;
+            roundButtonsContainer.innerHTML = '';
+
+            level.rounds.forEach((round, index) => {
+                const button = document.createElement('button');
+                button.textContent = round.roundTitle;
+                button.classList.add('p-4', 'bg-primary', 'text-white', 'font-semibold', 'rounded-lg', 'shadow-md', 'hover:bg-blue-600', 'transition', 'duration-150', 'transform', 'hover:scale-105');
+                button.onclick = () => startRound(levelKey, index);
+                roundButtonsContainer.appendChild(button);
+            });
+
+            showView('level-selection');
+        }
+
+        function startRound(levelKey, roundIndex) {
+            currentLevelKey = levelKey;
+            currentRoundIndex = roundIndex;
             currentQuestionIndex = 0;
             score = 0;
-            scoreDisplay.textContent = score;
-            roundTitle.textContent = currentRound.roundTitle;
+            updateScoreDisplay();
 
-            levelSelectionScreen.classList.add('hidden');
-            completionScreen.classList.add('hidden');
-            quizScreen.classList.remove('hidden');
-            hideMessage(globalFeedbackElement);
-
+            document.getElementById('round-title').textContent = quizData[levelKey].rounds[roundIndex].roundTitle;
+            
             loadQuestion();
+            showView('quiz-screen');
         }
 
         function loadQuestion() {
-            hideMessage(feedbackElement);
-            nextButton.disabled = true;
-            checkButton.disabled = false;
-            selectedAnswer = null;
+            const round = quizData[currentLevelKey].rounds[currentRoundIndex];
+            const question = round.questions[currentQuestionIndex];
             
-            updateProgressBar();
-
-            if (currentQuestionIndex >= currentRound.questions.length) {
-                showCompletionScreen();
+            if (!question) {
+                endRound();
                 return;
             }
 
-            const question = currentRound.questions[currentQuestionIndex];
+            currentAnswer = null;
+            isAnswerChecked = false;
+
+            // Update progress
             currentQuestionNr.textContent = currentQuestionIndex + 1;
-
-            // Split the text to replace the placeholder with an interactive element (select)
-            const textParts = question.text.split('[SELECT_WORD]');
+            progressBar.style.width = `${((currentQuestionIndex) / round.questions.length) * 100}%`;
             
-            // Create the select dropdown
-            const select = document.createElement('select');
-            select.className = 'px-3 py-1 bg-white border border-primary/50 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary cursor-pointer text-primary font-semibold inline-block transition-shadow duration-150';
-            select.onchange = (e) => selectedAnswer = e.target.value;
-            select.innerHTML = '<option value="" disabled selected>---</option>';
+            feedbackElement.classList.add('hidden');
+            checkButton.disabled = true;
+            nextButton.disabled = true;
 
-            // Add options, shuffling them for variety
-            const shuffledOptions = [...question.options].sort(() => Math.random() - 0.5);
-            shuffledOptions.forEach(option => {
-                const opt = document.createElement('option');
-                opt.value = option;
-                opt.textContent = option;
-                select.appendChild(opt);
-            });
+            // Render question and options
+            const questionParts = question.text.split('[SELECT_WORD]');
+            const questionHtml = document.createElement('span');
+            questionHtml.classList.add('block');
+            questionHtml.innerHTML = '';
+            
+            const optionsHtml = question.options.map(option => 
+                `<button class="word-button" data-value="${option}">${option}</button>`
+            ).join('');
 
-            // Reconstruct the question text with the select element
+            questionHtml.innerHTML = `
+                ${questionParts[0]}
+                <span id="select-placeholder" class="inline-flex flex-wrap justify-center py-2 px-4 rounded-full bg-gray-200 text-gray-700 font-bold min-w-[80px] hover:bg-gray-300 transition duration-150">
+                    Избери збор
+                </span>
+                ${questionParts[1]}
+            `;
+
             questionTextElement.innerHTML = '';
-            questionTextElement.appendChild(document.createTextNode(textParts[0].trim() + ' '));
-            questionTextElement.appendChild(select);
-            questionTextElement.appendChild(document.createTextNode(' ' + textParts[1].trim()));
+            questionTextElement.appendChild(questionHtml);
+
+            // Append options dynamically below the question
+            optionsContainer.classList.remove('hidden');
+            optionsContainer.innerHTML = `<div class="flex flex-wrap justify-center space-x-2">${optionsHtml}</div>`;
+            
+            document.querySelectorAll('.word-button').forEach(button => {
+                button.addEventListener('click', () => selectOption(button));
+            });
+        }
+
+        function selectOption(selectedButton) {
+            if (isAnswerChecked) return;
+            
+            document.querySelectorAll('.word-button').forEach(btn => btn.classList.remove('selected'));
+            selectedButton.classList.add('selected');
+            currentAnswer = selectedButton.dataset.value;
+            checkButton.disabled = false;
         }
 
         function checkAnswer() {
-            const selectElement = questionTextElement.querySelector('select');
-            
-            if (!selectedAnswer || selectedAnswer === '') {
-                showMessage(feedbackElement, 'incorrect', 'Ве молиме, изберете збор од паѓачкото мени пред да проверите.');
-                return;
-            }
+            if (isAnswerChecked || !currentAnswer) return;
 
-            const question = currentRound.questions[currentQuestionIndex];
+            isAnswerChecked = true;
+            const currentQuestion = quizData[currentLevelKey].rounds[currentRoundIndex].questions[currentQuestionIndex];
+            const correct = currentAnswer === currentQuestion.answer;
+            
+            const placeholder = document.getElementById('select-placeholder');
+            const selectedButton = document.querySelector(`.word-button[data-value="${currentAnswer}"]`);
+            
+            // Mark selected option and update placeholder
+            if (correct) {
+                score++;
+                feedbackElement.textContent = 'Точно! 🎉';
+                feedbackElement.className = 'p-3 rounded-lg text-center mb-6 font-medium bg-green-100 text-green-700';
+                
+                placeholder.textContent = currentAnswer;
+                placeholder.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+                placeholder.classList.add('bg-secondary', 'text-white');
+                selectedButton.classList.add('correct');
+            } else {
+                feedbackElement.textContent = `Грешка. Точниот одговор е: "${currentQuestion.answer}"`;
+                feedbackElement.className = 'p-3 rounded-lg text-center mb-6 font-medium bg-red-100 text-red-700';
+                
+                placeholder.textContent = currentAnswer;
+                placeholder.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300', 'text-gray-700');
+                placeholder.classList.add('bg-red-500', 'text-white');
+                selectedButton.classList.add('incorrect');
+
+                // Highlight correct button
+                const correctButton = document.querySelector(`.word-button[data-value="${currentQuestion.answer}"]`);
+                if (correctButton) {
+                    correctButton.classList.remove('selected'); // Deselect if incorrectly selected
+                    correctButton.classList.add('correct');
+                }
+            }
+            
+            feedbackElement.classList.remove('hidden');
+            updateScoreDisplay();
+
+            // Disable all option buttons after checking
+            document.querySelectorAll('.word-button').forEach(btn => btn.disabled = true);
+            
             checkButton.disabled = true;
             nextButton.disabled = false;
-
-            // Disable the select element after checking
-            selectElement.disabled = true;
-
-            if (selectedAnswer === question.answer) {
-                score++;
-                scoreDisplay.textContent = score;
-                // Highlight the correct answer in the select box
-                selectElement.classList.remove('border-primary/50');
-                selectElement.classList.add('border-secondary', 'bg-secondary/10', 'text-secondary');
-                showMessage(feedbackElement, 'correct', 'Точно! Одлично, продолжете така.');
-            } else {
-                // Highlight the wrong answer chosen and show the correct one
-                selectElement.classList.remove('border-primary/50');
-                selectElement.classList.add('border-red-500', 'bg-red-50', 'text-red-700');
-                showMessage(feedbackElement, 'incorrect', `Неточно. Точниот збор е: "${question.answer}".`);
-            }
         }
 
         function nextQuestion() {
@@ -444,109 +602,43 @@
             loadQuestion();
         }
 
-        function showCompletionScreen() {
-            quizScreen.classList.add('hidden');
-            completionScreen.classList.remove('hidden');
+        function endRound() {
+            // Update final progress bar to 100%
+            progressBar.style.width = '100%';
+            
             document.getElementById('final-score').textContent = score;
+            showView('completion-screen');
         }
 
-        // --- NAVIGATION & INITIALIZATION ---
-
-        function showHomepage() {
-            homepageScreen.classList.remove('hidden');
-            levelSelectionScreen.classList.add('hidden');
-            quizScreen.classList.add('hidden');
-            completionScreen.classList.add('hidden');
-            hideMessage(globalFeedbackElement);
-            // Ensure no tab is active on the homepage
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active', 'text-primary-dark');
-                link.classList.add('text-gray-500');
-            });
+        function resetQuiz() {
+            currentLevelKey = null;
+            createLevelTabs();
+            showView('homepage-screen');
         }
 
-        function loadLevelSelector(level) {
-            currentLevel = level;
-            currentRound = null;
-            homepageScreen.classList.add('hidden'); // HIDE HOMEPAGE
-            quizScreen.classList.add('hidden');
-            completionScreen.classList.add('hidden');
-            levelSelectionScreen.classList.remove('hidden');
+        function updateScoreDisplay() {
+            scoreDisplay.textContent = score;
+        }
+
+        // --- EVENT LISTENERS & INITIALIZATION ---
+        function setupQuiz() {
+            // Setup Check and Next buttons
+            checkButton.addEventListener('click', checkAnswer);
+            nextButton.addEventListener('click', nextQuestion);
             
-            // --- DYNAMIC TITLE UPDATE ---
-            const levelData = quizData[level];
-            levelSelectionTitle.textContent = levelData.title; 
-            levelSelectionSubtitle.textContent = 'Изберете рунда за да започнете со вежбање граматика.';
-
-            // Update active state in nav tabs
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active', 'text-primary-dark');
-                link.classList.add('text-gray-500');
-            });
-            document.getElementById(`nav-${level}`).classList.add('active', 'text-primary-dark');
-            document.getElementById(`nav-${level}`).classList.remove('text-gray-500');
-
-
-            roundButtonsContainer.innerHTML = '';
-            
-            // Set up round buttons for the selected level
-            levelData.rounds.forEach((round, index) => {
-                const button = document.createElement('button');
-                
-                button.className = 'bg-primary text-white font-semibold py-4 rounded-lg shadow-lg hover:bg-primary-dark transition duration-200 transform hover:scale-[1.02] active:scale-95 text-sm sm:text-base';
-                button.textContent = round.roundTitle;
-                button.onclick = () => startQuiz(index);
-                roundButtonsContainer.appendChild(button);
-            });
-            
-            // Show a message if no rounds exist
-            if (levelData.rounds.length === 0) {
-                 roundButtonsContainer.innerHTML = '<p class="col-span-4 text-center text-gray-500 p-8 border border-dashed rounded-lg">Нема достапни рунди за ова ниво. Проверете наскоро!</p>';
-            }
-        }
-
-        window.resetQuiz = function() {
-            // Simply return to the level selector screen
-            loadLevelSelector(currentLevel);
-        }
-
-        function setupLevelTabs() {
-            levelTabsContainer.innerHTML = '';
-            allLevels.forEach(level => {
-                const levelData = quizData[level];
-                const button = document.createElement('a');
-                button.id = `nav-${level}`;
-                button.className = 'nav-link px-3 py-2 -mb-1';
-                // Display only the "Level X" part for sleek tabs
-                button.textContent = levelData.title.split(':')[0]; 
-                button.onclick = (e) => {
-                    e.preventDefault();
-                    loadLevelSelector(level);
-                };
-                levelTabsContainer.appendChild(button);
-            });
-        }
-        
-        function init(e) {
-            if (e) e.preventDefault(); 
-            
-            setupLevelTabs();
-            // Start by showing the homepage
-            showHomepage();
-
-            // Set up home link listener
-            homeLink.onclick = (e) => {
+            // Setup Home Link
+            document.getElementById('home-link').addEventListener('click', (e) => {
                 e.preventDefault();
-                showHomepage();
-            };
+                resetQuiz();
+            });
 
-            // Set up main button listeners
-            checkButton.onclick = checkAnswer;
-            nextButton.onclick = nextQuestion;
+            // Initial view load
+            createLevelTabs();
+            showView('homepage-screen');
         }
 
-        // Start the application setup
-        window.onload = init;
+        // Initialize quiz when the window loads
+        window.onload = setupQuiz;
     </script>
 </body>
 </html>
